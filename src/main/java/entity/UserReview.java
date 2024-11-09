@@ -24,8 +24,8 @@ public class UserReview {
      * Gets the username of the user who created this review
      * @return the username
      */
-    public String getUsername() {
-        return user.getUsername();
+    public User getUser() {
+        return user;
     }
 
     /**
