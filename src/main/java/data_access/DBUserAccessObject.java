@@ -31,8 +31,8 @@ public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupU
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(credentials)
                 .build();
-        FirebaseApp.initializeApp(options);
-        Firestore db = FirestoreClient.getFirestore();
+        FirebaseApp customApp = FirebaseApp.initializeApp(options, "UserAccess");
+        Firestore db = FirestoreClient.getFirestore(customApp);
         this.users = db.collection("users");
     }
 
