@@ -39,10 +39,8 @@ public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupU
     @Override
     public boolean existsByName(String username) {
         DocumentReference docRef = users.document(username);
-        ApiFuture<DocumentSnapshot> future = docRef.get();
         try {
-            DocumentSnapshot doc = future.get();
-            return doc.exists();
+            return docRef.get().get().exists();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
