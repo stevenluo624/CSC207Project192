@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import entity.CommonUser;
+import entity.StudentUser;
 import entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +70,7 @@ public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupU
         ApiFuture<DocumentSnapshot> future = docRef.get();
         try {
             DocumentSnapshot doc = future.get();
-            return new CommonUser((String) doc.get("username"), (String) doc.get("password"));
+            return new StudentUser((String) doc.get("username"), (String) doc.get("password"));
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
