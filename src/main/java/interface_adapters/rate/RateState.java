@@ -1,5 +1,7 @@
 package interface_adapters.rate;
 
+import entity.User;
+
 /**
  * The State for a note.
  * <p>For this example, a note is simplay a string.</p>
@@ -7,7 +9,7 @@ package interface_adapters.rate;
 public class RateState {
     private int rating = 0;
     private String comment;
-    private String username;
+    private User user;
     private String commentError;
     private String ratingError;
 
@@ -19,8 +21,8 @@ public class RateState {
         return comment;
     }
     
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
     public String getCommentError() {
@@ -28,15 +30,15 @@ public class RateState {
     }
     
     public String getRatingError() {
-        return ratingerror;
+        return ratingError;
     }
 
     public void setRating(int rating) {
         this.rating = rating;
     }
     
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(User user) {
+        this.user = user;
     }
 
     public void setComment(String comment) {
@@ -48,6 +50,6 @@ public class RateState {
     }
 
     public void setRatingError(String errorMessage) {
-        this.ratingerror = errorMessage;
+        this.ratingError = errorMessage;
     }
 }
