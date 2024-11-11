@@ -7,7 +7,7 @@ import use_case.login.LoginUserDataAccessInterface;
 
 public class MainRateMyCampusApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         
         // Create data access objects to inject in the builder
         final CreateReviewDataAccessInterface reviewDataAccess = new DBReviewAccessObject();

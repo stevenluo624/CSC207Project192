@@ -14,16 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import entity.StudentUser;
-import entity.User;
-import entity.UserReview;
+import entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import use_case.create_review.CreateReviewDataAccessInterface;
 
 public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
     private static final Logger log = LoggerFactory.getLogger(DBReviewAccessObject.class);
-    private final CollectionReference studyLocations, foodLocations, userReviews, users;
+    private final CollectionReference locations, userReviews, users;
 
     public DBReviewAccessObject() throws IOException {
         InputStream serviceAccount = new FileInputStream("api_data/api_key.json");
@@ -35,8 +33,7 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
         FirebaseApp customApp = FirebaseApp.initializeApp(options, "ReviewAccess");
         Firestore db = FirestoreClient.getFirestore(customApp);
 
-        this.foodLocations = db.collection("foodLocations");
-        this.studyLocations = db.collection("studyLocations");
+        this.locations = db.collection("locations");
         this.userReviews = db.collection("userReviews");
         this.users = db.collection("users");
     }
@@ -47,11 +44,25 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
         data.put("user", review.getUser().getUsername());
         data.put("rating", review.getRating());
         data.put("comment", review.getComment());
+        data.put("location_name", review.location().getName());
+        data.put("location_description", review.location().getDescription());
+        data.put("location_address", review.location().getAddress());
+        data.put("location_rating", review.location().getRating());
+
+        if (review.location() instanceof StudyLocation) {
+            data.put("location_type", "study");
+            data.put("building", ((StudyLocation) review.location()).getBuilding());
+        } else if (review.location() instanceof FoodLocation) {
+            data.put("location_type", "food");
+            data.put("type", ((FoodLocation) review.location()).getType());
+        }
+
         ApiFuture<DocumentReference> docRef = userReviews.add(data);
         try {
             if (log.isInfoEnabled()) {
                 log.info(docRef.get().toString() + " " + docRef.get().getId());
             }
+
             return docRef.get().getId();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
@@ -67,7 +78,22 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
             String username = (String) doc.get("user");
             assert username != null;
             String password = (String) users.document(username).get().get().get("password");
-            return new UserReview(new StudentUser(username, password), (Integer) doc.get("rating"), (String) doc.get("comment"));
+            User user = new StudentUser(username, password);
+            Double reviewRating = (Double) doc.get("rating");
+            String comment = (String) doc.get("comment");
+            String locationName = (String) doc.get("location_name");
+            String locationDescription = (String) doc.get("location_description");
+            String locationAddress = (String) doc.get("location_address");
+            String locationRating = (String) doc.get("location_rating");
+            String locationType = (String) doc.get("location_type");
+            if (locationType.equals("study")) {
+                String building = (String) doc.get("building");
+                return new UserReview(user, reviewRating, comment, new StudyLocation(locationName, building));
+            } else if (locationType.equals("food")) {
+                String type = (String) doc.get("type");
+                return new UserReview(user, reviewRating, comment, new FoodLocation(locationName, type));
+            }
+            return null;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

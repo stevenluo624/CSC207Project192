@@ -2,8 +2,8 @@ package use_case.create_review;
 
 import entity.UserReview;
 
-/*
- * DAO for the create review use case
+/**
+ *  DAO for the create review use case
  */
 public interface CreateReviewDataAccessInterface {
 
