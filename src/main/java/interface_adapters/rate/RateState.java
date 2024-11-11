@@ -37,7 +37,7 @@ public class RateState {
         this.rating = rating;
     }
     
-    public void setUsername(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
