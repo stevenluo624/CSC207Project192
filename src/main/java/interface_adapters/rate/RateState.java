@@ -8,7 +8,7 @@ public class RateState {
     private int rating = 0;
     private String comment;
     private String username;
-    private String ratingerror;
+    private String ratingError;
     private String commentError;
 
     public String getUsername() {
@@ -35,19 +35,19 @@ public class RateState {
         this.rating = rating;
     }
 
-    public void setRatingError(String errorMessage) {
-        this.ratingerror = errorMessage;
-    }
-
     public String getRatingError() {
         return ratingerror;
     }
 
-    public void setCommentError(String errorMessage) {
-        this.commentError = commentError;
+    public void setRatingError(String errorMessage) {
+        this.ratingerror = errorMessage;
     }
 
     public String getCommentError() {
         return commentError;
+    }
+
+    public void setCommentError(String errorMessage) {
+        this.commentError = errorMessage;
     }
 }
