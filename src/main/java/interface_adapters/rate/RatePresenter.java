@@ -1,11 +1,12 @@
 package interface_adapters.rate;
 
-import use_case.rate.RateteOutputBoundary;
+import use_case.create_review.CreateReviewOutputBoundary;
+import use_case.create_review.CreateReviewOutputData;
 
 /**
  * The presenter for our Note viewing and editing program.
  */
-public class RatePresenter implements RateOutputBoundary {
+public class RatePresenter implements CreateReviewOutputBoundary {
 
     private final RateViewModel rateViewModel;
 
@@ -16,11 +17,11 @@ public class RatePresenter implements RateOutputBoundary {
     /**
      * Prepares the success view for the Note related Use Cases.
      *
-     * @param rating the output data
+     * @param outputData the output data
      */
     @Override
-    public void prepareSuccessView(int rating) {
-        rateViewModel.getState().setRating(rating);
+    public void prepareSuccessView(CreateReviewOutputData outputData) {
+        rateViewModel.getState().setRating(outputData.getRating());
         rateViewModel.getState().setError(null);
         rateViewModel.firePropertyChanged();
     }
@@ -28,11 +29,11 @@ public class RatePresenter implements RateOutputBoundary {
     /**
      * Prepares the failure view for the Note related Use Cases.
      *
-     * @param errorMessage the explanation of the failure
+     * @param message the explanation of the failure
      */
     @Override
-    public void prepareFailView(String errorMessage) {
-        rateViewModel.getState().setError(errorMessage);
+    public void prepareFailureView(String message) {
+        rateViewModel.getState().setError(message);
         rateViewModel.firePropertyChanged();
     }
 }

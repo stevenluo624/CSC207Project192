@@ -1,28 +1,30 @@
 package interface_adapters.rate;
 
-import use_case.rate.RateInputBoundary;
+import entity.User;
+import use_case.create_review.CreateReviewInputBoundary;
+import use_case.create_review.CreateReviewInputData;
+import use_case.create_review.CreateReviewInteractor;
 
 /**
  * Controller for our Note related Use Cases.
  */
 public class RateController {
 
-    private final RateInputBoundary rateInteractor;
+    private final CreateReviewInteractor rateInteractor;
 
-    public RateController(RateInputBoundary rateInteractor) {
+    public RateController(CreateReviewInteractor rateInteractor) {
         this.rateInteractor = rateInteractor;
     }
 
     /**
      * Executes the Note related Use Cases.
-     * @param review the rating to be recorded
+     * @param rating the rating to be recorded
+     * @param user the user inputed the rating
+     * @param comment the comment the user made
      */
-    public void execute(int review) {
-        if (review > 0 && review <= 5) {
-            rateInteractor.executeSave(review);
-        }
-        else {
-            rateInteractor.executeRefresh();
-        }
+    public void execute(User user, int rating, String comment) {
+        final CreateReviewInputData createReviewInputData = new CreateReviewInputData(user, rating, comment);
+
+        rateInteractor.execute(createReviewInputData);
     }
 }

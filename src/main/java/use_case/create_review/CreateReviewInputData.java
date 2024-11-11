@@ -4,10 +4,10 @@ import entity.User;
 
 public class CreateReviewInputData {
     private final User user;
-    private final double rating;
+    private final int rating;
     private final String comment;
 
-    public CreateReviewInputData(User user, double rating, String comment) {
+    public CreateReviewInputData(User user, int rating, String comment) {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
@@ -17,7 +17,7 @@ public class CreateReviewInputData {
         return user;
     }
 
-    public double getRating() {
+    public int getRating() {
         return rating;
     }
 
