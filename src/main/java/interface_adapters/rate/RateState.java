@@ -6,21 +6,48 @@ package interface_adapters.rate;
  */
 public class RateState {
     private int rating = 0;
-    private String error;
+    private String comment;
+    private String username;
+    private String commentError;
+    private String ratingError;
 
-    public double getRating() {
+    public int getRating() {
         return rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+    
+    public String getUsername() {
+        return username;
+    }
+
+    public String getCommentError() {
+        return commentError;
+    }
+    
+    public String getRatingError() {
+        return ratingerror;
     }
 
     public void setRating(int rating) {
         this.rating = rating;
     }
-
-    public void setError(String errorMessage) {
-        this.error = errorMessage;
+    
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getError() {
-        return error;
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setCommentError(String errorMessage) {
+        this.commentError = errorMessage;
+    }
+
+    public void setRatingError(String errorMessage) {
+        this.ratingerror = errorMessage;
     }
 }
