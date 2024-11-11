@@ -8,7 +8,7 @@ public abstract class Location {
     String address = "";
     float rating = 0;
 
-    protected Location(String name) {
+    public Location(String name) {
         this.name = name;
     }
 
