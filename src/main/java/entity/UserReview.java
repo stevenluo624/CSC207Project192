@@ -5,9 +5,8 @@ package entity;
  */
 public class UserReview {
     private final User user;
-    private final double rating;
+    private final int rating;
     private final String comment;
-    private final Location location;
 
     /**
      * Creates a new UserReview
@@ -15,11 +14,11 @@ public class UserReview {
      * @param rating The rating given in the review
      * @param comment The comment provided in the review
      */
-    public UserReview(User user, double rating, String comment, Location  location) {
+    public UserReview(User user, int rating, String comment) {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
-        this.location = location;
+        //this.location = location;
     }
 
     /**
@@ -34,7 +33,7 @@ public class UserReview {
      * Gets the rating
      * @return the rating
      */
-    public double getRating() {
+    public int getRating() {
         return rating;
     }
 
@@ -50,7 +49,8 @@ public class UserReview {
      * Gets the location of the review
      * @return the comment
      */
-    public Location location() {
+    /*
+     public Location location() {
         return location;
-    }
+    } */
 }

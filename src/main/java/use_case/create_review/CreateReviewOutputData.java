@@ -4,11 +4,11 @@ import entity.User;
 
 public class CreateReviewOutputData {
     private final User user;
-    private final double rating;
+    private final int rating;
     private final String comment;
     private final boolean useCaseFailed;
 
-    public CreateReviewOutputData(User user, double rating, String comment, boolean useCaseFailed) {
+    public CreateReviewOutputData(User user, int rating, String comment, boolean useCaseFailed) {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
@@ -19,7 +19,7 @@ public class CreateReviewOutputData {
         return user;
     }
 
-    public double getRating() {
+    public int getRating() {
         return rating;
     }
 
