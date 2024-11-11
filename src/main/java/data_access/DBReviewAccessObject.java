@@ -26,6 +26,7 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
     public DBReviewAccessObject() throws IOException {
         InputStream serviceAccount = new FileInputStream("api_data/api_key.json");
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+        // TODO: Builder() in com.google.firebase.FirebaseOptions.Builder has been deprecated
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(credentials)
                 .build();
