@@ -8,7 +8,7 @@ public class RateState {
     private int rating = 0;
     private String error;
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 

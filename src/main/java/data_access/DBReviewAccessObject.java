@@ -66,7 +66,7 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
             String username = (String) doc.get("user");
             assert username != null;
             String password = (String) users.document(username).get().get().get("password");
-            return new UserReview(new StudentUser(username, password), (Double) doc.get("rating"), (String) doc.get("comment"));
+            return new UserReview(new StudentUser(username, password), (Integer) doc.get("rating"), (String) doc.get("comment"));
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
