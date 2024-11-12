@@ -7,18 +7,20 @@ public class UserReview {
     private final User user;
     private final int rating;
     private final String comment;
+    private final Location location;
 
     /**
      * Creates a new UserReview
      * @param user The user who created the review
      * @param rating The rating given in the review
      * @param comment The comment provided in the review
+     * @param location the location of the place
      */
-    public UserReview(User user, int rating, String comment) {
+    public UserReview(User user, int rating, String comment, Location location) {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
-        //this.location = location;
+        this.location = location;
     }
 
     /**
@@ -49,8 +51,7 @@ public class UserReview {
      * Gets the location of the review
      * @return the comment
      */
-    /*
      public Location location() {
         return location;
-    } */
+    }
 }

@@ -10,10 +10,9 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import interface_adapters.login.LoginState;
 import interface_adapters.rate.RateController;
 import interface_adapters.rate.RateState;
-import interface_adapters.rate.RateModel;
+import interface_adapters.rate.RateViewModel;
 
 /**
  * The View for when the user is ratting different place.
@@ -30,7 +29,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
     private JToggleButton[] stars;
     private int rating = 0;
 
-    public RateView(RateviewModel rateViewModel) {
+    public RateView(RateViewModel rateViewModel) {
         this.rateViewModel = rateViewModel;
         this.rateViewModel.addPropertyChangeListener(this);
 
@@ -73,7 +72,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
     }
 
 
-    public Stars(int totalStars) {
+    public void Stars(int totalStars) {
         setLayout(new FlowLayout(FlowLayout.LEFT));
         ButtonGroup starGroup = new ButtonGroup();  // Group to allow toggling behavior
         stars = new JToggleButton[totalStars];
@@ -121,11 +120,4 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
             stars[i].setSelected(i < rating);
         }
     }
-
-    public int getRating() {
-        return rating;
-    }
-
-
-
 }

@@ -5,6 +5,8 @@ import data_access.DBUserAccessObject;
 import use_case.create_review.CreateReviewDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 
+import java.io.IOException;
+
 public class MainRateMyCampusApp {
 
     public static void main(String[] args) throws IOException {

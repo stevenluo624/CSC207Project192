@@ -79,7 +79,7 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
             assert username != null;
             String password = (String) users.document(username).get().get().get("password");
             User user = new StudentUser(username, password);
-            Double reviewRating = (Double) doc.get("rating");
+            Integer reviewRating = (Integer) doc.get("rating");
             String comment = (String) doc.get("comment");
             String locationName = (String) doc.get("location_name");
             String locationDescription = (String) doc.get("location_description");

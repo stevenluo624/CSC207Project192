@@ -67,7 +67,7 @@ public class RateMyCampusAppBuilder {
                 dbReviewAccessObject, createReviewOutputBoundary);
 
         final RateController rateController = new RateController((CreateReviewInteractor) createReviewInteractor);
-        RateView.setRateController(rateController);
+        rateView.setRateController(rateController);
         return this;
     }
 
