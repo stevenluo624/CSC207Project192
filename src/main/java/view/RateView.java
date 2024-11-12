@@ -81,7 +81,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
         });
 
         this.add(title);
-        Stars();
+        createStars();
         this.add(commentInputField);
         this.add(commentErrorField);
         this.add(buttons);
