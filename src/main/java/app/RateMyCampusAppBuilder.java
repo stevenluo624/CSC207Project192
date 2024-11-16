@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.DBReviewAccessObject;
+//import data_access.DBReviewAccessObject;
 import entity.UserFactory;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.rate.RateController;
@@ -37,7 +37,7 @@ public class RateMyCampusAppBuilder {
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // thought question: is the hard dependency below a problem?
-    private final DBReviewAccessObject dbReviewAccessObject = new DBReviewAccessObject();
+//    private final DBReviewAccessObject dbReviewAccessObject = new DBReviewAccessObject();
 
     private RateView rateView;
     private RateViewModel rateViewModel;
@@ -63,11 +63,11 @@ public class RateMyCampusAppBuilder {
      */
     public RateMyCampusAppBuilder addCreateReviewUseCase() {
         final CreateReviewOutputBoundary createReviewOutputBoundary = new RatePresenter(rateViewModel);
-        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
-                dbReviewAccessObject, createReviewOutputBoundary);
+//        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
+//                dbReviewAccessObject, createReviewOutputBoundary);
 
-        final RateController rateController = new RateController((CreateReviewInteractor) createReviewInteractor);
-        RateView.setRateController(rateController);
+//        final RateController rateController = new RateController((CreateReviewInteractor) createReviewInteractor);
+//        RateView.setRateController(rateController);
         return this;
     }
 

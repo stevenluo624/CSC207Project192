@@ -15,13 +15,13 @@ public class LoggedInPresenter {
         this.loggedInViewModel = loggedInViewModel;
     }
 
-    @Override
-    public void prepareSuccessView() {
-        loggedInViewModel.firePropertyChanged();
-    }
-
-    @Override
-    public void prepareFailView(String error) {
-        loggedInViewModel.firePropertyChanged();
-    }
+//    @Override
+//    public void prepareSuccessView() {
+//        loggedInViewModel.firePropertyChanged();
+//    }
+//
+//    @Override
+//    public void prepareFailView(String error) {
+//        loggedInViewModel.firePropertyChanged();
+//    }
 }
