@@ -1,8 +1,8 @@
-package use_case.reply_to_review;
+package use_case.create_reply;
 
 import entity.UserReview;
 
-public interface ReplyToReviewDataAccessInterface {
+public interface CreateReplyDataAccessInterface {
 
     /**
      * Adds a new reply.

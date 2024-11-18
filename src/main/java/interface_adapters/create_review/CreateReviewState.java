@@ -1,4 +1,4 @@
-package interface_adapters.rate;
+package interface_adapters.create_review;
 
 import entity.User;
 
@@ -6,7 +6,7 @@ import entity.User;
  * The State for a note.
  * <p>For this example, a note is simplay a string.</p>
  */
-public class RateState {
+public class CreateReviewState {
     private int rating = 0;
     private String comment;
     private User user;

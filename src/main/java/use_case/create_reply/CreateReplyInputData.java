@@ -1,12 +1,12 @@
-package use_case.reply_to_review;
+package use_case.create_reply;
 
 import entity.User;
 
-public class ReplyToReviewInputData {
+public class CreateReplyInputData {
     private final User user;
     private final String comment;
 
-    public ReplyToReviewInputData(User user, String comment) {
+    public CreateReplyInputData(User user, String comment) {
         this.user = user;
         this.comment = comment;
     }

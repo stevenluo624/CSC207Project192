@@ -1,13 +1,13 @@
-package use_case.reply_to_review;
+package use_case.create_reply;
 
 import entity.User;
 
-public class ReplyToReviewOutputData {
+public class CreateReplyOutputData {
     private final User user;
     private final String comment;
     private final boolean useCaseFailed;
 
-    public ReplyToReviewOutputData(User user, String comment, boolean useCaseFailed) {
+    public CreateReplyOutputData(User user, String comment, boolean useCaseFailed) {
         this.user = user;
         this.comment = comment;
         this.useCaseFailed = useCaseFailed;
