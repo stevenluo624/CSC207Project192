@@ -31,6 +31,8 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
     public FirestoreHelper(String apiKey, String projectId) {
         this.apiKey = apiKey;
         this.projectId = projectId;
+
+        getToken();
     }
 
     @Override
@@ -113,7 +115,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
     @Override
     public void addDocument(String collection, Map<String, Object> fields, String documentValue) {
-        getToken();
+//        getToken();
 
         String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
                 "/databases/(default)/documents/" + collection + "?documentId=" + documentValue;
@@ -147,7 +149,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
             con.disconnect();
 
-            deleteToken();
+//            deleteToken();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -155,7 +157,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
     @Override
     public void addDocument(String collection, Map<String, Object> fields) {
-        getToken();
+//        getToken();
 
         String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
                 "/databases/(default)/documents/" + collection;
@@ -189,7 +191,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
             con.disconnect();
 
-            deleteToken();
+//            deleteToken();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -197,7 +199,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
     @Override
     public JsonObject getDocument(String collection, String documentValue) {
-        getToken();
+//        getToken();
 
         String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
                 "/databases/(default)/documents/" + collection + "/" + documentValue;
@@ -223,7 +225,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
             con.disconnect();
 
-            deleteToken();
+//            deleteToken();
             return new JsonParser().parse(jsonOutput).getAsJsonObject().get("fields").getAsJsonObject();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -232,7 +234,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
     @Override
     public JsonObject getPage(String collection, int pageNumber, int pageSize) {
-        getToken();
+//        getToken();
 
         JsonObject result;
         String prevToken = null;
@@ -276,13 +278,13 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
             throw new RuntimeException(e);
         }
 
-        deleteToken();
+//        deleteToken();
         return result;
     }
 
     @Override
     public void updateDocument(String collection, Map<String, Object> fields, String documentValue) {
-        getToken();
+//        getToken();
 
         String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
                 "/databases/(default)/documents/" + collection + "/" + documentValue;
@@ -317,7 +319,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
             con.disconnect();
 
-            deleteToken();
+//            deleteToken();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -325,7 +327,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
     @Override
     public boolean checkExists(String collection, String documentValue) {
-        getToken();
+//        getToken();
 
         String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
                 "/databases/(default)/documents/" + collection + "/" + documentValue;
@@ -346,7 +348,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
             con.disconnect();
 
-            deleteToken();
+//            deleteToken();
             return result;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -355,7 +357,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
     @Override
     public boolean checkPageExists(String collection, int pageNumber, int pageSize) {
-        getToken();
+//        getToken();
 
         boolean result = true;
         String prevToken = null;
@@ -369,7 +371,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
             result = false;
         }
 
-        deleteToken();
+//        deleteToken();
         return result;
     }
 

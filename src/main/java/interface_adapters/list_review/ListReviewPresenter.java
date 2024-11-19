@@ -33,6 +33,8 @@ public class ListReviewPresenter implements ListReviewOutputBoundary {
 
     @Override
     public void prepareFailView(String errorMessage) {
-
+        final ListReviewState listReviewState = listReviewViewModel.getState();
+        listReviewState.setPageError(errorMessage);
+        listReviewViewModel.firePropertyChanged();
     }
 }

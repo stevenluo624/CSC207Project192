@@ -2,6 +2,7 @@ package interface_adapters.list_review;
 
 import entity.UserReview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,9 +11,9 @@ import java.util.List;
 public class ListReviewState {
 
     private int pageNumber = 1;
-    private int pageSize = 10;
+    private int pageSize = 3;
     private String pageError;
-    private List<UserReview> reviewList;
+    private List<UserReview> reviewList = new ArrayList<>();
 
     public int getPageNumber() {
         return pageNumber;
@@ -32,6 +33,16 @@ public class ListReviewState {
 
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
+    }
+
+    public void prevPage() {
+        if (pageNumber > 1) {
+            pageNumber--;
+        }
+    }
+
+    public void nextPage() {
+        pageNumber++;
     }
 
     public void setPageSize(int pageSize) {

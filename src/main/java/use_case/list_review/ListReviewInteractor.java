@@ -9,14 +9,11 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
 
     private final ListReviewDataAccessInterface reviewDataAccessObject;
     private final ListReviewOutputBoundary reviewPresenter;
-    private final UserReviewFactory userReviewFactory;
 
     public ListReviewInteractor(ListReviewDataAccessInterface reviewDataAccessObject,
-                                ListReviewOutputBoundary reviewPresenter,
-                                UserReviewFactory userReviewFactory) {
+                                ListReviewOutputBoundary reviewPresenter) {
         this.reviewDataAccessObject = reviewDataAccessObject;
         this.reviewPresenter = reviewPresenter;
-        this.userReviewFactory = userReviewFactory;
     }
 
     @Override
@@ -24,14 +21,17 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
         int pageNumber = listReviewInputData.getPageNumber();
         int pageSize = listReviewInputData.getPageSize();
 
-        if (reviewDataAccessObject.checkPageExists(pageNumber, pageSize)) {
+        List<UserReview> reviews = reviewDataAccessObject.getReviews(pageNumber, pageSize);
+
+        if (reviews.isEmpty()) {
             if (pageNumber == 1) {
+                System.out.println("No reviews found");
                 reviewPresenter.prepareFailView("No reviews found");
             } else {
+                System.out.println("Page does not exist");
                 reviewPresenter.prepareFailView("Page does not exist");
             }
         } else {
-            List<UserReview> reviews = reviewDataAccessObject.getReviews(pageNumber, pageSize);
             reviewPresenter.prepareSuccessView(new ListReviewOutputData(pageNumber, pageSize, reviews, false));
         }
 

@@ -3,9 +3,11 @@ package data_access;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import entity.Location;
+import entity.StudentUser;
 import entity.User;
 import entity.UserReview;
+import helper.ProjectConstants;
 import helper.FirestoreHelper;
 import use_case.list_review.ListReviewDataAccessInterface;
 
@@ -16,9 +18,9 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
     private FirestoreHelper helper;
     String collectionName;
 
-    public DBReviewListAccessObject(String collectionName) {
-        helper = new FirestoreHelper("AIzaSyAaeksmKcFCY8uLnzMJTBMCor0zCESv9nw", "ratemycampus-b5981");
-        this.collectionName = collectionName;
+    public DBReviewListAccessObject() {
+        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        this.collectionName = ProjectConstants.REVIEWS_COLLECTION;
     }
 
     @Override
@@ -29,30 +31,33 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
     @Override
     public List<UserReview> getReviews(int pageNumber, int pageSize) {
         JsonObject page = helper.getPage(collectionName, pageNumber, pageSize);
-        // Parse the JSON string into a JsonObject
         JsonArray documents = page.getAsJsonArray("documents");
 
-        // Initialize the result list
         List<UserReview> reviewList = new ArrayList<>();
 
-        // Loop through each document in the "documents" array
+        DBUserAccessObject dbUserAccessObject = new DBUserAccessObject(ProjectConstants.USER_COLLECTION);
+
         for (JsonElement element : documents) {
             JsonObject document = element.getAsJsonObject();
             JsonObject fields = document.getAsJsonObject("fields");
 
-            // Extract fields, defaulting to null if the field doesn't exist
-            String comment = fields.has("comment") ? fields.getAsJsonObject("comment").get("stringValue").getAsString() : null;
-            String user = fields.has("user") ? fields.getAsJsonObject("user").get("stringValue").getAsString() : null;
-            Double rating = fields.has("rating") ? fields.getAsJsonObject("rating").get("doubleValue").getAsDouble() : null;
-            String location = fields.has("location") ? fields.getAsJsonObject("location").get("stringValue").getAsString() : null;
+            String comment = fields.has("comment") ? fields.getAsJsonObject("comment")
+                    .get("stringValue").getAsString() : null;
+            String user = fields.has("user") ? fields.getAsJsonObject("user")
+                    .get("stringValue").getAsString() : null;
+            Double rating = fields.has("rating") ? fields.getAsJsonObject("rating")
+                    .get("doubleValue").getAsDouble() : null;
+            String location = fields.has("location") ? fields.getAsJsonObject("location")
+                    .get("stringValue").getAsString() : null;
 
-            // Create a map for the current review
-            UserReview review = new UserReview()
+            User userObject = dbUserAccessObject.get(user);
+            Location locationObject = new Location(location) {};
 
-            // Add the review map to the list
+            UserReview review = new UserReview(userObject, (int) Math.round(rating), comment, locationObject);
+
             reviewList.add(review);
         }
 
-        return List.of();
+        return reviewList;
     }
 }

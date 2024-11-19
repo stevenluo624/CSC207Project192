@@ -22,6 +22,13 @@ public class UserReview {
         this.location = null;
     }
 
+    /**
+     * Creates a new UserReview
+     * @param user The user who created the review
+     * @param rating The rating given in the review
+     * @param comment The comment provided in the review
+     * @param location The location to review
+     */
     public UserReview(User user, int rating, String comment, Location location) {
         this.user = user;
         this.rating = rating;

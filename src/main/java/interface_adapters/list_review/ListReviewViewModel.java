@@ -15,5 +15,7 @@ public class ListReviewViewModel extends ViewModel<ListReviewState> {
 
     public ListReviewViewModel() {
         super("list review");
+
+        setState(new ListReviewState());
     }
 }
