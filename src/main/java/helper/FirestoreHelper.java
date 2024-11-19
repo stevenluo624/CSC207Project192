@@ -241,7 +241,11 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
         }
 
         String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
-                "/databases/(default)/documents/" + collection + "?pageSize=" + pageSize + "&pageToken=" + prevToken;
+                "/databases/(default)/documents/" + collection + "?pageSize=" + pageSize;
+
+        if (prevToken != null) {
+            url += "&pageToken=" + prevToken;
+        }
 
         try {
             URL obj = new URL(url);
@@ -358,8 +362,11 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
         for (int i = 0; i < pageNumber-1; i++) {
             prevToken = getPageToken(collection, prevToken, pageSize);
             if (prevToken == null) {
-                result = false;
+                break;
             }
+        }
+        if (prevToken == null) {
+            result = false;
         }
 
         deleteToken();
@@ -372,7 +379,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
         } else if (value instanceof Boolean) {
             return "booleanValue";
         } else if (value instanceof Long || value instanceof Integer) {
-            return "integerValue";
+            return "doubleValue";
         } else if (value instanceof Double || value instanceof Float) {
             return "doubleValue";
         } else if (value instanceof String) {

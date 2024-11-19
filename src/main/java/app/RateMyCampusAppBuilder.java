@@ -9,12 +9,17 @@ import javax.swing.WindowConstants;
 //import data_access.DBReviewAccessObject;
 import entity.UserFactory;
 import interface_adapters.ViewManagerModel;
+import interface_adapters.ViewModel;
+import interface_adapters.list_review.ListReviewPresenter;
+import interface_adapters.list_review.ListReviewViewModel;
 import interface_adapters.rate.RateController;
 import interface_adapters.rate.RatePresenter;
 import interface_adapters.rate.RateViewModel;
 import use_case.create_review.CreateReviewInputBoundary;
 import use_case.create_review.CreateReviewInteractor;
 import use_case.create_review.CreateReviewOutputBoundary;
+import use_case.list_review.ListReviewOutputBoundary;
+import view.ListReviewView;
 import view.RateView;
 import view.ViewManager;
 
@@ -39,8 +44,8 @@ public class RateMyCampusAppBuilder {
     // thought question: is the hard dependency below a problem?
 //    private final DBReviewAccessObject dbReviewAccessObject = new DBReviewAccessObject();
 
-    private RateView rateView;
-    private RateViewModel rateViewModel;
+    private JPanel view;
+    private ViewModel model;
 
     public RateMyCampusAppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -51,9 +56,20 @@ public class RateMyCampusAppBuilder {
      * @return this builder
      */
     public RateMyCampusAppBuilder addRateView() {
-        rateViewModel = new RateViewModel();
-        rateView = new RateView(rateViewModel);
-        cardPanel.add(rateView, rateView.getViewName());
+        model = new RateViewModel();
+        view = new RateView((RateViewModel) model);
+        cardPanel.add(view, ((RateView) view).getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the List Review View to the application.
+     * @return this builder
+     */
+    public RateMyCampusAppBuilder addListReviewView() {
+        model = new ListReviewViewModel();
+        view = new ListReviewView((ListReviewViewModel) model);
+        cardPanel.add(view, ((ListReviewView) view).getViewName());
         return this;
     }
 
@@ -62,7 +78,7 @@ public class RateMyCampusAppBuilder {
      * @return this builder
      */
     public RateMyCampusAppBuilder addCreateReviewUseCase() {
-        final CreateReviewOutputBoundary createReviewOutputBoundary = new RatePresenter(rateViewModel);
+        final CreateReviewOutputBoundary createReviewOutputBoundary = new RatePresenter((RateViewModel) model);
 //        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
 //                dbReviewAccessObject, createReviewOutputBoundary);
 
@@ -76,12 +92,12 @@ public class RateMyCampusAppBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("Login Example");
+        final JFrame application = new JFrame("List Review Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(rateView.getViewName());
+        viewManagerModel.setState(((ListReviewView) view).getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
