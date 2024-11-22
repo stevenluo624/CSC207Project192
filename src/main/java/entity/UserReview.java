@@ -7,6 +7,7 @@ public class UserReview {
     private final User user;
     private final int rating;
     private final String comment;
+    private int numberOfLikes;
 
     /**
      * Creates a new UserReview
@@ -18,6 +19,7 @@ public class UserReview {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
+        this.numberOfLikes = 0;
         //this.location = location;
     }
 
@@ -44,6 +46,19 @@ public class UserReview {
     public String getComment() {
         return comment;
     }
+
+    /**
+     * Gets the number of likes
+     * @return the number of likes
+     */
+    public int getNumberOfLikes() {
+        return numberOfLikes;
+    }
+
+    /**
+     * Incriments the number of likes
+     */
+    public void incrementLikes() {this.numberOfLikes++;}
 
     /**
      * Gets the location of the review
