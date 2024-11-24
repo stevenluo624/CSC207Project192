@@ -9,10 +9,10 @@ import use_case.create_reply.CreateReplyInteractor;
  */
 public class CreateReplyController {
 
-    private final CreateReplyInteractor rateInteractor;
+    private final CreateReplyInteractor createReplyInteractor;
 
-    public CreateReplyController(CreateReplyInteractor rateInteractor) {
-        this.rateInteractor = rateInteractor;
+    public CreateReplyController(CreateReplyInteractor createReplyInteractor) {
+        this.createReplyInteractor = createReplyInteractor;
     }
 
     /**
@@ -23,6 +23,6 @@ public class CreateReplyController {
     public void execute(User user, String comment) {
         final CreateReplyInputData createReplyInputData = new CreateReplyInputData(user, comment);
 
-        rateInteractor.execute(createReplyInputData);
+        createReplyInteractor.execute(createReplyInputData);
     }
 }
