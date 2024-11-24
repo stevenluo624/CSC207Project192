@@ -10,6 +10,7 @@ public class UserReview {
     private final int rating;
     private final String comment;
     private List<UserReview> listOfReplies;
+    private int numberOfLikes;
 
     /**
      * Creates a new UserReview
@@ -29,6 +30,7 @@ public class UserReview {
      */
     public UserReview(User user, String comment) {
         this(user, 0, comment);
+        this.numberOfLikes = 0;
     }
 
     /**
@@ -55,6 +57,7 @@ public class UserReview {
         return comment;
     }
 
+  
     /**
      * Get listOfReplies
      * @return the list of replies
@@ -70,4 +73,17 @@ public class UserReview {
     public void updateListOfReplies(UserReview reply) {
         this.listOfReplies.add(reply);
     }
+  
+    /**
+     * Gets the number of likes
+     * @return the number of likes
+     */
+    public int getNumberOfLikes() {
+        return numberOfLikes;
+    }
+
+    /**
+     * Incriments the number of likes
+     */
+    public void incrementLikes() {this.numberOfLikes++;}
 }
