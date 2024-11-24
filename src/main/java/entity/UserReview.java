@@ -57,7 +57,6 @@ public class UserReview {
         return comment;
     }
 
-  
     /**
      * Get listOfReplies
      * @return the list of replies

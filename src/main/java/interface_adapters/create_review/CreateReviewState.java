@@ -10,8 +10,7 @@ public class CreateReviewState {
     private int rating = 0;
     private String comment;
     private User user;
-    private String commentError;
-    private String ratingError;
+    private String error;
 
     public int getRating() {
         return rating;
@@ -25,12 +24,8 @@ public class CreateReviewState {
         return user;
     }
 
-    public String getCommentError() {
-        return commentError;
-    }
-    
-    public String getRatingError() {
-        return ratingError;
+    public String getError() {
+        return error;
     }
 
     public void setRating(int rating) {
@@ -45,11 +40,7 @@ public class CreateReviewState {
         this.comment = comment;
     }
 
-    public void setCommentError(String errorMessage) {
-        this.commentError = errorMessage;
-    }
-
-    public void setRatingError(String errorMessage) {
-        this.ratingError = errorMessage;
+    public void setError(String errorMessage) {
+        this.error = error;
     }
 }

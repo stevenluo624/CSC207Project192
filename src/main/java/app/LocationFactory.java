@@ -1,4 +1,6 @@
-package entity;
+package app;
+
+import entity.Location;
 
 public interface LocationFactory {
     /**

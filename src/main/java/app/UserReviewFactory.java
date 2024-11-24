@@ -1,4 +1,7 @@
-package entity;
+package app;
+
+import entity.User;
+import entity.UserReview;
 
 public interface UserReviewFactory {
     /**

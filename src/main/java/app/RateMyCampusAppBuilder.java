@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.CardLayout;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -35,13 +36,10 @@ public class RateMyCampusAppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    // thought question: is the hard dependency below a problem?
-    private final DBReviewAccessObject dbReviewAccessObject = new DBReviewAccessObject();
-
     private RateView rateView;
     private CreateReviewViewModel createReviewViewModel;
 
-    public RateMyCampusAppBuilder() {
+    public RateMyCampusAppBuilder() throws IOException {
         cardPanel.setLayout(cardLayout);
     }
 
@@ -62,10 +60,10 @@ public class RateMyCampusAppBuilder {
      */
     public RateMyCampusAppBuilder addCreateReviewUseCase() {
         final CreateReviewOutputBoundary createReviewOutputBoundary = new CreateReviewPresenter(createReviewViewModel);
-        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
+        final CreateReviewInteractor createReviewInteractor = new CreateReviewInteractor(
                 dbReviewAccessObject, createReviewOutputBoundary);
 
-        final CreateReviewController createReviewController = new CreateReviewController((CreateReviewInteractor) createReviewInteractor);
+        final CreateReviewController createReviewController = new CreateReviewController(createReviewInteractor);
         RateView.setRateController(createReviewController);
         return this;
     }
@@ -84,5 +82,9 @@ public class RateMyCampusAppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
+    }
+
+    public ViewManager getViewManager() {
+        return viewManager;
     }
 }
