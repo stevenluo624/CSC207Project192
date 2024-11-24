@@ -1,5 +1,6 @@
 package interface_adapters.rate;
 
+import entity.Location;
 import entity.User;
 import use_case.create_review.CreateReviewInputBoundary;
 import use_case.create_review.CreateReviewInputData;
@@ -22,8 +23,8 @@ public class RateController {
      * @param user the user inputed the rating
      * @param comment the comment the user made
      */
-    public void execute(User user, int rating, String comment) {
-        final CreateReviewInputData createReviewInputData = new CreateReviewInputData(user, rating, comment);
+    public void execute(User user, int rating, String comment, Location location) {
+        final CreateReviewInputData createReviewInputData = new CreateReviewInputData(user, rating, comment, location);
 
         rateInteractor.execute(createReviewInputData);
     }

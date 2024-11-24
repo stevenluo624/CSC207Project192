@@ -44,19 +44,19 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
         data.put("user", review.getUser().getUsername());
         data.put("rating", review.getRating());
         data.put("comment", review.getComment());
-        data.put("location_name", review.location().getName());
-        data.put("location_description", review.location().getDescription());
-        data.put("location_address", review.location().getAddress());
-        data.put("location_rating", review.location().getRating());
-        data.put("location_latitude", review.location().getLatitude());
-        data.put("location_longitude", review.location().getLongitude());
+        data.put("location_name", review.getLocation().getName());
+        data.put("location_description", review.getLocation().getDescription());
+        data.put("location_address", review.getLocation().getAddress());
+        data.put("location_rating", review.getLocation().getRating());
+        data.put("location_latitude", review.getLocation().getLatitude());
+        data.put("location_longitude", review.getLocation().getLongitude());
 
-        if (review.location() instanceof StudyLocation) {
+        if (review.getLocation() instanceof StudyLocation) {
             data.put("location_type", "study");
-            data.put("building", ((StudyLocation) review.location()).getBuilding());
-        } else if (review.location() instanceof FoodLocation) {
+            data.put("building", ((StudyLocation) review.getLocation()).getBuilding());
+        } else if (review.getLocation() instanceof FoodLocation) {
             data.put("location_type", "food");
-            data.put("type", ((FoodLocation) review.location()).getType());
+            data.put("type", ((FoodLocation) review.getLocation()).getType());
         }
 
         ApiFuture<DocumentReference> docRef = userReviews.add(data);
