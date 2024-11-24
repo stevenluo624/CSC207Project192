@@ -53,7 +53,8 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
                             createReviewController.execute(
                                     currentState.getUser(),
                                     currentState.getRating(),
-                                    currentState.getComment()
+                                    currentState.getComment(),
+                                    currentState.getLocation()
                             );
                         }
                     }

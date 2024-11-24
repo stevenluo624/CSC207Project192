@@ -78,7 +78,6 @@ public class MapView extends JPanel implements ActionListener, PropertyChangeLis
     private void addMapMarkers() {
 
         final MapState currentState = mapViewModel.getState();
-        String buildingName = currentState.getName();
         double buildingLat = currentState.getLatitude();
         double buildingLong = currentState.getLongitude();
 

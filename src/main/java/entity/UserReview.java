@@ -9,6 +9,7 @@ public class UserReview {
     private final User user;
     private final int rating;
     private final String comment;
+    private final Location location;
     private List<UserReview> listOfReplies;
     private int numberOfLikes;
 
@@ -17,11 +18,13 @@ public class UserReview {
      * @param user The user who created the review
      * @param rating The rating given in the review
      * @param comment The comment provided in the review
+     * @param location The location being reviewed.
      */
-    public UserReview(User user, int rating, String comment) {
+    public UserReview(User user, int rating, String comment, Location location) {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
+        this.location = location;
     }
 
     /**
@@ -29,7 +32,7 @@ public class UserReview {
      * TODO: refactor this to have a Reply class that implements a UserReview interface
      */
     public UserReview(User user, String comment) {
-        this(user, 0, comment);
+        this(user, 0, comment, null);
         this.numberOfLikes = 0;
     }
 
@@ -86,4 +89,6 @@ public class UserReview {
      * Incriments the number of likes
      */
     public void incrementLikes() {this.numberOfLikes++;}
+
+    public Location getLocation() {return location;}
 }

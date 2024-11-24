@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.CardLayout;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -41,7 +42,7 @@ public class RateMyCampusAppBuilder {
     private RateView rateView;
     private CreateReviewViewModel createReviewViewModel;
 
-    public RateMyCampusAppBuilder() {
+    public RateMyCampusAppBuilder() throws IOException {
         cardPanel.setLayout(cardLayout);
     }
 
@@ -65,8 +66,9 @@ public class RateMyCampusAppBuilder {
         final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
                 dbReviewAccessObject, createReviewOutputBoundary);
 
-        final CreateReviewController createReviewController = new CreateReviewController((CreateReviewInteractor) createReviewInteractor);
-        RateView.setRateController(createReviewController);
+        final CreateReviewController createReviewController = new CreateReviewController(
+                (CreateReviewInteractor) createReviewInteractor);
+        rateView.setRateController(createReviewController);
         return this;
     }
 
