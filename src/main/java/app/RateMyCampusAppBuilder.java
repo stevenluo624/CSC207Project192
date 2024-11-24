@@ -7,11 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.DBReviewAccessObject;
-import entity.UserFactory;
 import interface_adapters.ViewManagerModel;
-import interface_adapters.rate.RateController;
-import interface_adapters.rate.RatePresenter;
-import interface_adapters.rate.RateViewModel;
+import interface_adapters.create_review.CreateReviewController;
+import interface_adapters.create_review.CreateReviewPresenter;
+import interface_adapters.create_review.CreateReviewViewModel;
 import use_case.create_review.CreateReviewInputBoundary;
 import use_case.create_review.CreateReviewInteractor;
 import use_case.create_review.CreateReviewOutputBoundary;
@@ -40,7 +39,7 @@ public class RateMyCampusAppBuilder {
     private final DBReviewAccessObject dbReviewAccessObject = new DBReviewAccessObject();
 
     private RateView rateView;
-    private RateViewModel rateViewModel;
+    private CreateReviewViewModel createReviewViewModel;
 
     public RateMyCampusAppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -51,8 +50,8 @@ public class RateMyCampusAppBuilder {
      * @return this builder
      */
     public RateMyCampusAppBuilder addRateView() {
-        rateViewModel = new RateViewModel();
-        rateView = new RateView(rateViewModel);
+        createReviewViewModel = new CreateReviewViewModel();
+        rateView = new RateView(createReviewViewModel);
         cardPanel.add(rateView, rateView.getViewName());
         return this;
     }
@@ -62,12 +61,12 @@ public class RateMyCampusAppBuilder {
      * @return this builder
      */
     public RateMyCampusAppBuilder addCreateReviewUseCase() {
-        final CreateReviewOutputBoundary createReviewOutputBoundary = new RatePresenter(rateViewModel);
+        final CreateReviewOutputBoundary createReviewOutputBoundary = new CreateReviewPresenter(createReviewViewModel);
         final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
                 dbReviewAccessObject, createReviewOutputBoundary);
 
-        final RateController rateController = new RateController((CreateReviewInteractor) createReviewInteractor);
-        rateView.setRateController(rateController);
+        final CreateReviewController createReviewController = new CreateReviewController((CreateReviewInteractor) createReviewInteractor);
+        RateView.setRateController(createReviewController);
         return this;
     }
 

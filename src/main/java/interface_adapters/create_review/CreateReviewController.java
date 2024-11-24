@@ -1,19 +1,18 @@
-package interface_adapters.rate;
+package interface_adapters.create_review;
 
 import entity.Location;
 import entity.User;
-import use_case.create_review.CreateReviewInputBoundary;
 import use_case.create_review.CreateReviewInputData;
 import use_case.create_review.CreateReviewInteractor;
 
 /**
  * Controller for our Note related Use Cases.
  */
-public class RateController {
+public class CreateReviewController {
 
     private final CreateReviewInteractor rateInteractor;
 
-    public RateController(CreateReviewInteractor rateInteractor) {
+    public CreateReviewController(CreateReviewInteractor rateInteractor) {
         this.rateInteractor = rateInteractor;
     }
 
