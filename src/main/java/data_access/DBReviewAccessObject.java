@@ -48,6 +48,8 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
         data.put("location_description", review.location().getDescription());
         data.put("location_address", review.location().getAddress());
         data.put("location_rating", review.location().getRating());
+        data.put("location_latitude", review.location().getLatitude());
+        data.put("location_longitude", review.location().getLongitude());
 
         if (review.location() instanceof StudyLocation) {
             data.put("location_type", "study");
@@ -86,12 +88,16 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
             String locationAddress = (String) doc.get("location_address");
             String locationRating = (String) doc.get("location_rating");
             String locationType = (String) doc.get("location_type");
+            Double locationLatitude = (Double) doc.get("location_latitude");
+            Double locationLongitude = (Double) doc.get("location_longitude");
             if (locationType.equals("study")) {
                 String building = (String) doc.get("building");
-                return new UserReview(user, reviewRating, comment, new StudyLocation(locationName, building));
+                return new UserReview(user, reviewRating, comment, new StudyLocation(locationName, locationLatitude
+                        , locationLongitude, building));
             } else if (locationType.equals("food")) {
                 String type = (String) doc.get("type");
-                return new UserReview(user, reviewRating, comment, new FoodLocation(locationName, type));
+                return new UserReview(user, reviewRating, comment, new FoodLocation(locationName, locationLatitude
+                        , locationLongitude, type));
             }
             return null;
         } catch (InterruptedException | ExecutionException e) {

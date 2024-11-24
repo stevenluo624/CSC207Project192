@@ -6,5 +6,5 @@ public interface LocationFactory {
      * @param name the name of the new location
      * @return the new location
      */
-    Location create(String name);
+    Location create(String name, double latitude, double longitude);
 }
