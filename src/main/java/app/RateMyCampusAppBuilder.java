@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.*;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -72,7 +73,7 @@ public class RateMyCampusAppBuilder {
      * Adds the List Review View to the application.
      * @return this builder
      */
-    public RateMyCampusAppBuilder addListReviewView() {
+    public RateMyCampusAppBuilder addListReviewView() throws IOException {
         model = new ListReviewViewModel();
         final ListReviewState state = (ListReviewState) model.getState();
         state.setReviewList(dbReviewListAccessObject.getReviews(state.getPageNumber(), state.getPageSize()));

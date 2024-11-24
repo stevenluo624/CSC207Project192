@@ -14,6 +14,8 @@ public class ListReviewState {
     private int pageSize = 3;
     private String pageError;
     private List<UserReview> reviewList = new ArrayList<>();
+    private String likeError;
+    private String currentUser;
 
     public int getPageNumber() {
         return pageNumber;
@@ -53,6 +55,10 @@ public class ListReviewState {
         this.pageError = pageError;
     }
 
+    public void setLikeError(String likeError) {
+        this.likeError = likeError;
+    }
+
     public void setReviewList(List<UserReview> reviewList) {
         this.reviewList = reviewList;
     }
@@ -65,5 +71,17 @@ public class ListReviewState {
                 ", pageError='" + pageError + '\'' +
                 ", reviewList=" + reviewList +
                 '}';
+    }
+
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public String getLikeError() {
+        return likeError;
     }
 }

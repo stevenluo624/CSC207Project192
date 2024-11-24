@@ -1,11 +1,17 @@
 package view;
 
+import data_access.DBLikeAccessObject;
 import entity.UserReview;
+import interface_adapters.ViewManagerModel;
+import interface_adapters.like_review.LikeReviewController;
+import interface_adapters.like_review.LikeReviewPresenter;
 import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
 import interface_adapters.signup.SignupState;
 import interface_adapters.signup.SignupViewModel;
+import use_case.like_review.LikeReviewInteractor;
+import use_case.like_review.LikeReviewOutputBoundary;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.List;
 
 public class ListReviewView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -21,10 +28,11 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
     private final ListReviewViewModel listReviewViewModel;
 
     private ListReviewController listReviewController;
+    private LikeReviewController likeReviewController;
 
     private JScrollPane scrollPanel;
 
-    public ListReviewView(ListReviewViewModel listReviewViewModel) {
+    public ListReviewView(ListReviewViewModel listReviewViewModel) throws IOException {
         this.listReviewViewModel = listReviewViewModel;
         listReviewViewModel.addPropertyChangeListener(this);
 
@@ -33,18 +41,53 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
         final ListReviewState state = listReviewViewModel.getState();
 
-        final JPanel reviewsPanel = new JPanel();
-        reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
-        List<UserReview> reviewList = state.getReviewList();
+        LikeReviewInteractor likeReviewInteractor = new LikeReviewInteractor(
+                new DBLikeAccessObject(),
+                new LikeReviewPresenter(new ViewManagerModel(), listReviewViewModel));
+        this.likeReviewController = new LikeReviewController(likeReviewInteractor);
 
-        for (UserReview review : reviewList) {
-            reviewsPanel.add(new UserReviewPanel(review));
+        try {
+            final JPanel reviewsPanel = new JPanel();
+            reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
+            List<UserReview> reviewList = state.getReviewList();
+
+            final JPanel buttonsPanel = new JPanel();
+            buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weighty = 1.0;
+
+            for (UserReview review : reviewList) {
+                final JPanel bigPanel = new JPanel();
+                bigPanel.setLayout(new GridBagLayout());
+
+                final JButton likeButton = new LikeReviewButton(
+                        this.likeReviewController,
+                        state.getCurrentUser(),
+                        review.getKey(),
+                        review.getNumberOfLikes()
+                );
+
+                gbc.gridx = 0;
+                gbc.weightx = 0.7;
+                bigPanel.add(new UserReviewPanel(review), gbc);
+
+                gbc.gridx = 1;
+                gbc.weightx = 0.3;
+                bigPanel.add(likeButton, gbc);
+
+                reviewsPanel.add(bigPanel);
+            }
+
+            scrollPanel = new JScrollPane(reviewsPanel);
+            scrollPanel.setPreferredSize(new Dimension(500, 600));
+            JScrollBar scrollBar = scrollPanel.getVerticalScrollBar();
+            scrollBar.setUnitIncrement(20);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        scrollPanel = new JScrollPane(reviewsPanel);
-        scrollPanel.setPreferredSize(new Dimension(500, 600));
-        JScrollBar scrollBar = scrollPanel.getVerticalScrollBar();
-        scrollBar.setUnitIncrement(20);
 
         final JLabel pageLabel = new JLabel(ListReviewViewModel.PAGE_SIZE_LABEL + ": " + state.getPageSize(),
                 SwingConstants.CENTER);
@@ -105,18 +148,50 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
     }
 
     private void updateReviews() {
-        final JPanel reviewsPanel = new JPanel();
-        reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
-        List<UserReview> reviewList = this.listReviewViewModel.getState().getReviewList();
+        final ListReviewState state = listReviewViewModel.getState();
 
-        for (UserReview review : reviewList) {
-            reviewsPanel.add(new UserReviewPanel(review));
+        JScrollPane newScrollPanel;
+        try {
+            final JPanel reviewsPanel = new JPanel();
+            reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
+            List<UserReview> reviewList = state.getReviewList();
+
+            final JPanel buttonsPanel = new JPanel();
+            buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weighty = 1.0;
+
+            for (UserReview review : reviewList) {
+                final JPanel bigPanel = new JPanel();
+                bigPanel.setLayout(new GridBagLayout());
+
+                final JButton likeButton = new LikeReviewButton(
+                        this.likeReviewController,
+                        state.getCurrentUser(),
+                        review.getKey(),
+                        review.getNumberOfLikes()
+                );
+
+                gbc.gridx = 0;
+                gbc.weightx = 0.7;
+                bigPanel.add(new UserReviewPanel(review), gbc);
+
+                gbc.gridx = 1;
+                gbc.weightx = 0.3;
+                bigPanel.add(likeButton, gbc);
+
+                reviewsPanel.add(bigPanel);
+            }
+
+            newScrollPanel = new JScrollPane(reviewsPanel);
+            newScrollPanel.setPreferredSize(new Dimension(500, 600));
+            JScrollBar scrollBar = newScrollPanel.getVerticalScrollBar();
+            scrollBar.setUnitIncrement(20);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        JScrollPane newScrollPanel = new JScrollPane(reviewsPanel);
-        newScrollPanel.setPreferredSize(new Dimension(500, 600));
-        JScrollBar scrollBar = newScrollPanel.getVerticalScrollBar();
-        scrollBar.setUnitIncrement(20);
 
         this.remove(scrollPanel);
         this.add(newScrollPanel, BorderLayout.CENTER);

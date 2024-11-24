@@ -9,6 +9,7 @@ public class UserReview {
     private final String comment;
     private final Location location;
     private int numberOfLikes;
+    private String key;
 
     /**
      * Creates a new UserReview
@@ -21,7 +22,6 @@ public class UserReview {
         this.rating = rating;
         this.comment = comment;
         this.numberOfLikes = 0;
-        //this.location = location;
         this.location = null;
     }
 
@@ -83,5 +83,14 @@ public class UserReview {
      */
     public Location getLocation() {
         return location;
+    }
+
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

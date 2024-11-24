@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import entity.Location;
-import entity.StudentUser;
 import entity.User;
 import entity.UserReview;
 import helper.ProjectConstants;
@@ -49,11 +48,13 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
                     .get("doubleValue").getAsDouble() : null;
             String location = fields.has("location") ? fields.getAsJsonObject("location")
                     .get("stringValue").getAsString() : null;
+            String key = document.get("name").getAsString().substring(70);
 
             User userObject = dbUserAccessObject.get(user);
             Location locationObject = new Location(location) {};
 
             UserReview review = new UserReview(userObject, (int) Math.round(rating), comment, locationObject);
+            review.setKey(key);
 
             reviewList.add(review);
         }
