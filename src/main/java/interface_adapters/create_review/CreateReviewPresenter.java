@@ -1,4 +1,4 @@
-package interface_adapters.rate;
+package interface_adapters.create_review;
 
 import use_case.create_review.CreateReviewOutputBoundary;
 import use_case.create_review.CreateReviewOutputData;
@@ -6,12 +6,12 @@ import use_case.create_review.CreateReviewOutputData;
 /**
  * The presenter for our Note viewing and editing program.
  */
-public class RatePresenter implements CreateReviewOutputBoundary {
+public class CreateReviewPresenter implements CreateReviewOutputBoundary {
 
-    private final RateViewModel rateViewModel;
+    private final CreateReviewViewModel createReviewViewModel;
 
-    public RatePresenter(RateViewModel rateViewModel) {
-        this.rateViewModel = rateViewModel;
+    public CreateReviewPresenter(CreateReviewViewModel createReviewViewModel) {
+        this.createReviewViewModel = createReviewViewModel;
     }
 
     /**
@@ -21,9 +21,9 @@ public class RatePresenter implements CreateReviewOutputBoundary {
      */
     @Override
     public void prepareSuccessView(CreateReviewOutputData outputData) {
-        rateViewModel.getState().setRating(outputData.getRating());
-        rateViewModel.getState().setError(null);
-        rateViewModel.firePropertyChanged();
+        createReviewViewModel.getState().setRating(outputData.getRating());
+        createReviewViewModel.getState().setError(null);
+        createReviewViewModel.firePropertyChanged();
     }
 
     /**
@@ -33,7 +33,7 @@ public class RatePresenter implements CreateReviewOutputBoundary {
      */
     @Override
     public void prepareFailureView(String message) {
-        rateViewModel.getState().setError(message);
-        rateViewModel.firePropertyChanged();
+        createReviewViewModel.getState().setError(message);
+        createReviewViewModel.firePropertyChanged();
     }
 }

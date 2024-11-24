@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 /**
  * The representation of a UserReview in our program.
  */
@@ -7,6 +9,7 @@ public class UserReview {
     private final User user;
     private final int rating;
     private final String comment;
+    private List<UserReview> listOfReplies;
     private int numberOfLikes;
 
     /**
@@ -19,8 +22,15 @@ public class UserReview {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
+    }
+
+    /**
+     * Creates a new UserReview (NOTE: Should only be used to create a reply!)
+     * TODO: refactor this to have a Reply class that implements a UserReview interface
+     */
+    public UserReview(User user, String comment) {
+        this(user, 0, comment);
         this.numberOfLikes = 0;
-        //this.location = location;
     }
 
     /**
@@ -47,6 +57,23 @@ public class UserReview {
         return comment;
     }
 
+  
+    /**
+     * Get listOfReplies
+     * @return the list of replies
+     */
+    public List<UserReview> getListOfReplies() {
+        return listOfReplies;
+    }
+
+    /**
+     * Update list of replies with a new reply
+     * @param reply a UserReview object representing a reply to this review
+     */
+    public void updateListOfReplies(UserReview reply) {
+        this.listOfReplies.add(reply);
+    }
+  
     /**
      * Gets the number of likes
      * @return the number of likes
@@ -59,13 +86,4 @@ public class UserReview {
      * Incriments the number of likes
      */
     public void incrementLikes() {this.numberOfLikes++;}
-
-    /**
-     * Gets the location of the review
-     * @return the comment
-     */
-    /*
-     public Location location() {
-        return location;
-    } */
 }
