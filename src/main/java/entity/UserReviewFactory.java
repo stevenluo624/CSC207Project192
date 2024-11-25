@@ -8,5 +8,5 @@ public interface UserReviewFactory {
      * @param comment the comment provided in the review
      * @return the new user review
      */
-    UserReview create(User user, double rating, String comment);
+    UserReview create(User user, int rating, String comment);
 }
