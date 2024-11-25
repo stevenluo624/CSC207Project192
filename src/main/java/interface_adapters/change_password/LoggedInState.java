@@ -39,4 +39,7 @@ public class LoggedInState {
     public String getPassword() {
         return password;
     }
+
+    public void setLikeError(String error) {
+    }
 }
