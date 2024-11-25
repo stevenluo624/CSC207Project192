@@ -12,4 +12,6 @@ public interface DBAccessInterface {
     void updateDocument(String collection, Map<String, Object> data, String documentValue);
     boolean checkExists(String collection, String documentValue);
     boolean checkPageExists(String collection, int pageNumber, int pageSize);
+    void deleteDocument(String collection, String documentValue);
+    void incrementField(String collection, String documentValue, String fieldName, int value);
 }

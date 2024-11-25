@@ -7,6 +7,7 @@ import com.google.cloud.firestore.GeoPoint;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -373,6 +374,80 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
 //        deleteToken();
         return result;
+    }
+
+    @Override
+    public void deleteDocument(String collection, String documentValue) {
+        String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
+                "/databases/(default)/documents/" + collection + "/" + documentValue;
+
+        try {
+            URL obj = new URL(url);
+            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+            con.setRequestMethod("DELETE");
+            con.setRequestProperty("Authorization", "Bearer " + this.getIdToken());
+            int responseCode = con.getResponseCode();
+            log.info("Response Code: {}", responseCode);
+
+            con.disconnect();
+
+//            deleteToken();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void incrementField(String collection, String documentValue, String fieldName, int value) {
+        String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
+                "/databases/(default)/documents:commit";
+        String doc = "projects/" + this.projectId +
+                "/databases/(default)/documents/" + collection + "/" + documentValue;
+        log.info(url);
+
+        try {
+            URL obj = new URL(url);
+            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+            con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Authorization", "Bearer " + this.getIdToken());
+
+            JsonObject data = new JsonObject();
+            JsonObject writes = new JsonObject();
+            JsonObject requestBody = new JsonObject();
+            JsonObject transform = new JsonObject();
+            JsonObject increment = new JsonObject();
+            increment.addProperty("integerValue", value);
+            transform.addProperty("fieldPath", fieldName);
+            transform.add("increment", increment);
+
+            requestBody.add("fieldTransforms", new Gson().toJsonTree(new JsonObject[]{transform}));
+            requestBody.addProperty("document", doc);
+
+            writes.add("transform", requestBody);
+
+            data.add("writes", writes);
+
+            String jsonData = data.toString();
+            try (OutputStream os = con.getOutputStream()) {
+                byte[] input = jsonData.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            int responseCode = con.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                log.info("Data updated successfully!");
+            } else {
+                log.info("Failed to increment data: {}", responseCode);
+            }
+
+            con.disconnect();
+
+//            deleteToken();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String getFirestoreValueType(Object value) {

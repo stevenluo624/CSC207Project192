@@ -6,7 +6,10 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.gson.JsonObject;
 import entity.*;
+import helper.FirestoreHelper;
+import helper.ProjectConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import use_case.like_review.LikeReviewDataAccessInterface;
@@ -21,40 +24,27 @@ import java.util.concurrent.ExecutionException;
 
 public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
     private static final Logger log = LoggerFactory.getLogger(DBLikeAccessObject.class);
-    private final CollectionReference userReviews;
-    private final CollectionReference likes;
+    private final FirestoreHelper helper;
+    private final String userReviews = "userReviews";
+    private final String likes = "likes";
 
-    public DBLikeAccessObject() throws IOException{
-        InputStream serviceAccount = new FileInputStream("api_data/api_key.json");
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(credentials)
-                .build();
-        FirebaseApp customApp = FirebaseApp.initializeApp(options, "LikeAccess");
-        Firestore db = FirestoreClient.getFirestore(customApp);
-
-        this.likes = db.collection("likes");
-        this.userReviews = db.collection("userReviews");
+    public DBLikeAccessObject() {
+        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
     }
 
     @Override
     public boolean hasUserLikedReview(String username, String reviewId) {
-        DocumentReference docRef = likes.document(reviewId + "_" + username);
-        try {
-            return docRef.get().get().exists();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        String doc = reviewId + "_" + username;
+        return helper.checkExists(likes, doc);
     }
 
     @Override
     public void saveLike(String username, String reviewId) {
-        DocumentReference likeRef = likes.document(reviewId + "_" + username);
-        DocumentReference reviewRef = userReviews.document(reviewId);
+        String doc = reviewId + "_" + username;
         if (hasUserLikedReview(username, reviewId)) {
             try {
-                likeRef.delete();
-                reviewRef.update("likes", FieldValue.increment(-1));
+                helper.deleteDocument(likes, doc);
+                helper.incrementField(userReviews, reviewId, likes, -1);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -63,8 +53,8 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
                 Map<String, Object> likeData = new HashMap<>();
                 likeData.put("username", username);
                 likeData.put("reviewId", reviewId);
-                likeRef.set(likeData);
-                reviewRef.update("likes", FieldValue.increment(1));
+                helper.addDocument(likes, likeData, doc);
+                helper.incrementField(userReviews, reviewId, likes, 1);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -73,13 +63,11 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
 
     @Override
     public int getLikeCount(String reviewId) {
-        DocumentReference docRef = userReviews.document(reviewId);
-        ApiFuture<DocumentSnapshot> future = docRef.get();
         try {
-            DocumentSnapshot doc = future.get();
-            Long likes = (Long) doc.get("likes");
-            return likes != null ? likes.intValue() : 0;
-        } catch (InterruptedException | ExecutionException e) {
+            JsonObject doc = helper.getDocument(userReviews, reviewId);
+
+            return doc.getAsJsonObject("likes").get("integerValue").getAsInt();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
