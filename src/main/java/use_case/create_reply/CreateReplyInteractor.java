@@ -1,7 +1,7 @@
 package use_case.create_reply;
 
+import entity.Review;
 import entity.User;
-import entity.UserReview;
 
 public class CreateReplyInteractor implements CreateReplyInputBoundary {
     private final CreateReplyDataAccessInterface dataAccess;
@@ -16,7 +16,7 @@ public class CreateReplyInteractor implements CreateReplyInputBoundary {
     public void execute(CreateReplyInputData inputData) {
         User user = inputData.getUser();
         String comment = inputData.getComment();
-        final UserReview reply = new UserReview(user, comment);
+        final Review reply = new Review(user, comment);
         dataAccess.saveReply(reply);
 
         final CreateReplyOutputData outputData = new CreateReplyOutputData(user, comment, false);

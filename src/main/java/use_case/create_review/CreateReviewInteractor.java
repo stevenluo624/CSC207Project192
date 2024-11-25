@@ -1,6 +1,6 @@
 package use_case.create_review;
 
-import entity.UserReview;
+import entity.Review;
 
 public class CreateReviewInteractor implements CreateReviewInputBoundary {
     private final CreateReviewDataAccessInterface dataAccess;
@@ -13,7 +13,7 @@ public class CreateReviewInteractor implements CreateReviewInputBoundary {
 
     @Override
     public void execute(CreateReviewInputData inputData) {
-        final UserReview review = new UserReview(inputData.getUser(), inputData.getRating(), inputData.getComment(),
+        final Review review = new Review(inputData.getUser(), inputData.getRating(), inputData.getComment(),
                 inputData.getLocation());
         dataAccess.saveReview(review);
 

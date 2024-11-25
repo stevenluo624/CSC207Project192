@@ -118,7 +118,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
     public String getViewName() {return viewName; }
 
-    public void setRateController(CreateReviewController createReviewController) {
+    public static void setRateController(CreateReviewController createReviewController) {
         this.createReviewController = createReviewController;
     }
 

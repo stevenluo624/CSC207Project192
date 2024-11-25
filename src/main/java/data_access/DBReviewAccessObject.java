@@ -21,7 +21,7 @@ import use_case.create_review.CreateReviewDataAccessInterface;
 
 public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
     private static final Logger log = LoggerFactory.getLogger(DBReviewAccessObject.class);
-    private final CollectionReference locations, userReviews, users;
+    private final CollectionReference locations, reviews, users;
 
     public DBReviewAccessObject() throws IOException {
         InputStream serviceAccount = new FileInputStream("api_data/api_key.json");
@@ -34,12 +34,12 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
         Firestore db = FirestoreClient.getFirestore(customApp);
 
         this.locations = db.collection("locations");
-        this.userReviews = db.collection("userReviews");
+        this.reviews = db.collection("reviews");
         this.users = db.collection("users");
     }
 
     @Override
-    public String saveReview(UserReview review) {
+    public String saveReview(Review review) {
         Map<String, Object> data = new HashMap<>();
         data.put("user", review.getUser().getUsername());
         data.put("rating", review.getRating());
@@ -59,7 +59,7 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
             data.put("type", ((FoodLocation) review.getLocation()).getType());
         }
 
-        ApiFuture<DocumentReference> docRef = userReviews.add(data);
+        ApiFuture<DocumentReference> docRef = reviews.add(data);
         try {
             if (log.isInfoEnabled()) {
                 log.info(docRef.get().toString() + " " + docRef.get().getId());
@@ -72,8 +72,8 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
     }
 
     @Override
-    public UserReview getReview(String id) {
-        DocumentReference docRef = userReviews.document(id);
+    public Review() getReview(String id) {
+        DocumentReference docRef = reviews.document(id);
         ApiFuture<DocumentSnapshot> future = docRef.get();
         try {
             DocumentSnapshot doc = future.get();
@@ -92,11 +92,11 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
             Double locationLongitude = (Double) doc.get("location_longitude");
             if (locationType.equals("study")) {
                 String building = (String) doc.get("building");
-                return new UserReview(user, reviewRating, comment, new StudyLocation(locationName, locationLatitude
+                return new Review(user, reviewRating, comment, new StudyLocation(locationName, locationLatitude
                         , locationLongitude, building));
             } else if (locationType.equals("food")) {
                 String type = (String) doc.get("type");
-                return new UserReview(user, reviewRating, comment, new FoodLocation(locationName, locationLatitude
+                return new Review(user, reviewRating, comment, new FoodLocation(locationName, locationLatitude
                         , locationLongitude, type));
             }
             return null;
