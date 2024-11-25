@@ -1,14 +1,14 @@
 package interface_adapters.map;
 
 import interface_adapters.ViewManagerModel;
+import interface_adapters.ListReviewViewModel;
 import use_case.check_map.CheckMapOutputBoundary;
 import use_case.check_map.CheckMapOutputData;
-import view.MapView;
 
 /**
  * The Presenter for the Check Map Use Case.
  */
-public class MapPresenter implements CheckMapOutputBoundary{
+public class MapPresenter implements CheckMapOutputBoundary {
 
     private final ViewManagerModel viewManagerModel;
     private final MapViewModel mapViewModel;
@@ -17,6 +17,7 @@ public class MapPresenter implements CheckMapOutputBoundary{
                         MapViewModel mapViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.mapViewModel = mapViewModel;
+        this.ListReviewViewModel = listReviewViewModel;
     }
 
     // TODO: If the back button is hit, go back to list of reviews use case.
@@ -33,5 +34,11 @@ public class MapPresenter implements CheckMapOutputBoundary{
     @Override
     public void prepareFailView(String errorMessage) {
         // This state currently shouldn't fail
+    }
+
+    @Override
+    public void switchToListOfReviews() {
+        viewManagerModel.setState(listReviewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

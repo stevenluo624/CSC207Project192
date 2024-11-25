@@ -8,7 +8,7 @@ import entity.User;
  * <p>For this example, a note is simplay a string.</p>
  */
 public class CreateReviewState {
-    private int rating = 0;
+    private int rating;
     private String comment;
     private User user;
     private String commentError;
@@ -35,7 +35,9 @@ public class CreateReviewState {
         return ratingError;
     }
 
-    public Location getLocation() { return location; }
+    public Location getLocation() {
+        return location;
+    }
 
     public void setRating(int rating) {
         this.rating = rating;
@@ -57,5 +59,7 @@ public class CreateReviewState {
         this.ratingError = errorMessage;
     }
 
-    public void setLocation(Location location) {this.location = location; }
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }

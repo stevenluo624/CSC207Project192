@@ -2,6 +2,9 @@ package use_case.create_review;
 
 import entity.User;
 
+/**
+ * The Output Data for Create Review use case.
+ */
 public class CreateReviewOutputData {
     private final User user;
     private final int rating;

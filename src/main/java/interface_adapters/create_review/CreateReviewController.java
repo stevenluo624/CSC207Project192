@@ -21,6 +21,7 @@ public class CreateReviewController {
      * @param rating the rating to be recorded
      * @param user the user inputed the rating
      * @param comment the comment the user made
+     * @param location the location the user reviews
      */
     public void execute(User user, int rating, String comment, Location location) {
         final CreateReviewInputData createReviewInputData = new CreateReviewInputData(user, rating, comment, location);

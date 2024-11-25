@@ -3,6 +3,9 @@ package use_case.create_review;
 import entity.Location;
 import entity.User;
 
+/**
+ * The Input Data for Create Review.
+ */
 public class CreateReviewInputData {
     private final User user;
     private final int rating;
@@ -28,5 +31,5 @@ public class CreateReviewInputData {
         return comment;
     }
 
-    public Location getLocation() {return location; }
+    public Location getLocation() { return location; }
 }

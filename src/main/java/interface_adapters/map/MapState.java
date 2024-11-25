@@ -1,14 +1,14 @@
 package interface_adapters.map;
 
 /**
- * The State Information representing the Map Display
+ * The State Information representing the Map Display.
  */
 public class MapState {
     private String name = "";
     private String nameError;
-    private double latitude = 0.0;
+    private double latitude;
     private String latitudeError;
-    private double longitude = 0.0;
+    private double longitude;
     private String longitudeError;
 
     public String getName() {

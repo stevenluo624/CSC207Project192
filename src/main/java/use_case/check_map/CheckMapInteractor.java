@@ -4,9 +4,9 @@ import entity.Location;
 import entity.LocationFactory;
 
 /**
- * The Check Map
+ * The Check Map.
  */
-public class CheckMapInteractor implements CheckMapInputBoundary{
+public class CheckMapInteractor implements CheckMapInputBoundary {
     private final CheckMapDataAccessInterface dataAccessObject;
     private final CheckMapOutputBoundary locationPresenter;
     private final LocationFactory locationFactory;
@@ -21,7 +21,7 @@ public class CheckMapInteractor implements CheckMapInputBoundary{
 
     @Override
     public void execute(CheckMapInputData checkMapInputData) {
-        final Location location = locationFactory.create(checkMapInputData. getName(),
+        final Location location = locationFactory.create(checkMapInputData.getName(),
                 checkMapInputData.getLatitude(), checkMapInputData.getLongitude());
 
         final CheckMapOutputData checkMapOutputData = new CheckMapOutputData(location.getName(), location.getLatitude(),
@@ -30,9 +30,15 @@ public class CheckMapInteractor implements CheckMapInputBoundary{
         try {
             dataAccessObject.checkMap(location);
             locationPresenter.prepareSuccessView(checkMapOutputData);
-        } catch (DataAccessException e) {
-            locationPresenter.prepareFailView(e.getMessage());
+        }
+        catch (DataAccessException errorMessage) {
+            locationPresenter.prepareFailView(errorMessage.getMessage());
         }
 
+    }
+
+    @Override
+    public void switchToListOfReviews() {
+        locationPresenter.switchToListOfReviews();
     }
 }

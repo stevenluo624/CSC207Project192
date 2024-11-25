@@ -1,19 +1,25 @@
 package view;
 
-import interface_adapters.map.MapController;
-import interface_adapters.map.MapState;
-import interface_adapters.map.MapViewModel;
-import org.checkerframework.checker.units.qual.C;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
-import org.openstreetmap.gui.jmapviewer.JMapViewer;
-import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+
+import interface_adapters.map.MapController;
+import interface_adapters.map.MapState;
+import interface_adapters.map.MapViewModel;
 
 /**
  * The View for displaying a map with food and study space locations.
@@ -23,9 +29,9 @@ public class MapView extends JPanel implements ActionListener, PropertyChangeLis
     private final MapViewModel mapViewModel;
 
     private final JLabel mapName = new JLabel("Campus Food and Study Space Rater Map Viewer");
-    private final JButton backButton = new JButton("Back"); // Button to go back to the list of reviews.
+    private final JButton backButton = new JButton("Back");
 
-    private JMapViewer mapViewer; // Map viewer instance.
+    private JMapViewer mapViewer;
     private MapController mapController;
 
     public MapView(MapViewModel mapViewModel) {
@@ -41,7 +47,7 @@ public class MapView extends JPanel implements ActionListener, PropertyChangeLis
 
         // Initialize map viewer
         mapViewer = new JMapViewer();
-        mapViewer.setZoomControlsVisible(false); // Deprecated method replaced.
+        mapViewer.setZoomControlsVisible(false);
         addMapMarkers();
 
         this.add(mapViewer, BorderLayout.CENTER);
@@ -73,16 +79,16 @@ public class MapView extends JPanel implements ActionListener, PropertyChangeLis
     }
 
     /**
-     * Adds Location Marker to the Map
+     * Adds Location Marker to the Map.
      */
     private void addMapMarkers() {
 
         final MapState currentState = mapViewModel.getState();
-        double buildingLat = currentState.getLatitude();
-        double buildingLong = currentState.getLongitude();
+        final double buildingLat = currentState.getLatitude();
+        final double buildingLong = currentState.getLongitude();
 
-        Coordinate coordinate = new Coordinate(buildingLat, buildingLong);
-        MapMarkerDot marker = new MapMarkerDot(coordinate);
+        final Coordinate coordinate = new Coordinate(buildingLat, buildingLong);
+        final MapMarkerDot marker = new MapMarkerDot(coordinate);
         marker.setBackColor(Color.RED);
         mapViewer.addMapMarker(marker);
 
