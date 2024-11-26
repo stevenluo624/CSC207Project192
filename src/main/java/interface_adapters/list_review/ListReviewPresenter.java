@@ -3,9 +3,12 @@ package interface_adapters.list_review;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.map.MapController;
 import interface_adapters.map.MapViewModel;
+import interface_adapters.profile.ProfileState;
+import interface_adapters.profile.ProfileViewModel;
 import use_case.check_map.CheckMapOutputData;
 import use_case.list_review.ListReviewOutputBoundary;
 import use_case.list_review.ListReviewOutputData;
+import use_case.profile.ProfileOutputData;
 import view.MapView;
 
 /**
@@ -15,11 +18,16 @@ public class ListReviewPresenter implements ListReviewOutputBoundary {
 
     private final ListReviewViewModel listReviewViewModel;
     private final MapViewModel mapViewModel;
+    private final ProfileViewModel profileViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public ListReviewPresenter(ListReviewViewModel listReviewViewModel, MapViewModel mapViewModel, ViewManagerModel viewManagerModel) {
+    public ListReviewPresenter(ListReviewViewModel listReviewViewModel,
+                               MapViewModel mapViewModel,
+                               ProfileViewModel profileViewModel,
+                               ViewManagerModel viewManagerModel) {
         this.listReviewViewModel = listReviewViewModel;
         this.mapViewModel = mapViewModel;
+        this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -50,6 +58,15 @@ public class ListReviewPresenter implements ListReviewOutputBoundary {
         mapViewModel.getState().setLatitude(checkMapOutputData.getLatitude());
         mapViewModel.getState().setLongitude(checkMapOutputData.getLongitude());
         viewManagerModel.setState(mapViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToProfileView(ProfileOutputData profileOutputData) {
+        ProfileState profileState = profileViewModel.getState();
+        profileState.setUser(profileOutputData.getUser());
+        profileState.setBio(profileOutputData.getBio());
+        viewManagerModel.setState(profileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

@@ -46,14 +46,14 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 new LikeReviewPresenter(new ViewManagerModel(), listReviewViewModel));
         this.likeReviewController = new LikeReviewController(likeReviewInteractor);
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1.0;
+
         try {
             final JPanel reviewsPanel = new JPanel();
             reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
             List<UserReview> reviewList = state.getReviewList();
-
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.weighty = 1.0;
 
             for (UserReview review : reviewList) {
                 final JPanel buttonsPanel = new JPanel();
@@ -100,9 +100,27 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
             throw new RuntimeException(e);
         }
 
-        final JLabel pageLabel = new JLabel(ListReviewViewModel.PAGE_SIZE_LABEL + ": " + state.getPageSize(),
-                SwingConstants.CENTER);
+        final JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.weightx = 0.8;
+        menuPanel.add(title, gbc);
 
+        final JButton profileButton = new JButton(ListReviewViewModel.PROFILE_BUTTON_LABEL);
+        profileButton.addActionListener( evt -> {
+                    if (evt.getSource().equals(profileButton)) {
+                        listReviewController.switchToProfileView(listReviewViewModel.getState().getCurrentUser());
+                    }
+                }
+        );
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.2;
+        menuPanel.add(profileButton, gbc);
+
+        final JLabel pageLabel = new JLabel(
+                ListReviewViewModel.PAGE_SIZE_LABEL + ": " + state.getPageSize(),
+                SwingConstants.CENTER);
         final JButton prevPageButton = new JButton(ListReviewViewModel.PREVIOUS_PAGE_BUTTON_LABEL);
         final JButton nextPageButton = new JButton(ListReviewViewModel.NEXT_PAGE_BUTTON_LABEL);
 
@@ -141,7 +159,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
         this.setLayout(new BorderLayout());
 
-        this.add(title, BorderLayout.NORTH);
+        this.add(menuPanel, BorderLayout.NORTH);
         this.add(scrollPanel, BorderLayout.CENTER);
         this.add(pageNavigation, BorderLayout.SOUTH);
     }

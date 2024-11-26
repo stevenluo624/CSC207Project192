@@ -17,10 +17,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 
-import interface_adapters.rate.RateController;
-import interface_adapters.rate.RateState;
-import interface_adapters.rate.RateViewModel;
-
 import interface_adapters.create_review.CreateReviewController;
 import interface_adapters.create_review.CreateReviewState;
 import interface_adapters.create_review.CreateReviewViewModel;
@@ -34,8 +30,6 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
     public static final int NUMSTARS = 5;
     public static final int DIMENSION = 30;
-    private final String viewName = "rate";
-    private final RateViewModel rateViewModel;
 
     private final String viewName = "create_review";
     private final CreateReviewViewModel createReviewViewModel;

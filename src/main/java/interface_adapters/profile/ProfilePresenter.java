@@ -20,6 +20,11 @@ public class ProfilePresenter implements ProfileOutputBoundary {
     }
 
     @Override
+    public void execute(ProfileOutputData profileInputData) {
+
+    }
+
+    @Override
     public void prepareSuccessView(ProfileOutputData outputData) {
         final ProfileState profileState = profileViewModel.getState();
         profileState.setUsername(outputData.getUser().getUsername());

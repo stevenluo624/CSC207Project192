@@ -8,7 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 //import data_access.DBReviewAccessObject;
+import data_access.DBProfileAccessObject;
 import data_access.DBReviewListAccessObject;
+import data_access.DBUserAccessObject;
 import entity.UserFactory;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.ViewModel;
@@ -20,6 +22,7 @@ import interface_adapters.list_review.ListReviewViewModel;
 //import interface_adapters.rate.RatePresenter;
 //import interface_adapters.rate.RateViewModel;
 import interface_adapters.map.MapViewModel;
+import interface_adapters.profile.ProfileViewModel;
 import use_case.create_review.CreateReviewInputBoundary;
 import use_case.create_review.CreateReviewInteractor;
 import use_case.create_review.CreateReviewOutputBoundary;
@@ -51,6 +54,8 @@ public class TempBuilder {
     // thought question: is the hard dependency below a problem?
 //    private final DBReviewAccessObject dbReviewAccessObject = new DBReviewAccessObject();
     private final DBReviewListAccessObject dbReviewListAccessObject = new DBReviewListAccessObject();
+    private final DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
+    private final DBProfileAccessObject dbProfileAccessObject = new DBProfileAccessObject();
 
     private JPanel view;
     private ViewModel model;
@@ -83,10 +88,12 @@ public class TempBuilder {
         final ListReviewOutputBoundary listReviewOutputBoundary = new ListReviewPresenter(
                 (ListReviewViewModel) model,
                 new MapViewModel(),
+                new ProfileViewModel(),
                 new ViewManagerModel()
         );
         final ListReviewInputBoundary listReviewInteractor = new ListReviewInteractor(
                 dbReviewListAccessObject,
+                dbProfileAccessObject,
                 listReviewOutputBoundary
         );
         final ListReviewController listReviewController = new ListReviewController(listReviewInteractor);

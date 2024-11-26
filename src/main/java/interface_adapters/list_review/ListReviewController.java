@@ -5,6 +5,7 @@ import entity.UserReview;
 import use_case.check_map.CheckMapInputData;
 import use_case.list_review.ListReviewInputBoundary;
 import use_case.list_review.ListReviewInputData;
+import use_case.profile.ProfileInputData;
 
 /**
  * Controller for the list review use case.
@@ -40,5 +41,9 @@ public class ListReviewController {
                 location.getLongitude()
         );
         listReviewInteractor.switchToMapView(inputData);
+    }
+
+    public void switchToProfileView(String username) {
+        listReviewInteractor.switchToProfileView(username);
     }
 }

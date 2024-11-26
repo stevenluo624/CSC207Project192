@@ -1,20 +1,26 @@
 package use_case.list_review;
 
+import entity.User;
 import entity.UserReview;
-import entity.UserReviewFactory;
 import use_case.check_map.CheckMapInputData;
 import use_case.check_map.CheckMapOutputData;
+import use_case.profile.ProfileDataAccessInterface;
+import use_case.profile.ProfileOutputBoundary;
+import use_case.profile.ProfileOutputData;
 
 import java.util.List;
 
 public class ListReviewInteractor implements ListReviewInputBoundary {
 
     private final ListReviewDataAccessInterface reviewDataAccessObject;
+    private final ProfileDataAccessInterface profileDataAccessObject;
     private final ListReviewOutputBoundary reviewPresenter;
 
     public ListReviewInteractor(ListReviewDataAccessInterface reviewDataAccessObject,
+                                ProfileDataAccessInterface profileDataAccessObject,
                                 ListReviewOutputBoundary reviewPresenter) {
         this.reviewDataAccessObject = reviewDataAccessObject;
+        this.profileDataAccessObject = profileDataAccessObject;
         this.reviewPresenter = reviewPresenter;
     }
 
@@ -41,8 +47,15 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
     @Override
     public void switchToMapView(CheckMapInputData checkMapInputData) {
         String name = checkMapInputData.getName();
-        double latitude = checkMapInputData.getLatitude();
-        double longitude = checkMapInputData.getLongitude();
+        String latitude = checkMapInputData.getLatitude();
+        String longitude = checkMapInputData.getLongitude();
         reviewPresenter.switchToMapView(new CheckMapOutputData(name, latitude, longitude, false));
+    }
+
+    @Override
+    public void switchToProfileView(String username) {
+        User user = profileDataAccessObject.getUser(username);
+        String bio = profileDataAccessObject.getBio(username);
+        reviewPresenter.switchToProfileView(new ProfileOutputData(user, bio, false));
     }
 }

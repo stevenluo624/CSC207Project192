@@ -14,6 +14,7 @@ public class ListReviewViewModel extends ViewModel<ListReviewState> {
     public static final String PREVIOUS_PAGE_BUTTON_LABEL = "Previous Page";
 
     public static final String MAP_BUTTON_LABEL = "View on map";
+    public static final String PROFILE_BUTTON_LABEL = "View profile";
 
     public ListReviewViewModel() {
         super("list review");

@@ -18,4 +18,9 @@ public interface ListReviewInputBoundary {
      * @param checkMapInputData contains data needed to show map.
      */
     void switchToMapView(CheckMapInputData checkMapInputData);
+
+    /** Switches to the profile user case.
+     * @param username the logged-in username
+     */
+    void switchToProfileView(String username);
 }

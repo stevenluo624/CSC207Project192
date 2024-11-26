@@ -34,7 +34,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
 
         List<UserReview> reviewList = new ArrayList<>();
 
-        DBUserAccessObject dbUserAccessObject = new DBUserAccessObject(ProjectConstants.USER_COLLECTION);
+        DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
 
         for (JsonElement element : documents) {
             JsonObject document = element.getAsJsonObject();
@@ -48,14 +48,14 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
                     .get("doubleValue").getAsDouble() : -1;
             String location = fields.has("location") ? fields.getAsJsonObject("location")
                     .get("stringValue").getAsString() : null;
-            double latitude = fields.has("latitude") ? fields.getAsJsonObject("latitude")
-                    .get("doubleValue").getAsDouble() : 0;
-            double longtitude = fields.has("longtitude") ? fields.getAsJsonObject("longtitude")
-                    .get("doubleValue").getAsDouble() : 0;
+            String latitude = fields.has("latitude") ? fields.getAsJsonObject("latitude")
+                    .get("stringValue").getAsString() : null;
+            String longitude = fields.has("longitude") ? fields.getAsJsonObject("longitude")
+                    .get("stringValue").getAsString() : null;
             String key = document.get("name").getAsString().substring(70);
 
             User userObject = dbUserAccessObject.get(user);
-            Location locationObject = new Location(location, latitude, longtitude) {};
+            Location locationObject = new Location(location, latitude, longitude) {};
 
             UserReview review = new UserReview(userObject, (int) Math.round(rating), comment, locationObject);
             review.setKey(key);
