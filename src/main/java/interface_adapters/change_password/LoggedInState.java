@@ -41,5 +41,6 @@ public class LoggedInState {
     }
 
     public void setLikeError(String error) {
+
     }
 }

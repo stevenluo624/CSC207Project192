@@ -1,5 +1,6 @@
 package interface_adapters.create_review;
 
+import entity.Location;
 import entity.User;
 
 /**
@@ -12,6 +13,7 @@ public class CreateReviewState {
     private User user;
     private String commentError;
     private String ratingError;
+    private Location location;
 
     public int getRating() {
         return rating;
@@ -33,6 +35,8 @@ public class CreateReviewState {
         return ratingError;
     }
 
+    public Location getLocation() { return location; }
+
     public void setRating(int rating) {
         this.rating = rating;
     }
@@ -52,4 +56,6 @@ public class CreateReviewState {
     public void setRatingError(String errorMessage) {
         this.ratingError = errorMessage;
     }
+
+    public void setLocation(Location location) {this.location = location; }
 }

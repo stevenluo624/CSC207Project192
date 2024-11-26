@@ -1,7 +1,6 @@
 package entity;
 
 import java.util.List;
-import entity.Location;
 
 /**
  * The representation of a UserReview in our program.
@@ -25,6 +24,7 @@ public class UserReview {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
+        this.numberOfLikes = 0;
     }
 
     /**
@@ -32,7 +32,7 @@ public class UserReview {
      * TODO: refactor this to have a Reply class that implements a UserReview interface
      */
     public UserReview(User user, String comment) {
-        this(user, 0, comment);
+        this(user, 0, comment, null);
         this.numberOfLikes = 0;
         this.location = null;
     }
@@ -106,10 +106,6 @@ public class UserReview {
      */
     public void incrementLikes() {this.numberOfLikes++;}
 
-    /**
-     * Gets the location of the review
-     * @return the comment
-     */
     public Location getLocation() {
         return location;
     }

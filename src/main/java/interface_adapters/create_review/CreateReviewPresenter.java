@@ -22,7 +22,7 @@ public class CreateReviewPresenter implements CreateReviewOutputBoundary {
     @Override
     public void prepareSuccessView(CreateReviewOutputData outputData) {
         createReviewViewModel.getState().setRating(outputData.getRating());
-//        createReviewViewModel.getState().setError(null);
+        createReviewViewModel.getState().setRatingError(null);
         createReviewViewModel.firePropertyChanged();
     }
 
@@ -33,7 +33,7 @@ public class CreateReviewPresenter implements CreateReviewOutputBoundary {
      */
     @Override
     public void prepareFailureView(String message) {
-//        createReviewViewModel.getState().setError(message);
+        createReviewViewModel.getState().setRatingError(message);
         createReviewViewModel.firePropertyChanged();
     }
 }

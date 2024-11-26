@@ -6,10 +6,10 @@ package use_case.check_map;
 public class CheckMapInputData {
 
     private final String name;
-    private final double latitude;
-    private final double longitude;
+    private final String latitude;
+    private final String longitude;
 
-    public CheckMapInputData(String name, double latitude, double longitude) {
+    public CheckMapInputData(String name, String latitude, String longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -19,11 +19,11 @@ public class CheckMapInputData {
         return name;
     }
 
-    public double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
 
     }

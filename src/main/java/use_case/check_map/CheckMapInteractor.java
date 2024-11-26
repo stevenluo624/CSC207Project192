@@ -1,38 +1,47 @@
 package use_case.check_map;
 
-import entity.Location;
-import entity.LocationFactory;
 
 /**
  * The Check Map
  */
 public class CheckMapInteractor implements CheckMapInputBoundary{
-    private final CheckMapDataAccessInterface dataAccessObject;
     private final CheckMapOutputBoundary locationPresenter;
-    private final LocationFactory locationFactory;
+    private final CheckMapDataAccessInterface checkMapDataAccessInterface;
 
-    public CheckMapInteractor(CheckMapDataAccessInterface checkMapDataAccessInterface,
-                              CheckMapOutputBoundary checkMapOutputBoundary,
-                              LocationFactory locationFactory) {
-        this.dataAccessObject = checkMapDataAccessInterface;
+    public CheckMapInteractor(CheckMapOutputBoundary checkMapOutputBoundary,
+                              CheckMapDataAccessInterface checkMapDataAccessInterface) {
         this.locationPresenter = checkMapOutputBoundary;
-        this.locationFactory = locationFactory;
+        this.checkMapDataAccessInterface = checkMapDataAccessInterface;
     }
 
     @Override
     public void execute(CheckMapInputData checkMapInputData) {
-        final Location location = locationFactory.create(checkMapInputData. getName(),
-                checkMapInputData.getLatitude(), checkMapInputData.getLongitude());
+        final String name = checkMapInputData.getName();
+        final String lat = checkMapInputData.getLatitude();
+        final String longi = checkMapInputData.getLongitude();
 
-        final CheckMapOutputData checkMapOutputData = new CheckMapOutputData(location.getName(), location.getLatitude(),
-                location.getLongitude(), false);
-
-        try {
-            dataAccessObject.checkMap(location);
-            locationPresenter.prepareSuccessView(checkMapOutputData);
-        } catch (DataAccessException e) {
-            locationPresenter.prepareFailView(e.getMessage());
+        if (!checkMapDataAccessInterface.existsByName(name)) {
+            locationPresenter.prepareFailView(name + ": Location doesn't exist.");
         }
+        else {
+            try {
+                Double.parseDouble(lat);
+                Double.parseDouble(longi);
+                final CheckMapOutputData checkMapOutputData = new CheckMapOutputData(name, lat, longi
+                        , false);
+                locationPresenter.prepareSuccessView(checkMapOutputData);
+            }
+            catch (NumberFormatException error) {
+                locationPresenter.prepareFailView("Latitude and Longitude must both be decimal values.");
+            }
+        }
+    }
 
+    /**
+     * Executes the switch to list of reviews use case.
+     */
+    @Override
+    public void switchToListReviewView() {
+        locationPresenter.switchToListReviewView();
     }
 }
