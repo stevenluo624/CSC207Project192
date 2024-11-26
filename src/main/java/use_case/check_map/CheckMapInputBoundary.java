@@ -10,4 +10,9 @@ public interface CheckMapInputBoundary {
      * @param checkMapInputData the input data for this use case
      */
     void execute(CheckMapInputData checkMapInputData);
+
+    /**
+     * Executes the switch to list of reviews use case.
+     */
+    void switchToListReviewView();
 }
