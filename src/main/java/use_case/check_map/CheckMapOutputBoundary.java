@@ -12,4 +12,9 @@ public interface CheckMapOutputBoundary {
          * @param errorMessage the explanation of the failure
          */
         void prepareFailView(String errorMessage);
-    }
+
+        /**
+        * Switches to List of Reviews View.
+        */
+        void switchToListReviewView();
+}
