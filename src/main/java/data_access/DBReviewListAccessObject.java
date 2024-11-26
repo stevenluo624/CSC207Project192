@@ -45,13 +45,17 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
             String user = fields.has("user") ? fields.getAsJsonObject("user")
                     .get("stringValue").getAsString() : null;
             Double rating = fields.has("rating") ? fields.getAsJsonObject("rating")
-                    .get("doubleValue").getAsDouble() : null;
+                    .get("doubleValue").getAsDouble() : -1;
             String location = fields.has("location") ? fields.getAsJsonObject("location")
                     .get("stringValue").getAsString() : null;
+            double latitude = fields.has("latitude") ? fields.getAsJsonObject("latitude")
+                    .get("doubleValue").getAsDouble() : 0;
+            double longtitude = fields.has("longtitude") ? fields.getAsJsonObject("longtitude")
+                    .get("doubleValue").getAsDouble() : 0;
             String key = document.get("name").getAsString().substring(70);
 
             User userObject = dbUserAccessObject.get(user);
-            Location locationObject = new Location(location) {};
+            Location locationObject = new Location(location, latitude, longtitude) {};
 
             UserReview review = new UserReview(userObject, (int) Math.round(rating), comment, locationObject);
             review.setKey(key);

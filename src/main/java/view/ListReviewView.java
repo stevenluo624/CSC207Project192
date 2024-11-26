@@ -32,7 +32,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     private JScrollPane scrollPanel;
 
-    public ListReviewView(ListReviewViewModel listReviewViewModel) throws IOException {
+    public ListReviewView(ListReviewViewModel listReviewViewModel) {
         this.listReviewViewModel = listReviewViewModel;
         listReviewViewModel.addPropertyChangeListener(this);
 
@@ -51,15 +51,14 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
             reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
             List<UserReview> reviewList = state.getReviewList();
 
-            final JPanel buttonsPanel = new JPanel();
-            buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
-
-
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weighty = 1.0;
 
             for (UserReview review : reviewList) {
+                final JPanel buttonsPanel = new JPanel();
+                buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
                 final JPanel bigPanel = new JPanel();
                 bigPanel.setLayout(new GridBagLayout());
 
@@ -70,13 +69,25 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         review.getNumberOfLikes()
                 );
 
+                final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);
+//                mapButton.addActionListener(evt -> {
+//                    if (evt.getSource().equals(mapButton)) {
+//                        System.out.println("pressed");
+//                        listReviewController.switchToMapView(review);
+//                    }
+//                });
+                addMapAction(mapButton, review);
+
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
                 bigPanel.add(new UserReviewPanel(review), gbc);
 
+                buttonsPanel.add(likeButton);
+                buttonsPanel.add(mapButton);
+
                 gbc.gridx = 1;
                 gbc.weightx = 0.3;
-                bigPanel.add(likeButton, gbc);
+                bigPanel.add(buttonsPanel, gbc);
 
                 reviewsPanel.add(bigPanel);
             }
@@ -137,11 +148,12 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+//        System.out.println(e);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("Property change: " + evt);
         updateReviews();
         this.revalidate();
         this.repaint();
@@ -156,14 +168,14 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
             reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
             List<UserReview> reviewList = state.getReviewList();
 
-            final JPanel buttonsPanel = new JPanel();
-            buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
-
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weighty = 1.0;
 
             for (UserReview review : reviewList) {
+                final JPanel buttonsPanel = new JPanel();
+                buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+
                 final JPanel bigPanel = new JPanel();
                 bigPanel.setLayout(new GridBagLayout());
 
@@ -174,13 +186,24 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         review.getNumberOfLikes()
                 );
 
+                final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);
+//                mapButton.addActionListener(evt -> {
+//                    if (evt.getSource().equals(mapButton)) {
+//                        listReviewController.switchToMapView(review);
+//                    }
+//                });
+                addMapAction(mapButton, review);
+
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
                 bigPanel.add(new UserReviewPanel(review), gbc);
 
+                buttonsPanel.add(likeButton);
+                buttonsPanel.add(mapButton);
+
                 gbc.gridx = 1;
                 gbc.weightx = 0.3;
-                bigPanel.add(likeButton, gbc);
+                bigPanel.add(buttonsPanel, gbc);
 
                 reviewsPanel.add(bigPanel);
             }
@@ -197,6 +220,15 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         this.add(newScrollPanel, BorderLayout.CENTER);
 
         scrollPanel = newScrollPanel;
+    }
+
+    private void addMapAction(JButton button, UserReview review) {
+        button.addActionListener(evt -> {
+            if (evt.getSource().equals(button)) {
+                listReviewController.switchToMapView(review);
+
+            }
+        });
     }
 
     public String getViewName() {

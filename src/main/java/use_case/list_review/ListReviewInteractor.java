@@ -2,6 +2,8 @@ package use_case.list_review;
 
 import entity.UserReview;
 import entity.UserReviewFactory;
+import use_case.check_map.CheckMapInputData;
+import use_case.check_map.CheckMapOutputData;
 
 import java.util.List;
 
@@ -34,6 +36,13 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
         } else {
             reviewPresenter.prepareSuccessView(new ListReviewOutputData(pageNumber, pageSize, reviews, false));
         }
+    }
 
+    @Override
+    public void switchToMapView(CheckMapInputData checkMapInputData) {
+        String name = checkMapInputData.getName();
+        double latitude = checkMapInputData.getLatitude();
+        double longitude = checkMapInputData.getLongitude();
+        reviewPresenter.switchToMapView(new CheckMapOutputData(name, latitude, longitude, false));
     }
 }

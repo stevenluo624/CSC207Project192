@@ -211,7 +211,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", "Bearer " + this.getIdToken());
             int responseCode = con.getResponseCode();
-            log.info("Response Code: {}", responseCode);
+            log.info("Get Response Code: {}", responseCode);
 
             // Read the response
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -341,7 +341,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", "Bearer " + this.getIdToken());
             int responseCode = con.getResponseCode();
-            log.info("Response Code: {}", responseCode);
+            log.info("Check Exist Response Code: {}", responseCode);
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 result = true;

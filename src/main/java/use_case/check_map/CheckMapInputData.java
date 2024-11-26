@@ -15,15 +15,15 @@ public class CheckMapInputData {
         this.longitude = longitude;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    double getLongitude() {
+    public double getLongitude() {
         return longitude;
 
     }

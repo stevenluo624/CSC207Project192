@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.List;
+import entity.Location;
 
 /**
  * The representation of a UserReview in our program.
@@ -9,7 +10,7 @@ public class UserReview {
     private final User user;
     private final int rating;
     private final String comment;
-    private final Location location;
+    private Location location;
     private List<UserReview> listOfReplies;
     private int numberOfLikes;
     private String key;

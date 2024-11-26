@@ -35,7 +35,10 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
     @Override
     public boolean hasUserLikedReview(String username, String reviewId) {
         String doc = reviewId + "_" + username;
-        return helper.checkExists(likes, doc);
+        log.info("Checking exist");
+        boolean f = helper.checkExists(likes, doc);
+        log.info(String.valueOf(f));
+        return f;
     }
 
     @Override
@@ -54,6 +57,7 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
                 likeData.put("username", username);
                 likeData.put("reviewId", reviewId);
                 helper.addDocument(likes, likeData, doc);
+                log.info("added data");
                 helper.incrementField(userReviews, reviewId, likes, 1);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -64,6 +68,7 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
     @Override
     public int getLikeCount(String reviewId) {
         try {
+            log.info("Get like");
             JsonObject doc = helper.getDocument(userReviews, reviewId);
 
             return doc.getAsJsonObject("likes").get("integerValue").getAsInt();

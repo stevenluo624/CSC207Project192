@@ -1,8 +1,12 @@
 package interface_adapters.list_review;
 
 import interface_adapters.ViewManagerModel;
+import interface_adapters.map.MapController;
+import interface_adapters.map.MapViewModel;
+import use_case.check_map.CheckMapOutputData;
 import use_case.list_review.ListReviewOutputBoundary;
 import use_case.list_review.ListReviewOutputData;
+import view.MapView;
 
 /**
  * Presenter for the list review use case.
@@ -10,10 +14,12 @@ import use_case.list_review.ListReviewOutputData;
 public class ListReviewPresenter implements ListReviewOutputBoundary {
 
     private final ListReviewViewModel listReviewViewModel;
+    private final MapViewModel mapViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public ListReviewPresenter(ListReviewViewModel listReviewViewModel, ViewManagerModel viewManagerModel) {
+    public ListReviewPresenter(ListReviewViewModel listReviewViewModel, MapViewModel mapViewModel, ViewManagerModel viewManagerModel) {
         this.listReviewViewModel = listReviewViewModel;
+        this.mapViewModel = mapViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -37,4 +43,15 @@ public class ListReviewPresenter implements ListReviewOutputBoundary {
         listReviewState.setPageError(errorMessage);
         listReviewViewModel.firePropertyChanged();
     }
+
+    @Override
+    public void switchToMapView(CheckMapOutputData checkMapOutputData) {
+        mapViewModel.getState().setName(checkMapOutputData.getName());
+        mapViewModel.getState().setLatitude(checkMapOutputData.getLatitude());
+        mapViewModel.getState().setLongitude(checkMapOutputData.getLongitude());
+        viewManagerModel.setState(mapViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+
 }

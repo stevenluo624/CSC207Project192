@@ -15,9 +15,9 @@ public class MainRateMyCampusApp {
 //        final CreateReviewDataAccessInterface reviewDataAccess = new DBReviewAccessObject();
 //        final LoginUserDataAccessInterface userDataAccess = new DBUserAccessObject();
 
-        final RateMyCampusAppBuilder builder = new RateMyCampusAppBuilder();
-        builder.addRateView()
-                .addCreateReviewUseCase()
-                .build().setVisible(true);
+//        final RateMyCampusAppBuilder builder = new RateMyCampusAppBuilder();
+//        builder.addRateView()
+//                .addCreateReviewUseCase()
+//                .build().setVisible(true);
     }
 }
