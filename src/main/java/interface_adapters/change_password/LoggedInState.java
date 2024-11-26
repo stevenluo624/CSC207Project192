@@ -1,7 +1,11 @@
-package interface_adapters.logged_in;
+package interface_adapters.change_password;
 
+/**
+ * The State information representing the logged-in user.
+ */
 public class LoggedInState {
     private String username = "";
+
     private String password = "";
     private String passwordError;
 
@@ -34,5 +38,8 @@ public class LoggedInState {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setLikeError(String error) {
     }
 }

@@ -44,17 +44,19 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
         data.put("user", review.getUser().getUsername());
         data.put("rating", review.getRating());
         data.put("comment", review.getComment());
-        data.put("location_name", review.location().getName());
-        data.put("location_description", review.location().getDescription());
-        data.put("location_address", review.location().getAddress());
-        data.put("location_rating", review.location().getRating());
+        data.put("location_name", review.getLocation().getName());
+        data.put("location_description", review.getLocation().getDescription());
+        data.put("location_address", review.getLocation().getAddress());
+        data.put("location_rating", review.getLocation().getRating());
+        data.put("location_latitude", review.getLocation().getLatitude());
+        data.put("location_longitude", review.getLocation().getLongitude());
 
-        if (review.location() instanceof StudyLocation) {
+        if (review.getLocation() instanceof StudyLocation) {
             data.put("location_type", "study");
-            data.put("building", ((StudyLocation) review.location()).getBuilding());
-        } else if (review.location() instanceof FoodLocation) {
+            data.put("building", ((StudyLocation) review.getLocation()).getBuilding());
+        } else if (review.getLocation() instanceof FoodLocation) {
             data.put("location_type", "food");
-            data.put("type", ((FoodLocation) review.location()).getType());
+            data.put("type", ((FoodLocation) review.getLocation()).getType());
         }
 
         ApiFuture<DocumentReference> docRef = userReviews.add(data);
@@ -79,19 +81,23 @@ public class DBReviewAccessObject implements CreateReviewDataAccessInterface {
             assert username != null;
             String password = (String) users.document(username).get().get().get("password");
             User user = new StudentUser(username, password);
-            Double reviewRating = (Double) doc.get("rating");
+            Integer reviewRating = (Integer) doc.get("rating");
             String comment = (String) doc.get("comment");
             String locationName = (String) doc.get("location_name");
             String locationDescription = (String) doc.get("location_description");
             String locationAddress = (String) doc.get("location_address");
             String locationRating = (String) doc.get("location_rating");
             String locationType = (String) doc.get("location_type");
+            Double locationLatitude = (Double) doc.get("location_latitude");
+            Double locationLongitude = (Double) doc.get("location_longitude");
             if (locationType.equals("study")) {
                 String building = (String) doc.get("building");
-                return new UserReview(user, reviewRating, comment, new StudyLocation(locationName, building));
+                return new UserReview(user, reviewRating, comment, new StudyLocation(locationName, locationLatitude
+                        , locationLongitude, building));
             } else if (locationType.equals("food")) {
                 String type = (String) doc.get("type");
-                return new UserReview(user, reviewRating, comment, new FoodLocation(locationName, type));
+                return new UserReview(user, reviewRating, comment, new FoodLocation(locationName, locationLatitude
+                        , locationLongitude, type));
             }
             return null;
         } catch (InterruptedException | ExecutionException e) {

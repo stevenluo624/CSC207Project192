@@ -16,32 +16,43 @@ import javax.swing.JToggleButton;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+
 import interface_adapters.rate.RateController;
 import interface_adapters.rate.RateState;
 import interface_adapters.rate.RateViewModel;
+
+import interface_adapters.create_review.CreateReviewController;
+import interface_adapters.create_review.CreateReviewState;
+import interface_adapters.create_review.CreateReviewViewModel;
+
 
 /**
  * The View for when the user is ratting different place.
  */
 public class RateView extends JPanel implements ActionListener, PropertyChangeListener {
 
+
     public static final int NUMSTARS = 5;
     public static final int DIMENSION = 30;
     private final String viewName = "rate";
     private final RateViewModel rateViewModel;
 
+    private final String viewName = "create_review";
+    private final CreateReviewViewModel createReviewViewModel;
+
+
     private final JButton submit;
     private final JButton cancel;
-    private RateController rateController;
+    private CreateReviewController createReviewController;
 
     private final JToggleButton[] stars = new JToggleButton[NUMSTARS];
 
     private final JTextField commentInputField = new JTextField(25);
     private final JLabel commentErrorField = new JLabel();
 
-    public RateView(RateViewModel rateViewModel) {
-        this.rateViewModel = rateViewModel;
-        this.rateViewModel.addPropertyChangeListener(this);
+    public RateView(CreateReviewViewModel createReviewViewModel) {
+        this.createReviewViewModel = createReviewViewModel;
+        this.createReviewViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Rate Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -56,9 +67,9 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(submit)) {
-                            final RateState currentState = rateViewModel.getState();
+                            final CreateReviewState currentState = createReviewViewModel.getState();
 
-                            rateController.execute(
+                            createReviewController.execute(
                                     currentState.getUser(),
                                     currentState.getRating(),
                                     currentState.getComment()
@@ -72,9 +83,9 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
         commentInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
-                final RateState currentState = rateViewModel.getState();
+                final CreateReviewState currentState = createReviewViewModel.getState();
                 currentState.setComment(commentInputField.getText());
-                rateViewModel.setState(currentState);
+                createReviewViewModel.setState(currentState);
             }
 
             @Override
@@ -124,12 +135,12 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final RateState state = (RateState) evt.getNewValue();
+        final CreateReviewState state = (CreateReviewState) evt.getNewValue();
         setFields(state);
         commentErrorField.setText(state.getCommentError());
     }
 
-    private void setFields(RateState state) {
+    private void setFields(CreateReviewState state) {
         commentErrorField.setText(state.getComment());
     }
 
@@ -137,8 +148,8 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
         return viewName;
     }
 
-    public void setRateController(RateController rateController) {
-        this.rateController = rateController;
+    public void setRateController(CreateReviewController createReviewController) {
+        this.createReviewController = createReviewController;
     }
 
     private void setStarRating(int rating) {
@@ -148,7 +159,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
         for (int i = rating; i < stars.length; i++) {
             stars[i].setSelected(false);
         }
-        rateViewModel.getState().setRating(rating);
+        createReviewViewModel.getState().setRating(rating);
     }
 
 }
