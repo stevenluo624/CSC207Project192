@@ -22,7 +22,7 @@ public class CreateReplyPresenter implements CreateReplyOutputBoundary {
     public void prepareSuccessView(CreateReplyOutputData outputData) {
         createReplyViewModel.getState().setUser(outputData.getUser());
         createReplyViewModel.getState().setComment(outputData.getComment());
-        createReplyViewModel.getState().setError(null);
+        createReplyViewModel.getState().setError(null); // No error detected
         createReplyViewModel.firePropertyChanged();
     }
 
@@ -32,7 +32,11 @@ public class CreateReplyPresenter implements CreateReplyOutputBoundary {
      */
     @Override
     public void prepareFailureView(String message) {
-        createReplyViewModel.getState().setError(message);
+        if (!"".equals(message)) {
+            createReplyViewModel.getState().setError(message);
+        } else {
+            createReplyViewModel.getState().setError("Error in the create reply use case presenter.");
+        }
         createReplyViewModel.firePropertyChanged();
     }
 }

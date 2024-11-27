@@ -1,15 +1,18 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The representation of a Review in our program.
+ * A review is the root of the thread. From it, a series of Reply objects can be created expanding the thread.
+ * A review cannot form another review (i.e. a Review object cannot be part of the listOfReplies attribute.
  */
 public class Review implements ReviewThread {
     private final User user;
     private final int rating;
     private final String comment;
-    private List<Review> listOfReplies;
+    private final List<Reply> listOfReplies;
     private int numberOfLikes;
 
     /**
@@ -22,14 +25,7 @@ public class Review implements ReviewThread {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
-    }
-
-    /**
-     * Creates a new Review (NOTE: Should only be used to create a reply!)
-     * TODO: refactor this to have a Reply class that implements a Review interface
-     */
-    public Review(User user, String comment) {
-        this(user, 0, comment);
+        this.listOfReplies = new ArrayList<>();
         this.numberOfLikes = 0;
     }
 
@@ -37,6 +33,7 @@ public class Review implements ReviewThread {
      * Gets the username of the user who created this review
      * @return the username
      */
+    @Override
     public User getUser() {
         return user;
     }
@@ -53,6 +50,7 @@ public class Review implements ReviewThread {
      * Gets the comment
      * @return the comment
      */
+    @Override
     public String getComment() {
         return comment;
     }
@@ -61,29 +59,33 @@ public class Review implements ReviewThread {
      * Get listOfReplies
      * @return the list of replies
      */
-    public List<Review> getListOfReplies() {
+    @Override
+    public List<Reply> getListOfReplies() {
         return listOfReplies;
-    }
-
-    /**
-     * Update list of replies with a new reply
-     * @param reply a Review object representing a reply to this review
-     */
-    public void updateListOfReplies(Review reply) {
-        this.listOfReplies.add(reply);
     }
 
     /**
      * Gets the number of likes
      * @return the number of likes
      */
+    @Override
     public int getNumberOfLikes() {
         return numberOfLikes;
     }
 
     /**
+     * Update list of replies with a new reply
+     * @param reply a Review object representing a reply to this review
+     */
+    @Override
+    public void updateListOfReplies(Reply reply) {
+        this.listOfReplies.add(reply);
+    }
+
+    /**
      * Incriments the number of likes
      */
+    @Override
     public void incrementLikes() {
         this.numberOfLikes++;
     }
