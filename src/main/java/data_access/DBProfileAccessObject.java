@@ -12,6 +12,9 @@ import use_case.profile.ProfileDataAccessInterface;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Data access object for managing user profiles
+ */
 public class DBProfileAccessObject implements ProfileDataAccessInterface {
     private FirestoreHelper helper;
     String collectionName;

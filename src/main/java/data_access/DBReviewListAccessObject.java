@@ -13,6 +13,9 @@ import use_case.list_review.ListReviewDataAccessInterface;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data access object for managing reviews.
+ */
 public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
     private FirestoreHelper helper;
     String collectionName;

@@ -22,6 +22,9 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The view showing a list of reviews
+ */
 public class ListReviewView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "review list";
 

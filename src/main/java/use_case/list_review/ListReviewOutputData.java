@@ -4,6 +4,9 @@ import entity.UserReview;
 
 import java.util.List;
 
+/**
+ * Output data for list review use case.
+ */
 public class ListReviewOutputData {
 
     private final int pageNumber;

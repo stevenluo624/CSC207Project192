@@ -1,5 +1,8 @@
 package use_case.list_review;
 
+/**
+ * Input data for list review use case.
+ */
 public class ListReviewInputData {
 
     private final int pageNumber;

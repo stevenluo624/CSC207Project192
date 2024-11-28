@@ -10,6 +10,9 @@ import use_case.profile.ProfileOutputData;
 
 import java.util.List;
 
+/**
+ * Interactor for list review use case.
+ */
 public class ListReviewInteractor implements ListReviewInputBoundary {
 
     private final ListReviewDataAccessInterface reviewDataAccessObject;
