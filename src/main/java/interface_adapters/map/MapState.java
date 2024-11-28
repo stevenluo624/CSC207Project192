@@ -1,14 +1,14 @@
 package interface_adapters.map;
 
 /**
- * The State Information representing the Map Display.
+ * The State Information representing the Map Display
  */
 public class MapState {
     private String name = "";
     private String nameError;
-    private double latitude;
+    private String latitude;
     private String latitudeError;
-    private double longitude;
+    private String longitude;
     private String longitudeError;
 
     public String getName() {
@@ -19,15 +19,15 @@ public class MapState {
         return nameError;
     }
 
-    public double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public String getLatittudeError() {
+    public String getLatitudeError() {
         return latitudeError;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
@@ -43,15 +43,15 @@ public class MapState {
         this.nameError = nameError;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public void setLatittudeError(String latittudeError) {
+    public void setLatitudeError(String latittudeError) {
         this.latitudeError = latittudeError;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 

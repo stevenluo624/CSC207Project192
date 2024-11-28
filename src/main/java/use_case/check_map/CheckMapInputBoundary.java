@@ -11,5 +11,8 @@ public interface CheckMapInputBoundary {
      */
     void execute(CheckMapInputData checkMapInputData);
 
-    void switchToListOfReviews();
+    /**
+     * Executes the switch to list of reviews use case.
+     */
+    void switchToListReviewView();
 }
