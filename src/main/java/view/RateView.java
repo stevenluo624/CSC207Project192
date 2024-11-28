@@ -17,10 +17,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 
-import interface_adapters.rate.RateController;
-import interface_adapters.rate.RateState;
-import interface_adapters.rate.RateViewModel;
-
 import interface_adapters.create_review.CreateReviewController;
 import interface_adapters.create_review.CreateReviewState;
 import interface_adapters.create_review.CreateReviewViewModel;
@@ -34,11 +30,8 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
     public static final int NUMSTARS = 5;
     public static final int DIMENSION = 30;
-    private final String viewName = "rate";
-    private final RateViewModel rateViewModel;
-
     private final String viewName = "create_review";
-    private final CreateReviewViewModel createReviewViewModel;
+    private final CreateReviewViewModel  createReviewViewModel;
 
 
     private final JButton submit;
@@ -72,8 +65,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
                             createReviewController.execute(
                                     currentState.getUser(),
                                     currentState.getRating(),
-                                    currentState.getComment(),
-                                    currentState.getLocation()
+                                    currentState.getComment()
                             );
                         }
                     }
@@ -138,7 +130,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
     public void propertyChange(PropertyChangeEvent evt) {
         final CreateReviewState state = (CreateReviewState) evt.getNewValue();
         setFields(state);
-        commentErrorField.setText(state.getCommentError());
+        commentErrorField.setText(state.getError());
     }
 
     private void setFields(CreateReviewState state) {
@@ -149,7 +141,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
         return viewName;
     }
 
-    public static void setRateController(CreateReviewController createReviewController) {
+    public void setRateController(CreateReviewController createReviewController) {
         this.createReviewController = createReviewController;
     }
 
