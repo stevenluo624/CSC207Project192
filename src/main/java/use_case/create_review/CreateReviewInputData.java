@@ -7,13 +7,11 @@ public class CreateReviewInputData {
     private final User user;
     private final int rating;
     private final String comment;
-    private final Location location;
 
-    public CreateReviewInputData(User user, int rating, String comment, Location location) {
+    public CreateReviewInputData(User user, int rating, String comment) {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
-        this.location = location;
     }
 
     public User getUser() {
@@ -27,6 +25,4 @@ public class CreateReviewInputData {
     public String getComment() {
         return comment;
     }
-
-    public Location getLocation() {return location; }
 }
