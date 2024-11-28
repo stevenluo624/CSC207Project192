@@ -36,6 +36,9 @@ public class RateMyCampusAppBuilder {
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
+    // thought question: is the hard dependency below a problem?
+    private final DBReviewAccessObject dbReviewAccessObject = new DBReviewAccessObject();
+
     private RateView rateView;
     private CreateReviewViewModel createReviewViewModel;
 
@@ -60,7 +63,7 @@ public class RateMyCampusAppBuilder {
      */
     public RateMyCampusAppBuilder addCreateReviewUseCase() {
         final CreateReviewOutputBoundary createReviewOutputBoundary = new CreateReviewPresenter(createReviewViewModel);
-        final CreateReviewInteractor createReviewInteractor = new CreateReviewInteractor(
+        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
                 dbReviewAccessObject, createReviewOutputBoundary);
 
         final CreateReviewController createReviewController = new CreateReviewController(createReviewInteractor);
@@ -82,9 +85,5 @@ public class RateMyCampusAppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
-    }
-
-    public ViewManager getViewManager() {
-        return viewManager;
     }
 }

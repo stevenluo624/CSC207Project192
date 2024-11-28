@@ -1,32 +1,51 @@
 package view;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+
+import interface_adapters.rate.RateController;
+import interface_adapters.rate.RateState;
+import interface_adapters.rate.RateViewModel;
 
 import interface_adapters.create_review.CreateReviewController;
 import interface_adapters.create_review.CreateReviewState;
 import interface_adapters.create_review.CreateReviewViewModel;
+
 
 /**
  * The View for when the user is ratting different place.
  */
 public class RateView extends JPanel implements ActionListener, PropertyChangeListener {
 
+
+    public static final int NUMSTARS = 5;
+    public static final int DIMENSION = 30;
+    private final String viewName = "rate";
+    private final RateViewModel rateViewModel;
+
     private final String viewName = "create_review";
     private final CreateReviewViewModel createReviewViewModel;
+
 
     private final JButton submit;
     private final JButton cancel;
     private CreateReviewController createReviewController;
 
-    private final JToggleButton[] stars = new JToggleButton[5];
+    private final JToggleButton[] stars = new JToggleButton[NUMSTARS];
 
     private final JTextField commentInputField = new JTextField(25);
     private final JLabel commentErrorField = new JLabel();
@@ -53,7 +72,8 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
                             createReviewController.execute(
                                     currentState.getUser(),
                                     currentState.getRating(),
-                                    currentState.getComment()
+                                    currentState.getComment(),
+                                    currentState.getLocation()
                             );
                         }
                     }
@@ -70,13 +90,19 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {documentListenerHelper();}
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {documentListenerHelper();}
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
 
             @Override
-            public void changedUpdate(DocumentEvent e) {documentListenerHelper();}
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
         });
 
         this.add(title);
@@ -90,12 +116,12 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new JToggleButton(new ImageIcon("images/star_empty.png"));
             stars[i].setSelectedIcon(new ImageIcon("images/star_filled.png"));
-            stars[i].setPreferredSize(new Dimension(30, 30));
+            stars[i].setPreferredSize(new Dimension(DIMENSION, DIMENSION));
             stars[i].setBorderPainted(false);
             stars[i].setContentAreaFilled(false);
             stars[i].setFocusPainted(false);
             final int finalI = i;
-            stars[i].addActionListener(e -> setStarRating(finalI + 1));
+            stars[i].addActionListener(evt -> setStarRating(finalI + 1));
             add(stars[i]);
         }
     }
@@ -103,7 +129,10 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
      * React to a button click that results in evt.
      * @param evt the ActionEvent to react to
      */
-    public void actionPerformed(ActionEvent evt){System.out.println("Click " + evt.getActionCommand());}
+
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -116,7 +145,9 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
         commentErrorField.setText(state.getComment());
     }
 
-    public String getViewName() {return viewName; }
+    public String getViewName() {
+        return viewName;
+    }
 
     public static void setRateController(CreateReviewController createReviewController) {
         this.createReviewController = createReviewController;

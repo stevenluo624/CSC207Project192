@@ -1,5 +1,6 @@
 package entity.reviews_thread;
 
+import entity.Location;
 import entity.User;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 public abstract class AbstractReview implements ReviewThread {
     private final User user;
     private final String comment;
+    private final Location location;
     private final List<Reply> listOfReplies;
     private int numberOfLikes;
 
@@ -16,9 +18,10 @@ public abstract class AbstractReview implements ReviewThread {
      * @param user The user who created the reply
      * @param comment The comment provided in the reply
      */
-    public AbstractReview(User user, String comment) {
+    public AbstractReview(User user, String comment, Location location) {
         this.user = user;
         this.comment = comment;
+        this.location = location;
         this.listOfReplies = new ArrayList<>();
         this.numberOfLikes = 0;
     }
@@ -39,6 +42,14 @@ public abstract class AbstractReview implements ReviewThread {
     @Override
     public String getComment() {
         return comment;
+    }
+
+    /**
+     * Gets the location
+     * @return the location attribute
+     */
+    public Location getLocation() {
+        return location;
     }
 
     /**

@@ -17,9 +17,16 @@ public class MapController {
      * @param latitude latitude of the location
      * @param longitude longitude of the location
      */
-    public void execute(String name, double latitude, double longitude) {
+    public void execute(String name, String latitude, String longitude) {
         final CheckMapInputData checkMapInputData = new CheckMapInputData(name, latitude, longitude);
 
         checkMapInteractor.execute(checkMapInputData);
+    }
+
+    /**
+     * Executes the "switch to list of reviews" use case.
+     */
+    public void switchToListReviewView() {
+        checkMapInteractor.switchToListReviewView();
     }
 }

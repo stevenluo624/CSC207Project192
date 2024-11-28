@@ -5,6 +5,7 @@ package interface_adapters.change_password;
  */
 public class LoggedInState {
     private String username = "";
+
     private String password = "";
     private String passwordError;
     private String likeError;
@@ -17,6 +18,7 @@ public class LoggedInState {
 
     // Because of the previous copy constructor, the default constructor must be explicit.
     public LoggedInState() {
+
     }
 
     public String getUsername() {
