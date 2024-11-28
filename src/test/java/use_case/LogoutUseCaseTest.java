@@ -1,4 +1,4 @@
-package logout;
+package use_case;
 
 import interface_adapters.ViewManagerModel;
 import interface_adapters.change_password.LoggedInState;
@@ -22,7 +22,7 @@ public class LogoutUseCaseTest {
     private LoggedInViewModel loggedInViewModel;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         viewManagerModel = new ViewManagerModel();
         loginViewModel = new LoginViewModel();
         loggedInViewModel = new LoggedInViewModel();
@@ -33,7 +33,7 @@ public class LogoutUseCaseTest {
     }
 
     @Test
-    void successfulLogout() {
+    public void successfulLogout() {
         LoggedInState loggedInState = loggedInViewModel.getState();
         loggedInState.setUsername("testUser");
         loggedInState.setPassword("testPass");
