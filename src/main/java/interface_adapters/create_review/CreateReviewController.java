@@ -2,6 +2,7 @@ package interface_adapters.create_review;
 
 import entity.Location;
 import entity.User;
+import use_case.create_review.CreateReviewInputBoundary;
 import use_case.create_review.CreateReviewInputData;
 import use_case.create_review.CreateReviewInteractor;
 
@@ -10,9 +11,9 @@ import use_case.create_review.CreateReviewInteractor;
  */
 public class CreateReviewController {
 
-    private final CreateReviewInteractor rateInteractor;
+    private final CreateReviewInputBoundary rateInteractor;
 
-    public CreateReviewController(CreateReviewInteractor rateInteractor) {
+    public CreateReviewController(CreateReviewInputBoundary rateInteractor) {
         this.rateInteractor = rateInteractor;
     }
 
@@ -21,10 +22,9 @@ public class CreateReviewController {
      * @param rating the rating to be recorded
      * @param user the user inputed the rating
      * @param comment the comment the user made
-     * @param location the location the user reviews
      */
-    public void execute(User user, int rating, String comment, Location location) {
-        final CreateReviewInputData createReviewInputData = new CreateReviewInputData(user, rating, comment, location);
+    public void execute(User user, int rating, String comment) {
+        final CreateReviewInputData createReviewInputData = new CreateReviewInputData(user, rating, comment);
 
         rateInteractor.execute(createReviewInputData);
     }
