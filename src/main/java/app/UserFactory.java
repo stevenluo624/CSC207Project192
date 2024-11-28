@@ -1,4 +1,6 @@
-package entity;
+package app;
+
+import entity.User;
 
 public interface UserFactory {
     /**

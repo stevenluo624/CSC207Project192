@@ -8,6 +8,7 @@ public class LoggedInState {
 
     private String password = "";
     private String passwordError;
+    private String likeError;
 
     public LoggedInState(LoggedInState copy) {
         username = copy.username;
@@ -41,6 +42,10 @@ public class LoggedInState {
     }
 
     public void setLikeError(String error) {
+        this.likeError = error;
+    }
 
+    public String getLikeError() {
+        return likeError;
     }
 }
