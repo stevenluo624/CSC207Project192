@@ -11,7 +11,7 @@ import javax.swing.WindowConstants;
 import data_access.DBProfileAccessObject;
 import data_access.DBReviewListAccessObject;
 import data_access.DBUserAccessObject;
-import entity.UserFactory;
+import app.UserFactory;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.ViewModel;
 import interface_adapters.list_review.ListReviewController;
