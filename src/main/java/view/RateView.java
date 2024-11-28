@@ -30,6 +30,7 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
     public static final int NUMSTARS = 5;
     public static final int DIMENSION = 30;
+  
     private final String viewName = "create_review";
     private final CreateReviewViewModel  createReviewViewModel;
 

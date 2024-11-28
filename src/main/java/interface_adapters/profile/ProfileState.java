@@ -10,8 +10,8 @@ public class ProfileState {
     private User user;
     private Profile profile;
     private String profileError;
-    private String username = user.getUsername();
-    private String bio = profile.getBio();
+    private String username = "";
+    private String bio = "";
 
     public ProfileState(ProfileState copy) {
         user = copy.user;
@@ -43,6 +43,11 @@ public class ProfileState {
         return profileError;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+        this.username = user.getUsername();
+    }
+
     public void setBio(String bio) {
         this.bio = bio;
     }
@@ -51,4 +56,7 @@ public class ProfileState {
         this.profileError = error;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

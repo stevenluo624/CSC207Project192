@@ -6,7 +6,7 @@ import app.UserFactory;
 /**
  * The Signup Interactor.
  */
-public class SignupInteractor implements SignupInputBoundary {
+public class  SignupInteractor implements SignupInputBoundary {
     private final SignupUserDataAccessInterface userDataAccessObject;
     private final SignupOutputBoundary userPresenter;
     private final UserFactory userFactory;

@@ -1,86 +1,59 @@
 package data_access;
 
-import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.*;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
+import com.google.gson.JsonObject;
+import entity.Profile;
 import entity.StudentUser;
 import entity.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import helper.ProjectConstants;
+import helper.FirestoreHelper;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
-public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
-    private static final Logger log = LoggerFactory.getLogger(DBUserAccessObject.class);
-    private final CollectionReference users;
+import java.util.HashMap;
+import java.util.Map;
 
-    public DBUserAccessObject() throws IOException {
-        InputStream serviceAccount = new FileInputStream("api_data/api_key.json");
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(credentials)
-                .build();
-        FirebaseApp customApp = FirebaseApp.initializeApp(options, "UserAccess");
-        Firestore db = FirestoreClient.getFirestore(customApp);
-        this.users = db.collection("users");
+/**
+ * Data access object for manading user data.
+ */
+public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
+    private FirestoreHelper helper;
+    String collectionName;
+    User user;
+
+    public DBUserAccessObject() {
+        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        this.collectionName = ProjectConstants.USER_COLLECTION;
     }
 
     @Override
     public boolean existsByName(String username) {
-        DocumentReference docRef = users.document(username);
-        try {
-            return docRef.get().get().exists();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        return helper.checkExists(collectionName, username);
     }
 
     @Override
     public void save(User user) {
-        DocumentReference docRef = users.document(user.getUsername());
         Map<String, Object> data = new HashMap<>();
         data.put("username", user.getUsername());
         data.put("password", user.getPassword());
-        try {
-            ApiFuture<WriteResult> result = docRef.set(data);
-            if (log.isInfoEnabled()) {
-                log.info(result.get().toString());
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        helper.addDocument(collectionName, data, user.getUsername());
     }
 
     @Override
     public User get(String username) {
-        DocumentReference docRef = users.document(username);
-        ApiFuture<DocumentSnapshot> future = docRef.get();
-        try {
-            DocumentSnapshot doc = future.get();
-            return new StudentUser((String) doc.get("username"), (String) doc.get("password"));
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        JsonObject userJson = helper.getDocument(collectionName, username);
+//        System.out.println(userJson);
+        String name = userJson.getAsJsonObject("username").get("stringValue").getAsString();
+        String password = userJson.getAsJsonObject("password").get("stringValue").getAsString();
+        return new StudentUser(name, password);
     }
 
     @Override
     public void setCurrentUser(String name) {
-
+        user = get(name);
     }
 
     @Override
-    public String getCurrentUser() {
-        return "";
+    public User getCurrentUser() {
+        return this.user;
     }
 }
