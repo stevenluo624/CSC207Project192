@@ -1,16 +1,5 @@
 package data_access;
 
-import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.*;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
-import entity.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import use_case.like_review.LikeReviewDataAccessInterface;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,69 +7,94 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import com.google.api.core.ApiFuture;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.FieldValue;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
+import use_case.like_review.LikeReviewDataAccessInterface;
 
+/**
+ * Data Access Object for handling like operations in Firestore.
+ */
 public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
-    private static final Logger log = LoggerFactory.getLogger(DBLikeAccessObject.class);
+    private static final String LIKES_FIELD = "likes";
     private final CollectionReference userReviews;
     private final CollectionReference likes;
 
-    public DBLikeAccessObject() throws IOException{
-        InputStream serviceAccount = new FileInputStream("api_data/api_key.json");
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        FirebaseOptions options = new FirebaseOptions.Builder()
+    public DBLikeAccessObject() throws IOException {
+        final InputStream serviceAccount = new FileInputStream("api_data/api_key.json");
+        final GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+        final FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(credentials)
                 .build();
-        FirebaseApp customApp = FirebaseApp.initializeApp(options, "LikeAccess");
-        Firestore db = FirestoreClient.getFirestore(customApp);
+        final FirebaseApp customApp = FirebaseApp.initializeApp(options, "LikeAccess");
+        final Firestore db = FirestoreClient.getFirestore(customApp);
 
-        this.likes = db.collection("likes");
+        this.likes = db.collection(LIKES_FIELD);
         this.userReviews = db.collection("userReviews");
     }
 
     @Override
     public boolean hasUserLikedReview(String username, String reviewId) {
-        DocumentReference docRef = likes.document(reviewId + "_" + username);
+        final DocumentReference docRef = likes.document(reviewId + "_" + username);
         try {
             return docRef.get().get().exists();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+        }
+        catch (InterruptedException | ExecutionException exception) {
+            throw new RuntimeException(exception);
         }
     }
 
     @Override
     public void saveLike(String username, String reviewId) {
-        DocumentReference likeRef = likes.document(reviewId + "_" + username);
-        DocumentReference reviewRef = userReviews.document(reviewId);
+        final DocumentReference likeRef = likes.document(reviewId + "_" + username);
+        final DocumentReference reviewRef = userReviews.document(reviewId);
+
         if (hasUserLikedReview(username, reviewId)) {
             try {
                 likeRef.delete();
-                reviewRef.update("likes", FieldValue.increment(-1));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                reviewRef.update(LIKES_FIELD, FieldValue.increment(-1));
             }
-        } else {
+            catch (Exception exception) {
+                throw new RuntimeException(exception);
+            }
+        }
+        else {
             try {
-                Map<String, Object> likeData = new HashMap<>();
+                final Map<String, Object> likeData = new HashMap<>();
                 likeData.put("username", username);
                 likeData.put("reviewId", reviewId);
                 likeRef.set(likeData);
-                reviewRef.update("likes", FieldValue.increment(1));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                reviewRef.update(LIKES_FIELD, FieldValue.increment(1));
+            }
+            catch (Exception exception) {
+                throw new RuntimeException(exception);
             }
         }
     }
 
     @Override
     public int getLikeCount(String reviewId) {
-        DocumentReference docRef = userReviews.document(reviewId);
-        ApiFuture<DocumentSnapshot> future = docRef.get();
+        final DocumentReference docRef = userReviews.document(reviewId);
+        final ApiFuture<DocumentSnapshot> future = docRef.get();
+
         try {
-            DocumentSnapshot doc = future.get();
-            Long likes = (Long) doc.get("likes");
-            return likes != null ? likes.intValue() : 0;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            final DocumentSnapshot doc = future.get();
+            final Long numLikes = (Long) doc.get(LIKES_FIELD);
+            int likeCount = 0;
+            if (numLikes != null) {
+                likeCount = numLikes.intValue();
+            }
+            return likeCount;
+        }
+        catch (InterruptedException | ExecutionException exception) {
+            throw new RuntimeException(exception);
         }
     }
 }

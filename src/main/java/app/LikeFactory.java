@@ -1,9 +1,9 @@
 package app;
 
 import entity.Like;
+import entity.reviews_thread.Review;
 import entity.User;
-import entity.UserReview;
 
 public interface LikeFactory {
-    Like create(User user, UserReview review);
+    Like create(User user, Review review);
 }
