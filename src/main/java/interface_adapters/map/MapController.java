@@ -3,6 +3,9 @@ package interface_adapters.map;
 import use_case.check_map.CheckMapInputData;
 import use_case.check_map.CheckMapInteractor;
 
+/**
+ * The Controller for Map use case.
+ */
 public class MapController {
 
     private final CheckMapInteractor checkMapInteractor;
@@ -12,7 +15,7 @@ public class MapController {
     }
 
     /**
-     * Executes the Check Map Use Case
+     * Executes the Check Map Use Case.
      * @param name name of the location
      * @param latitude latitude of the location
      * @param longitude longitude of the location

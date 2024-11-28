@@ -1,7 +1,7 @@
 package use_case.check_map;
 
 /**
- * The input data for the Check Map Use Case
+ * The input data for the Check Map Use Case.
  */
 public class CheckMapInputData {
 

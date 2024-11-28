@@ -2,6 +2,9 @@ package use_case.create_review;
 
 import entity.reviews_thread.Review;
 
+/**
+ * The Interactor for create review use case.
+ */
 public class CreateReviewInteractor implements CreateReviewInputBoundary {
     private final CreateReviewDataAccessInterface dataAccess;
     private final CreateReviewOutputBoundary presenter;

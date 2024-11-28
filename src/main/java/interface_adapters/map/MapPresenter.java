@@ -20,15 +20,11 @@ public class MapPresenter implements CheckMapOutputBoundary{
         this.mapViewModel = mapViewModel;
     }
 
-    // TODO: If the view Map button is hit, view the map.
     @Override
     public void prepareSuccessView(CheckMapOutputData response) {
         mapViewModel.getState().setName(response.getName());
         mapViewModel.getState().setLatitude(response.getLatitude());
         mapViewModel.getState().setLongitude(response.getLongitude());
-
-
-
         mapViewModel.firePropertyChanged();
     }
 
