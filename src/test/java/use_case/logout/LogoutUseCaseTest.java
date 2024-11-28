@@ -1,4 +1,4 @@
-package logout;
+package use_case.logout;
 
 import interface_adapters.ViewManagerModel;
 import interface_adapters.change_password.LoggedInState;
