@@ -7,13 +7,17 @@ public abstract class Location {
     String description = "";
     String address = "";
     int rating = 0;
-    double latitude = 0.0;
-    double longitude = 0.0;
+    String latitude;
+    String longitude;
 
-    public Location(String name, double latitude, double longitude) {
+    public Location(String name, String latitude, String longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setDescription(String description) {
@@ -52,7 +56,7 @@ public abstract class Location {
         return rating;
     }
 
-    public double getLatitude() { return latitude; }
+    public String getLatitude() { return latitude; }
 
-    public double getLongitude() { return longitude; }
+    public String getLongitude() { return longitude; }
 }

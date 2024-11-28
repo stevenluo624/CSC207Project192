@@ -1,7 +1,7 @@
 package interface_adapters.map;
 
 import interface_adapters.ViewManagerModel;
-import interface_adapters.ListReviewViewModel;
+import interface_adapters.list_review.ListReviewViewModel;
 import use_case.check_map.CheckMapOutputBoundary;
 import use_case.check_map.CheckMapOutputData;
 
@@ -12,12 +12,14 @@ public class MapPresenter implements CheckMapOutputBoundary{
 
     private final ViewManagerModel viewManagerModel;
     private final MapViewModel mapViewModel;
+    private final ListReviewViewModel listReviewViewModel;
 
     public MapPresenter(ViewManagerModel viewManagerModel,
                         MapViewModel mapViewModel,
                         ListReviewViewModel listReviewViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.mapViewModel = mapViewModel;
+        this.listReviewViewModel = listReviewViewModel;
     }
 
     @Override
