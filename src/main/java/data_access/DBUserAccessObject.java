@@ -12,6 +12,9 @@ import use_case.signup.SignupUserDataAccessInterface;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Data access object for manading user data.
+ */
 public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
     private FirestoreHelper helper;
     String collectionName;

@@ -3,9 +3,6 @@ package data_access;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
 import com.google.gson.JsonObject;
 import entity.*;
 import helper.FirestoreHelper;
@@ -22,6 +19,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
+/**
+ * Data access object for managing review likes
+ */
 public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
     private static final Logger log = LoggerFactory.getLogger(DBLikeAccessObject.class);
     private final FirestoreHelper helper;
