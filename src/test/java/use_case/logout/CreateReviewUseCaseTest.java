@@ -1,8 +1,7 @@
 package use_case.logout;
 
-import data_access.in_memory_dao.InMemoryDAO;
+import data_access.in_memory_dao.LikeInMemoryDAO;
 import entity.reviews_thread.Review;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import use_case.create_review.*;
 import org.junit.Test;
@@ -12,13 +11,13 @@ import static org.junit.Assert.*;
 public class CreateReviewUseCaseTest {
     private CreateReviewInteractor interactor;
     private CreateReviewOutputBoundary presenter;
-    private InMemoryDAO inMemoryDAO;
+    private LikeInMemoryDAO likeInMemoryDAO;
 
     @BeforeEach
     public void setUp() {
         presenter = CreateReviewOutputBoundary;
-        inMemoryDAO = InMemoryDAO;
-        interactor = new CreateReviewInteractor(inMemoryDAO, presenter);
+        likeInMemoryDAO = LikeInMemoryDAO;
+        interactor = new CreateReviewInteractor(likeInMemoryDAO, presenter);
     }
 
     @Test
