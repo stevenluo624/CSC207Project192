@@ -1,5 +1,7 @@
 package entity;
 
+import entity.reviews_thread.Review;
+
 public class Like {
     private final User user;
     private final Review review;

@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import entity.*;
+import entity.reviews_thread.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import use_case.create_review.CreateReviewDataAccessInterface;

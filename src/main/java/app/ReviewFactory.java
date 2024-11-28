@@ -1,6 +1,6 @@
 package app;
 
-import entity.Review;
+import entity.reviews_thread.Review;
 import entity.User;
 
 public interface ReviewFactory {

@@ -1,7 +1,7 @@
 package app;
 
 import entity.Like;
-import entity.Review;
+import entity.reviews_thread.Review;
 import entity.User;
 
 public interface LikeFactory {

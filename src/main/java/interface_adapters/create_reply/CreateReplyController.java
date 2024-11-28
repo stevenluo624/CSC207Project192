@@ -1,6 +1,6 @@
 package interface_adapters.create_reply;
 
-import entity.Review;
+import entity.reviews_thread.Review;
 import entity.User;
 import use_case.create_reply.CreateReplyInputData;
 import use_case.create_reply.CreateReplyInteractor;

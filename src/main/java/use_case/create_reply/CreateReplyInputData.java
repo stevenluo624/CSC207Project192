@@ -1,6 +1,6 @@
 package use_case.create_reply;
 
-import entity.Review;
+import entity.reviews_thread.Review;
 import entity.User;
 
 public class CreateReplyInputData {

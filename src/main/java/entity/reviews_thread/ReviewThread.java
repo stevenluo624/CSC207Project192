@@ -1,4 +1,6 @@
-package entity;
+package entity.reviews_thread;
+
+import entity.User;
 
 import java.util.List;
 

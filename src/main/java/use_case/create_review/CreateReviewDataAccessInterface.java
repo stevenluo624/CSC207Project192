@@ -1,6 +1,6 @@
 package use_case.create_review;
 
-import entity.Review;
+import entity.reviews_thread.Review;
 
 /**
  *  DAO for the create review use case

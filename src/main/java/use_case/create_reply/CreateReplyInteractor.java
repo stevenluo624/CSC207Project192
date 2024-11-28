@@ -1,9 +1,12 @@
 package use_case.create_reply;
 
-import entity.Reply;
+import entity.reviews_thread.Reply;
 import entity.User;
-import entity.Review;
+import entity.reviews_thread.Review;
 
+/**
+ * Create reply use case
+ */
 public class CreateReplyInteractor implements CreateReplyInputBoundary {
     private final CreateReplyDataAccessInterface dataAccess;
     private final CreateReplyOutputBoundary presenter;
