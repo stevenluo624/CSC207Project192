@@ -17,7 +17,7 @@ public class ListReviewViewModel extends ViewModel<ListReviewState> {
     public static final String PROFILE_BUTTON_LABEL = "View profile";
 
     public ListReviewViewModel() {
-        super("list review");
+        super("review list");
 
         setState(new ListReviewState());
     }
