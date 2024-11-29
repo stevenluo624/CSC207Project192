@@ -12,6 +12,7 @@ import data_access.DBProfileAccessObject;
 import data_access.DBReviewListAccessObject;
 import data_access.DBUserAccessObject;
 import interface_adapters.ViewManagerModel;
+import interface_adapters.ViewModel;
 import interface_adapters.create_review.CreateReviewViewModel;
 import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewPresenter;
@@ -43,16 +44,19 @@ import view.*;
 public class TempBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
-    // thought question: is the hard dependency below a problem?
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    // thought question: is the hard dependency below a problem?
-//    private final DBReviewAccessObject dbReviewAccessObject = new DBReviewAccessObject();
     private final DBReviewListAccessObject dbReviewListAccessObject = new DBReviewListAccessObject();
     private final DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
     private final DBProfileAccessObject dbProfileAccessObject = new DBProfileAccessObject();
 
+    // TODO: add each view and initialized them in the constructor
+    private ListReviewViewModel listReviewViewModel;
+    private MapViewModel mapViewModel;
+    private ProfileViewModel profileViewModel;
+
+    String defaultView = "";
     private JPanel view;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
@@ -71,28 +75,21 @@ public class TempBuilder {
 
     public TempBuilder() {
         cardPanel.setLayout(cardLayout);
-    }
 
-    /**
-     * Adds the Rate View to the application.
-     * @return this builder
-     */
-//    public RateMyCampusAppBuilder addRateView() {
-//        model = new RateViewModel();
-//        view = new RateView((RateViewModel) model);
-//        cardPanel.add(view, ((RateView) view).getViewName());
-//        return this;
-//    }
+        listReviewViewModel = new ListReviewViewModel();
+        mapViewModel = new MapViewModel();
+        profileViewModel = new ProfileViewModel();
+    }
 
     /**
      * Adds the List Review View to the application.
      * @return this builder
      */
-    public TempBuilder addListReviewView() throws IOException {
+    public TempBuilder addListReviewView() {
         listReviewViewModel = new ListReviewViewModel();
         final ListReviewState state = listReviewViewModel.getState();
         state.setReviewList(dbReviewListAccessObject.getReviews(state.getPageNumber(), state.getPageSize()));
-        view = new ListReviewView(listReviewViewModel);
+        ListReviewView view = new ListReviewView(listReviewViewModel);
 
         final ListReviewOutputBoundary listReviewOutputBoundary = new ListReviewPresenter(
                 listReviewViewModel,
@@ -106,9 +103,11 @@ public class TempBuilder {
                 listReviewOutputBoundary
         );
         final ListReviewController listReviewController = new ListReviewController(listReviewInteractor);
-        ((ListReviewView) view).setListReviewController(listReviewController);
+        view.setListReviewController(listReviewController);
 
-        cardPanel.add(view, ((ListReviewView) view).getViewName());
+        cardPanel.add(view, view.getViewName());
+
+        defaultView = view.getViewName();
 
         return this;
     }
@@ -158,8 +157,7 @@ public class TempBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(((ListReviewView) view).getViewName());
-        System.out.println(((ListReviewView) view).getViewName());
+        viewManagerModel.setState(defaultView);
         viewManagerModel.firePropertyChanged();
 
         application.setSize(500, 400);
