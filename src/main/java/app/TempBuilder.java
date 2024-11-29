@@ -51,11 +51,6 @@ public class TempBuilder {
     private final DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
     private final DBProfileAccessObject dbProfileAccessObject = new DBProfileAccessObject();
 
-    // TODO: add each view and initialized them in the constructor
-    private ListReviewViewModel listReviewViewModel;
-    private MapViewModel mapViewModel;
-    private ProfileViewModel profileViewModel;
-
     String defaultView = "";
     private JPanel view;
     private SignupView signupView;
@@ -87,27 +82,13 @@ public class TempBuilder {
      */
     public TempBuilder addListReviewView() {
         listReviewViewModel = new ListReviewViewModel();
+        listReviewView = new ListReviewView(listReviewViewModel);
         final ListReviewState state = listReviewViewModel.getState();
         state.setReviewList(dbReviewListAccessObject.getReviews(state.getPageNumber(), state.getPageSize()));
-        ListReviewView view = new ListReviewView(listReviewViewModel);
 
-        final ListReviewOutputBoundary listReviewOutputBoundary = new ListReviewPresenter(
-                listReviewViewModel,
-                mapViewModel,
-                profileViewModel,
-                viewManagerModel
-        );
-        final ListReviewInputBoundary listReviewInteractor = new ListReviewInteractor(
-                dbReviewListAccessObject,
-                dbProfileAccessObject,
-                listReviewOutputBoundary
-        );
-        final ListReviewController listReviewController = new ListReviewController(listReviewInteractor);
-        view.setListReviewController(listReviewController);
+        cardPanel.add(listReviewView, listReviewView.getViewName());
 
-        cardPanel.add(view, view.getViewName());
-
-        defaultView = view.getViewName();
+        defaultView = listReviewView.getViewName();
 
         return this;
     }
@@ -134,6 +115,25 @@ public class TempBuilder {
 
 //        final RateController rateController = new RateController((CreateReviewInteractor) createReviewInteractor);
 //        RateView.setRateController(rateController);
+        return this;
+    }
+
+    public TempBuilder addListReviewUseCase() {
+        final ListReviewOutputBoundary listReviewOutputBoundary = new ListReviewPresenter(
+                listReviewViewModel,
+                mapViewModel,
+                profileViewModel,
+                viewManagerModel
+        );
+
+        final ListReviewInputBoundary listReviewInteractor = new ListReviewInteractor(
+                dbReviewListAccessObject,
+                dbProfileAccessObject,
+                listReviewOutputBoundary
+        );
+
+        final ListReviewController listReviewController = new ListReviewController(listReviewInteractor);
+        listReviewView.setListReviewController(listReviewController);
         return this;
     }
 

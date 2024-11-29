@@ -9,6 +9,7 @@ public class MainRateMyCampusApp {
         final TempBuilder builder = new TempBuilder();
         final JFrame application = builder.addListReviewView()
                 .addMapView()
+                .addListReviewUseCase()
                 .addMapUseCase()
                 .build();
         application.pack();
