@@ -11,9 +11,8 @@ import javax.swing.WindowConstants;
 import data_access.DBProfileAccessObject;
 import data_access.DBReviewListAccessObject;
 import data_access.DBUserAccessObject;
-import app.UserFactory;
 import interface_adapters.ViewManagerModel;
-import interface_adapters.ViewModel;
+import interface_adapters.create_review.CreateReviewViewModel;
 import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewPresenter;
 import interface_adapters.list_review.ListReviewState;
@@ -21,17 +20,19 @@ import interface_adapters.list_review.ListReviewViewModel;
 //import interface_adapters.rate.RateController;
 //import interface_adapters.rate.RatePresenter;
 //import interface_adapters.rate.RateViewModel;
+import interface_adapters.login.LoginViewModel;
+import interface_adapters.map.MapController;
+import interface_adapters.map.MapPresenter;
 import interface_adapters.map.MapViewModel;
 import interface_adapters.profile.ProfileViewModel;
-import use_case.create_review.CreateReviewInputBoundary;
-import use_case.create_review.CreateReviewInteractor;
-import use_case.create_review.CreateReviewOutputBoundary;
+import interface_adapters.signup.SignupViewModel;
+import use_case.check_map.CheckMapInputBoundary;
+import use_case.check_map.CheckMapInteractor;
+import use_case.check_map.CheckMapOutputBoundary;
 import use_case.list_review.ListReviewInputBoundary;
 import use_case.list_review.ListReviewInteractor;
 import use_case.list_review.ListReviewOutputBoundary;
-import view.ListReviewView;
-import view.RateView;
-import view.ViewManager;
+import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -53,7 +54,20 @@ public class TempBuilder {
     private final DBProfileAccessObject dbProfileAccessObject = new DBProfileAccessObject();
 
     private JPanel view;
-    private ViewModel model;
+    private SignupView signupView;
+    private SignupViewModel signupViewModel;
+    private LoginView loginView;
+    private LoginViewModel loginViewModel;
+    private ListReviewView listReviewView;
+    private ListReviewViewModel listReviewViewModel;
+    private RateView createReviewView;
+    private CreateReviewViewModel createReviewViewModel;
+    private MapView mapView;
+    private MapViewModel mapViewModel;
+    private ProfileView profileView;
+    private ProfileViewModel profileViewModel;
+
+
 
     public TempBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -75,16 +89,16 @@ public class TempBuilder {
      * @return this builder
      */
     public TempBuilder addListReviewView() throws IOException {
-        model = new ListReviewViewModel();
-        final ListReviewState state = (ListReviewState) model.getState();
+        listReviewViewModel = new ListReviewViewModel();
+        final ListReviewState state = listReviewViewModel.getState();
         state.setReviewList(dbReviewListAccessObject.getReviews(state.getPageNumber(), state.getPageSize()));
-        view = new ListReviewView((ListReviewViewModel) model);
+        view = new ListReviewView(listReviewViewModel);
 
         final ListReviewOutputBoundary listReviewOutputBoundary = new ListReviewPresenter(
-                (ListReviewViewModel) model,
-                new MapViewModel(),
-                new ProfileViewModel(),
-                new ViewManagerModel()
+                listReviewViewModel,
+                mapViewModel,
+                profileViewModel,
+                viewManagerModel
         );
         final ListReviewInputBoundary listReviewInteractor = new ListReviewInteractor(
                 dbReviewListAccessObject,
@@ -96,6 +110,17 @@ public class TempBuilder {
 
         cardPanel.add(view, ((ListReviewView) view).getViewName());
 
+        return this;
+    }
+
+    /**
+     * Adds the Map View to the application.
+     * @return this builder
+     */
+    public TempBuilder addMapView() {
+        mapViewModel = new MapViewModel();
+        mapView = new MapView(mapViewModel);
+        cardPanel.add(mapView, mapView.getViewName());
         return this;
     }
 
@@ -113,6 +138,16 @@ public class TempBuilder {
         return this;
     }
 
+    public TempBuilder addMapUseCase() {
+        final CheckMapOutputBoundary mapOutputBoundary = new MapPresenter(viewManagerModel, mapViewModel
+                , listReviewViewModel);
+        final CheckMapInputBoundary mapInteractor = new CheckMapInteractor(mapOutputBoundary);
+
+        final MapController controller = new MapController((CheckMapInteractor) mapInteractor);
+        mapView.setMapController(controller);
+        return this;
+    }
+
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
@@ -124,6 +159,7 @@ public class TempBuilder {
         application.add(cardPanel);
 
         viewManagerModel.setState(((ListReviewView) view).getViewName());
+        System.out.println(((ListReviewView) view).getViewName());
         viewManagerModel.firePropertyChanged();
 
         application.setSize(500, 400);

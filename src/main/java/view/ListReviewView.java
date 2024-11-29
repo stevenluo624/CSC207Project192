@@ -37,7 +37,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     public ListReviewView(ListReviewViewModel listReviewViewModel) {
         this.listReviewViewModel = listReviewViewModel;
-        listReviewViewModel.addPropertyChangeListener(this);
+        this.listReviewViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(ListReviewViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -73,13 +73,15 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 );
 
                 final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);
-//                mapButton.addActionListener(evt -> {
-//                    if (evt.getSource().equals(mapButton)) {
-//                        System.out.println("pressed");
-//                        listReviewController.switchToMapView(review);
-//                    }
-//                });
-                addMapAction(mapButton, review);
+                mapButton.addActionListener(
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent evt) {
+                                listReviewController.switchToMapView(review);
+                            }
+                        }
+                );
+                // addMapAction(mapButton, review);
 
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
@@ -208,12 +210,15 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 );
 
                 final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);
-//                mapButton.addActionListener(evt -> {
-//                    if (evt.getSource().equals(mapButton)) {
-//                        listReviewController.switchToMapView(review);
-//                    }
-//                });
-                addMapAction(mapButton, review);
+                mapButton.addActionListener(
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent evt) {
+                                listReviewController.switchToMapView(review);
+                            }
+                        }
+                );
+                // addMapAction(mapButton, review);
 
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;

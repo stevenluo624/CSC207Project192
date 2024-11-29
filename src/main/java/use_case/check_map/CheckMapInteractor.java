@@ -6,12 +6,9 @@ package use_case.check_map;
  */
 public class CheckMapInteractor implements CheckMapInputBoundary{
     private final CheckMapOutputBoundary locationPresenter;
-    private final CheckMapDataAccessInterface checkMapDataAccessInterface;
 
-    public CheckMapInteractor(CheckMapOutputBoundary checkMapOutputBoundary,
-                              CheckMapDataAccessInterface checkMapDataAccessInterface) {
+    public CheckMapInteractor(CheckMapOutputBoundary checkMapOutputBoundary) {
         this.locationPresenter = checkMapOutputBoundary;
-        this.checkMapDataAccessInterface = checkMapDataAccessInterface;
     }
 
     @Override
@@ -19,21 +16,15 @@ public class CheckMapInteractor implements CheckMapInputBoundary{
         final String name = checkMapInputData.getName();
         final String lat = checkMapInputData.getLatitude();
         final String longi = checkMapInputData.getLongitude();
-
-        if (!checkMapDataAccessInterface.existsByName(name)) {
-            locationPresenter.prepareFailView(name + ": Location doesn't exist.");
+        try {
+            Double.parseDouble(lat);
+            Double.parseDouble(longi);
+            final CheckMapOutputData checkMapOutputData = new CheckMapOutputData(name, lat, longi
+                    , false);
+            locationPresenter.prepareSuccessView(checkMapOutputData);
         }
-        else {
-            try {
-                Double.parseDouble(lat);
-                Double.parseDouble(longi);
-                final CheckMapOutputData checkMapOutputData = new CheckMapOutputData(name, lat, longi
-                        , false);
-                locationPresenter.prepareSuccessView(checkMapOutputData);
-            }
-            catch (NumberFormatException error) {
-                locationPresenter.prepareFailView("Latitude and Longitude must both be decimal values.");
-            }
+        catch (NumberFormatException error) {
+            locationPresenter.prepareFailView("Latitude and Longitude must both be decimal values.");
         }
     }
 
