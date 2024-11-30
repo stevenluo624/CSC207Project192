@@ -7,7 +7,6 @@ import com.google.cloud.firestore.GeoPoint;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,7 +156,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
     }
 
     @Override
-    public void addDocument(String collection, Map<String, Object> fields) {
+    public String addDocument(String collection, Map<String, Object> fields) {
 //        getToken();
 
         String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
@@ -184,14 +183,29 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
             }
 
             int responseCode = con.getResponseCode();
+
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 log.info("Data added successfully!");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                JsonObject responseJson = JsonParser.parseString(response.toString()).getAsJsonObject();
+                String documentName = responseJson.get("name").getAsString();
+                String documentId = documentName.substring(documentName.lastIndexOf("/") + 1);
+
+                return documentId;
             } else {
                 log.info("Failed to add data: {}", responseCode);
             }
 
             con.disconnect();
 
+            return "";
 //            deleteToken();
         } catch (Exception e) {
             throw new RuntimeException(e);
