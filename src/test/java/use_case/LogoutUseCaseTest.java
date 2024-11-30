@@ -7,10 +7,7 @@ import interface_adapters.login.LoginViewModel;
 import interface_adapters.logout.LogoutPresenter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import use_case.logout.LogoutInputBoundary;
-import use_case.logout.LogoutInputData;
-import use_case.logout.LogoutInteractor;
-import use_case.logout.LogoutOutputBoundary;
+import use_case.logout.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,20 +17,40 @@ public class LogoutUseCaseTest {
     private ViewManagerModel viewManagerModel;
     private LoginViewModel loginViewModel;
     private LoggedInViewModel loggedInViewModel;
+    private LogoutUserDataAccessInterface userDataAccessObject;
+
+    private static class TestUserDataAccessObject implements LogoutUserDataAccessInterface {
+        private String currentUsername;
+
+        @Override
+        public String getCurrentUsername() {
+            return currentUsername;
+        }
+
+        @Override
+        public void setCurrentUsername(String username) {
+            this.currentUsername = username;
+        }
+    }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         viewManagerModel = new ViewManagerModel();
         loginViewModel = new LoginViewModel();
         loggedInViewModel = new LoggedInViewModel();
+        userDataAccessObject = new TestUserDataAccessObject();
 
-        LogoutOutputBoundary presenter = new LogoutPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
+        LogoutOutputBoundary presenter = new LogoutPresenter(
+                viewManagerModel,
+                loggedInViewModel,
+                loginViewModel
+        );
 
-        logoutInteractor = new LogoutInteractor(presenter);
+        logoutInteractor = new LogoutInteractor(userDataAccessObject,presenter);
     }
 
     @Test
-    public void successfulLogout() {
+    void successfulLogout() {
         LoggedInState loggedInState = loggedInViewModel.getState();
         loggedInState.setUsername("testUser");
         loggedInState.setPassword("testPass");
@@ -44,6 +61,9 @@ public class LogoutUseCaseTest {
 
         assertNull(loggedInViewModel.getState().getUsername());
         assertNull(loggedInViewModel.getState().getPassword());
-        assertEquals("log in", viewManagerModel.getViewName());
+        assertEquals("log in", viewManagerModel.getActiveView());
+
+        assertEquals("", loginViewModel.getState().getUsername());
+        assertEquals("", loginViewModel.getState().getPassword());
     }
 }

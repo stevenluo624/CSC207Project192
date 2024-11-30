@@ -3,6 +3,7 @@ package use_case;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.change_password.LoggedInViewModel;
 import interface_adapters.like_review.LikeReviewPresenter;
+import interface_adapters.list_review.ListReviewViewModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import use_case.like_review.*;
@@ -17,15 +18,15 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LikeReviewUseCaseTest {
     private LikeReviewInputBoundary likeReviewInteractor;
     private TestLikeReviewDataAccess dataAccess;
-    private LoggedInViewModel loggedInViewModel;
+    private ListReviewViewModel listReviewViewModel;
 
     @BeforeEach
     void setUp() {
         dataAccess = new TestLikeReviewDataAccess();
 
-        loggedInViewModel = new LoggedInViewModel();
+        listReviewViewModel = new ListReviewViewModel();
 
-        LikeReviewOutputBoundary presenter = new LikeReviewPresenter(new ViewManagerModel(), loggedInViewModel);
+        LikeReviewOutputBoundary presenter = new LikeReviewPresenter(new ViewManagerModel(), listReviewViewModel);
 
         likeReviewInteractor = new LikeReviewInteractor(dataAccess, presenter);
     }
@@ -42,7 +43,7 @@ public class LikeReviewUseCaseTest {
         @Override
         public void saveLike(String username, String reviewId) {
             if (hasUserLikedReview(username, reviewId)){
-                likes.get(reviewId).add(username);
+                likes.get(reviewId).remove(username);
                 likeCounts.put(reviewId, likeCounts.get(reviewId) - 1);
             }
             else {
