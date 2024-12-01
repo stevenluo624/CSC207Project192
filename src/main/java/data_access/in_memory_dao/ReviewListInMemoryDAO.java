@@ -5,7 +5,7 @@ import use_case.list_review.ListReviewDataAccessInterface;
 
 import java.util.List;
 
-public class ReviewInMemoryDAO implements ListReviewDataAccessInterface {
+public class ReviewListInMemoryDAO implements ListReviewDataAccessInterface {
     /**
      * @param pageNumber which page to check.
      * @param pageSize   how many data displayed per page.
