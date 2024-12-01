@@ -47,6 +47,8 @@ public class ProfileState {
         this.bio = bio;
     }
 
+    public void setProfile(Profile profile) {this.profile = profile;}
+
     public void setProfileError(String error) {
         this.profileError = error;
     }

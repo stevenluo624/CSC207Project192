@@ -15,5 +15,4 @@ public interface Profile {
      * @return the bio of the user.
      */
     String getBio();
-
 }
