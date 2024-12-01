@@ -29,12 +29,11 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the logged in view.
 
-        final ListReviewState ListReviewState = loggedInViewModel.getState();
-        loggedInState.setUsername(response.getUsername());
-        this.loggedInViewModel.setState(loggedInState);
-        this.loggedInViewModel.firePropertyChanged();
+        final ListReviewState listReviewState = listReviewViewModel.getState();
+        this.listReviewViewModel.setState(listReviewState);
+        this.listReviewViewModel.firePropertyChanged();
 
-        this.viewManagerModel.setState(loggedInViewModel.getViewName());
+        this.viewManagerModel.setState(listReviewViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
