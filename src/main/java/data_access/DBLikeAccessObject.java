@@ -1,23 +1,14 @@
 package data_access;
 
-import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.*;
 import com.google.gson.JsonObject;
-import entity.*;
-import helper.FirestoreHelper;
-import helper.GlobalHelper;
-import helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
+import data_access.helper.GlobalHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import use_case.like_review.LikeReviewDataAccessInterface;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 /**

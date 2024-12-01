@@ -1,7 +1,6 @@
 package app;
 
 import java.awt.*;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,7 +11,6 @@ import data_access.DBProfileAccessObject;
 import data_access.DBReviewListAccessObject;
 import data_access.DBUserAccessObject;
 import interface_adapters.ViewManagerModel;
-import interface_adapters.ViewModel;
 import interface_adapters.create_review.CreateReviewViewModel;
 import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewPresenter;
@@ -41,7 +39,7 @@ import view.*;
  * <p/>
  * This is done by adding each View and then adding related Use Cases.
  */
-public class TempBuilder {
+public class RateMyCampusBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
@@ -68,7 +66,7 @@ public class TempBuilder {
 
 
 
-    public TempBuilder() {
+    public RateMyCampusBuilder() {
         cardPanel.setLayout(cardLayout);
 
         listReviewViewModel = new ListReviewViewModel();
@@ -80,7 +78,7 @@ public class TempBuilder {
      * Adds the List Review View to the application.
      * @return this builder
      */
-    public TempBuilder addListReviewView() {
+    public RateMyCampusBuilder addListReviewView() {
         listReviewViewModel = new ListReviewViewModel();
         listReviewView = new ListReviewView(listReviewViewModel);
         final ListReviewState state = listReviewViewModel.getState();
@@ -97,7 +95,7 @@ public class TempBuilder {
      * Adds the Map View to the application.
      * @return this builder
      */
-    public TempBuilder addMapView() {
+    public RateMyCampusBuilder addMapView() {
         mapViewModel = new MapViewModel();
         mapView = new MapView(mapViewModel);
         cardPanel.add(mapView, mapView.getViewName());
@@ -108,7 +106,7 @@ public class TempBuilder {
      * Adds the CreateReview Use Case to the application.
      * @return this builder
      */
-    public TempBuilder addCreateReviewUseCase() {
+    public RateMyCampusBuilder addCreateReviewUseCase() {
 //        final CreateReviewOutputBoundary createReviewOutputBoundary = new RatePresenter((RateViewModel) model);
 //        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
 //                dbReviewAccessObject, createReviewOutputBoundary);
@@ -118,7 +116,7 @@ public class TempBuilder {
         return this;
     }
 
-    public TempBuilder addListReviewUseCase() {
+    public RateMyCampusBuilder addListReviewUseCase() {
         final ListReviewOutputBoundary listReviewOutputBoundary = new ListReviewPresenter(
                 listReviewViewModel,
                 mapViewModel,
@@ -137,7 +135,7 @@ public class TempBuilder {
         return this;
     }
 
-    public TempBuilder addMapUseCase() {
+    public RateMyCampusBuilder addMapUseCase() {
         final CheckMapOutputBoundary mapOutputBoundary = new MapPresenter(viewManagerModel, mapViewModel
                 , listReviewViewModel);
         final CheckMapInputBoundary mapInteractor = new CheckMapInteractor(mapOutputBoundary);
