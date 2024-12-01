@@ -18,10 +18,5 @@ public class UserProfile implements Profile {
     @Override
     public String getBio() {return bio;}
 
-    @Override
-    public Object getProfilePicture() {
-        return null;
-    }
-
 }
 

@@ -14,7 +14,7 @@ public class ProfilePresenter implements ProfileOutputBoundary {
     private final ProfileViewModel profileViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public ProfilePresenter(ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel) {
+    public ProfilePresenter(ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel) {
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
     }

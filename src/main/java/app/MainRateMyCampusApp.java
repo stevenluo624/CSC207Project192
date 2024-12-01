@@ -11,11 +11,13 @@ public class MainRateMyCampusApp {
                 .addSignUpView()
                 .addLoginView()
                 .addListReviewView()
+                .addProfileView()
                 .addMapView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addListReviewUseCase()
                 .addMapUseCase()
+                .addProfileUseCase()
                 .build();
         application.pack();
         application.setVisible(true);

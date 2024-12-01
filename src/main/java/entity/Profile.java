@@ -15,10 +15,4 @@ public interface Profile {
      * @return the bio of the user.
      */
     String getBio();
-
-    /**
-     * Returns the profile picture of the user.
-     * @return the profile picture of the user
-     */
-    Object getProfilePicture();
 }

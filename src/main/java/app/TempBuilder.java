@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.*;
+import java.awt.font.TextMeasurer;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -29,10 +30,12 @@ import interface_adapters.login.LoginViewModel;
 import interface_adapters.map.MapController;
 import interface_adapters.map.MapPresenter;
 import interface_adapters.map.MapViewModel;
+import interface_adapters.profile.ProfileController;
+import interface_adapters.profile.ProfilePresenter;
+import interface_adapters.profile.ProfileState;
 import interface_adapters.profile.ProfileViewModel;
 import interface_adapters.signup.SignupController;
 import interface_adapters.signup.SignupPresenter;
-import interface_adapters.signup.SignupState;
 import interface_adapters.signup.SignupViewModel;
 import use_case.check_map.CheckMapInputBoundary;
 import use_case.check_map.CheckMapInteractor;
@@ -43,6 +46,10 @@ import use_case.list_review.ListReviewOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.profile.ProfileDataAccessInterface;
+import use_case.profile.ProfileInteractor;
+import use_case.profile.ProfileOutputBoundary;
+import use_case.profile.ProfileInputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -134,6 +141,30 @@ public class TempBuilder {
 
         cardPanel.add(listReviewView, listReviewView.getViewName());
 
+        defaultView = listReviewView.getViewName();
+
+        return this;
+    }
+
+    /**
+     * Add the Profile View to the application.
+     * @return the Profile builder
+     */
+    public TempBuilder addProfileView() {
+        profileViewModel = new ProfileViewModel();
+        profileView = new ProfileView(profileViewModel);
+        cardPanel.add(profileView, profileView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the SignUp View to the application.
+     * @return the Signup builder
+     */
+    public TempBuilder addSignupView() {
+        signupViewModel = new SignupViewModel();
+        signupView = new SignupView(signupViewModel);
+        cardPanel.add(signupView, signupView.getViewName());
         return this;
     }
 
@@ -204,6 +235,20 @@ public class TempBuilder {
 
         final ListReviewController listReviewController = new ListReviewController(listReviewInteractor);
         listReviewView.setListReviewController(listReviewController);
+        return this;
+    }
+
+    /**
+     * Adds the Profile Use Case to the application.
+     * @return this builder
+     */
+    public TempBuilder addProfileUseCase() {
+        final ProfileOutputBoundary profileOutputBoundary = new ProfilePresenter(viewManagerModel,
+                profileViewModel);
+        final ProfileInputBoundary profileInteractor = new ProfileInteractor(dbProfileAccessObject,
+                profileOutputBoundary);
+        final ProfileController controller = new ProfileController((ProfileInteractor) profileInteractor);
+        profileView.setProfileController(controller);
         return this;
     }
 
