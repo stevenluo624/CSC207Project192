@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class Review extends AbstractReview {
     private final int rating;
+    private final List<Reply> listOfReplies;
 
     /**
      * Creates a new Review
@@ -21,6 +22,7 @@ public class Review extends AbstractReview {
      */
     public Review(User user, int rating, String comment) {
         super(user, comment);
+        this.listOfReplies = new ArrayList<>();
         this.rating = rating;
     }
 
@@ -31,4 +33,22 @@ public class Review extends AbstractReview {
     public int getRating() {
         return rating;
     }
+
+
+    /**
+     * Get listOfReplies
+     * @return the list of replies
+     */
+    public List<Reply> getListOfReplies() {
+        return listOfReplies;
+    }
+
+    /**
+     * Update list of replies with a new reply
+     * @param reply a Reply object representing a reply to this review or reply
+     */
+    public void updateListOfReplies(Reply reply) {
+        listOfReplies.add(reply);
+    }
+
 }

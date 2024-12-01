@@ -28,10 +28,9 @@ public class DBProfileAccessObject implements ProfileDataAccessInterface {
     @Override
     public void save(Profile profile) {
         Map<String, Object> data = new HashMap<>();
-        data.put("username", profile.getUser().getUsername());
-        data.put("password", profile.getUser().getPassword());
+        data.put("username", profile.getUsername());
         data.put("bio", profile.getBio());
-        helper.addDocument(collectionName, data, profile.getUser().getUsername());
+        helper.addDocument(collectionName, data, profile.getUsername());
     }
 
     @Override
