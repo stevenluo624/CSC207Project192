@@ -141,8 +141,6 @@ public class TempBuilder {
 
         cardPanel.add(listReviewView, listReviewView.getViewName());
 
-        defaultView = listReviewView.getViewName();
-
         return this;
     }
 
