@@ -8,7 +8,11 @@ public class ViewManagerModel extends ViewModel<String> {
 
     public ViewManagerModel() {
         super("view manager");
-        this.setState("");
+        this.setState("log in");
+    }
+
+    public String getActiveView() {
+        return this.getState();
     }
 
 }
