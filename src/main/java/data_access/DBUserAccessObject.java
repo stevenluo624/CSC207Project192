@@ -1,12 +1,11 @@
 package data_access;
 
 import com.google.gson.JsonObject;
-import entity.Profile;
 import entity.StudentUser;
 import entity.User;
-import helper.GlobalHelper;
-import helper.ProjectConstants;
-import helper.FirestoreHelper;
+import data_access.helper.GlobalHelper;
+import data_access.helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;

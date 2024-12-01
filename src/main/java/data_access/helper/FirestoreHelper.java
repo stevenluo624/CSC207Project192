@@ -1,4 +1,4 @@
-package helper;
+package data_access.helper;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.Blob;

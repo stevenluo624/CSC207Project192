@@ -148,6 +148,14 @@ public class TempBuilder {
     }
 
     /**
+     * Force refreshes viewManagerModel for view changes.
+     */
+    public void refreshList() {
+        listReviewViewModel.firePropertyChanged();
+//        viewManagerModel.firePropertyChanged();
+    }
+
+    /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */

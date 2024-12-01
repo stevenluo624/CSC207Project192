@@ -14,5 +14,6 @@ public class MainRateMyCampusApp {
                 .build();
         application.pack();
         application.setVisible(true);
+        builder.refreshList();
     }
 }
