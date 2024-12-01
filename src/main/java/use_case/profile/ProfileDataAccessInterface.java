@@ -24,7 +24,8 @@ public interface ProfileDataAccessInterface {
     /**
      * Returns the user of a profile
      * @param username document id
-     * @return
+     * @return the username of the user
      */
     User getUser(String username);
+
 }

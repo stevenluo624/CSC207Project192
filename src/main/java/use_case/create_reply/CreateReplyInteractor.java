@@ -26,8 +26,8 @@ public class CreateReplyInteractor implements CreateReplyInputBoundary {
         final Reply reply = new Reply(user, comment);
         rootReview.updateListOfReplies(reply);
         dataAccess.updateReviewThread(rootReview, reply);
-
         final CreateReplyOutputData outputData = new CreateReplyOutputData(user, comment, false);
         presenter.prepareSuccessView(outputData);
+
     }
 }

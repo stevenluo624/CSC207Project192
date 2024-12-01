@@ -1,22 +1,14 @@
 package data_access;
 
-import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.*;
 import com.google.gson.JsonObject;
-import entity.*;
-import helper.FirestoreHelper;
-import helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
+import data_access.helper.GlobalHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import use_case.like_review.LikeReviewDataAccessInterface;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -29,7 +21,7 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
     private final String likes = "likes";
 
     public DBLikeAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
     }
 
     @Override
