@@ -171,6 +171,7 @@ public class MapView extends JPanel implements ActionListener, PropertyChangeLis
         this.add(latitudeErrorField);
         this.add(locationLong);
         this.add(longitudeErrorField);
+        this.add(buttons);
         this.add(mapPanel);
     }
 

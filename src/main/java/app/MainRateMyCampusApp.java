@@ -1,12 +1,18 @@
 package app;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class MainRateMyCampusApp {
 
     public static void main(String[] args) throws IOException {
         final TempBuilder builder = new TempBuilder();
-        builder.addListReviewView()
-                .build().setVisible(true);
+        final JFrame application = builder.addListReviewView()
+                .addMapView()
+                .addListReviewUseCase()
+                .addMapUseCase()
+                .build();
+        application.pack();
+        application.setVisible(true);
     }
 }
