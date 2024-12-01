@@ -31,6 +31,9 @@ public class LikeReviewUseCaseTest {
         likeReviewInteractor = new LikeReviewInteractor(dataAccess, presenter);
     }
 
+    /**
+     * Test for the Like Review Button
+     */
     private static class TestLikeReviewDataAccess implements LikeReviewDataAccessInterface {
         private final Map<String, Set<String>> likes = new HashMap<>();
         private final Map<String, Integer> likeCounts = new HashMap<>();

@@ -11,7 +11,9 @@ import use_case.logout.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Test for the Log Out button
+ */
 public class LogoutUseCaseTest {
     private LogoutInputBoundary logoutInteractor;
     private ViewManagerModel viewManagerModel;
