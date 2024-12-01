@@ -1,4 +1,4 @@
-package data_access.helper;
+package helper;
 
 public interface IdTokenInterface {
     void getToken();

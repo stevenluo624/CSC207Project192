@@ -1,4 +1,4 @@
-package data_access.helper;
+package helper;
 
 public class GlobalHelper {
     private static final FirestoreHelper helper = new FirestoreHelper(
