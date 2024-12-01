@@ -11,6 +11,7 @@ public abstract class AbstractReview implements ReviewThread {
     private final String comment;
     private final List<Reply> listOfReplies;
     private int numberOfLikes;
+    private static String id;
 
     /**
      * Creates a new AbstractReview object
@@ -74,5 +75,20 @@ public abstract class AbstractReview implements ReviewThread {
      */
     public void incrementLikes() {
         this.numberOfLikes++;
+    }
+
+    /**
+     * Increments the id by 1
+     */
+    public void setId() {
+        id += 1;
+    }
+
+    /**
+     * Getter for the id
+     * @return id
+     */
+    public String getId() {
+        return id;
     }
 }
