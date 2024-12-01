@@ -2,17 +2,11 @@ package use_case.create_review;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import entity.StudentUser;
 import entity.User;
-import entity.reviews_thread.Review;
-
 import data_access.in_memory_dao.ReviewListInMemoryDAO;
-import use_case.create_review.CreateReviewInputData;
-import use_case.create_review.CreateReviewDataAccessInterface;
-import use_case.create_review.CreateReviewInteractor;
-import interface_adapters.create_review.CreateReviewPresenter;
 
 class CreateReviewUseCaseTest {
     User testUser;
@@ -23,12 +17,11 @@ class CreateReviewUseCaseTest {
     CreateReviewInputData inputData;
     CreateReviewInteractor interactor;
 
-
     @BeforeEach
     void setUp() {
-        testUser = new StudentUser("Test Username", "Password");
-        testRating = 5;
-        testComment = "Test comment.";
+        testUser = new StudentUser("Username", "Password");
+        testRating = 0;
+        testComment = "Comment";
 
         dataAccess = new ReviewListInMemoryDAO();
         inputData = new CreateReviewInputData(testUser, testRating, testComment);
@@ -42,7 +35,6 @@ class CreateReviewUseCaseTest {
 
         dataAccess = new ReviewListInMemoryDAO();
         inputData = new CreateReviewInputData(testUser, testRating, testComment);
-        dataAccess.saveReview(new Review(testUser, testRating, testComment));
 
         CreateReviewOutputBoundary mockPresenter = new CreateReviewOutputBoundary() {
             @Override
@@ -52,9 +44,11 @@ class CreateReviewUseCaseTest {
                 assertEquals(5, outputData.getRating());
                 assertEquals("Test comment.", outputData.getComment());
 
-                assertTrue(dataAccess.getReviews().contains(
-                        new Review(outputData.getUser(), outputData.getRating(), outputData.getComment())
-                ));
+                assertTrue(dataAccess.getReviews().stream().anyMatch(
+                        review -> review.getUser().equals(testUser)
+                                && review.getRating() == testRating
+                                && review.getComment().equals(testComment))
+                );
             }
 
             @Override
