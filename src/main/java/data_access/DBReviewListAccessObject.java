@@ -7,6 +7,7 @@ import entity.Location;
 import entity.User;
 import entity.UserReview;
 import entity.reviews_thread.Review;
+import helper.GlobalHelper;
 import helper.ProjectConstants;
 import helper.FirestoreHelper;
 import use_case.create_review.CreateReviewDataAccessInterface;
@@ -23,7 +24,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
     String collectionName;
 
     public DBReviewListAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.collectionName = ProjectConstants.REVIEWS_COLLECTION;
     }
 

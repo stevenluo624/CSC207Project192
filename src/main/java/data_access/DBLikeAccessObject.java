@@ -6,6 +6,7 @@ import com.google.cloud.firestore.*;
 import com.google.gson.JsonObject;
 import entity.*;
 import helper.FirestoreHelper;
+import helper.GlobalHelper;
 import helper.ProjectConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
     private final String likes = "likes";
 
     public DBLikeAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
     }
 
     @Override

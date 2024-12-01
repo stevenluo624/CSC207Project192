@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import entity.Profile;
 import entity.StudentUser;
 import entity.User;
+import helper.GlobalHelper;
 import helper.ProjectConstants;
 import helper.FirestoreHelper;
 import use_case.profile.ProfileDataAccessInterface;
@@ -20,7 +21,7 @@ public class DBProfileAccessObject implements ProfileDataAccessInterface {
     String collectionName;
 
     public DBProfileAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.collectionName = ProjectConstants.PROFILE_COLLECTION;
     }
 

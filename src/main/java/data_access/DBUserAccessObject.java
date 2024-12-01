@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import entity.Profile;
 import entity.StudentUser;
 import entity.User;
+import helper.GlobalHelper;
 import helper.ProjectConstants;
 import helper.FirestoreHelper;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
@@ -22,7 +23,7 @@ public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupU
     User user;
 
     public DBUserAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.collectionName = ProjectConstants.USER_COLLECTION;
     }
 
