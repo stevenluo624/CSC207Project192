@@ -16,11 +16,11 @@ public class ProfileInteractor implements ProfileInputBoundary {
 
     @Override
     public void excute(ProfileInputData inputData) {
-        final UserProfile profile =  new UserProfile(inputData.getUser(), inputData.getBio());
+        final UserProfile profile =  new UserProfile(inputData.getUsername(), inputData.getBio());
         dataAccess.save(profile);
 
-        final ProfileOutputData outputData = new ProfileOutputData(inputData.getUser(), inputData.getBio(), false);
-        presenter.execute(outputData);
+        final ProfileOutputData outputData = new ProfileOutputData(inputData.getUsername(), inputData.getBio(), false);
+        presenter.prepareSuccessView(outputData);
     }
 
 

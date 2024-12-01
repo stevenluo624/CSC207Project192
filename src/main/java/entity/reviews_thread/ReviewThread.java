@@ -21,22 +21,10 @@ public interface ReviewThread {
     String getComment();
 
     /**
-     * Get listOfReplies
-     * @return the list of replies of this reply or review
-     */
-    List<Reply> getListOfReplies();
-
-    /**
      * Gets the number of likes
      * @return the number of likes
      */
     public int getNumberOfLikes();
-
-    /**
-     * Update list of replies with a new reply
-     * @param reply a Review object representing a reply to this review
-     */
-    public void updateListOfReplies(Reply reply);
 
     /**
      * Incriments the number of likes

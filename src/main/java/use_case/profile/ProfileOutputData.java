@@ -5,18 +5,18 @@ import entity.User;
  * Output Data for the ProfileFile Use Case.
  */
 public class ProfileOutputData {
-    private final User user;
-    private String bio;
-    private boolean useCaseFailed;
+    private final String username;
+    private final String bio;
+    private final boolean useCaseFailed;
 
-    public ProfileOutputData(User user, String bio, boolean useCaseFailed) {
-        this.user = user;
+    public ProfileOutputData(String username, String bio, boolean useCaseFailed) {
+        this.username = username;
         this.bio = bio;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
     public String getBio() {
         return bio;
