@@ -3,25 +3,30 @@ package data_access;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import entity.Location;
 import entity.User;
 import entity.UserReview;
 import entity.reviews_thread.Review;
+
 import data_access.helper.GlobalHelper;
 import data_access.helper.ProjectConstants;
 import data_access.helper.FirestoreHelper;
+
 import use_case.create_review.CreateReviewDataAccessInterface;
 import use_case.list_review.ListReviewDataAccessInterface;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Data access object for managing reviews.
  */
 public class DBReviewListAccessObject implements ListReviewDataAccessInterface, CreateReviewDataAccessInterface {
-    private FirestoreHelper helper;
-    String collectionName;
+    private final FirestoreHelper helper;
+    private final String collectionName;
 
     public DBReviewListAccessObject() {
         helper = GlobalHelper.getHelper();
@@ -76,14 +81,20 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
         return reviewList;
     }
 
+    /**
+     * Saves the review into the database and returns a String with the firestore id
+     * @param review contains details of the review
+     */
     @Override
-    public String saveReview(Review review) {
+    public void saveReview(Review review) {
+        String documentValue = "review" + review.getId();
+        Map<String, Object> data = new HashMap<>();
 
-        return "";
-    }
+        data.put("user", review.getUser().getUsername());
+        data.put("rating", review.getRating());
+        data.put("comment", review.getComment());
+        data.put("replies", review.getListOfReplies());
+        data.put("likes", review.getNumberOfLikes());
 
-    @Override
-    public Review getReview(String id) {
-        return null;
-    }
+        helper.addDocument(collectionName, data);
 }
