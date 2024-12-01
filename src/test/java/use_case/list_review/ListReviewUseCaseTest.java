@@ -8,35 +8,48 @@ import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
 import interface_adapters.map.MapViewModel;
 import interface_adapters.profile.ProfileViewModel;
+import org.junit.jupiter.api.BeforeEach;
 import use_case.profile.ProfileDataAccessInterface;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ListReviewUseCaseTest {
-    @Test
-    void listReviewSuccessTest() {
-        // Initialize objects needed for the test
-        ListReviewViewModel listReviewViewModel = new ListReviewViewModel();
-        MapViewModel mapViewModel = new MapViewModel();
-        ProfileViewModel profileViewModel = new ProfileViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
+    ListReviewViewModel listReviewViewModel;
+    MapViewModel mapViewModel;
+    ProfileViewModel profileViewModel;
+    ViewManagerModel viewManagerModel;
+    ListReviewDataAccessInterface listReviewDAO;
+    ProfileDataAccessInterface profileDAO;
+    ListReviewOutputBoundary listReviewOutputBoundary;
+    ListReviewInteractor listReviewInteractor;
 
-        ListReviewDataAccessInterface listReviewDAO = new DBReviewListAccessObject();
-        ProfileDataAccessInterface profileDAO = new DBProfileAccessObject();
-        ListReviewOutputBoundary listReviewOutputBoundary = new ListReviewPresenter(
+    @BeforeEach
+    void setUp() {
+        // Initialize objects needed for the test
+        listReviewViewModel = new ListReviewViewModel();
+        mapViewModel = new MapViewModel();
+        profileViewModel = new ProfileViewModel();
+        viewManagerModel = new ViewManagerModel();
+
+        listReviewDAO = new DBReviewListAccessObject();
+        profileDAO = new DBProfileAccessObject();
+        listReviewOutputBoundary = new ListReviewPresenter(
                 listReviewViewModel,
                 mapViewModel,
                 profileViewModel,
                 viewManagerModel
         );
 
-        ListReviewInteractor listReviewInteractor = new ListReviewInteractor(
+        listReviewInteractor = new ListReviewInteractor(
                 listReviewDAO,
                 profileDAO,
                 listReviewOutputBoundary
         );
+    }
 
+    @Test
+    void listReviewSuccessTest() {
         // Execute the interactor with test data
         ListReviewInputData listReviewInputData = new ListReviewInputData(1, 4);
         listReviewInteractor.execute(listReviewInputData);
@@ -45,5 +58,16 @@ class ListReviewUseCaseTest {
         ListReviewState listReviewState = listReviewViewModel.getState();
         assertNull(listReviewState.getPageError());
         assertEquals(4, listReviewState.getReviewList().size());
+    }
+
+    @Test
+    void listReviewFailureTest() {
+        // Execute the interactor with test data
+        ListReviewInputData listReviewInputData = new ListReviewInputData(100, 4);
+        listReviewInteractor.execute(listReviewInputData);
+
+        // Verify the state of the view model has been changed correctly.
+        ListReviewState listReviewState = listReviewViewModel.getState();
+        assertEquals("Page does not exist", listReviewState.getPageError());
     }
 }

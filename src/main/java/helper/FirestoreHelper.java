@@ -372,6 +372,8 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
     @Override
     public boolean checkPageExists(String collection, int pageNumber, int pageSize) {
+        if (pageNumber == 1) return true;
+        if (pageNumber < 1) return false;
 //        getToken();
 
         boolean result = true;

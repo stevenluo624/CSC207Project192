@@ -6,8 +6,10 @@ import com.google.gson.JsonObject;
 import entity.Location;
 import entity.User;
 import entity.UserReview;
+import entity.reviews_thread.Review;
 import helper.ProjectConstants;
 import helper.FirestoreHelper;
+import use_case.create_review.CreateReviewDataAccessInterface;
 import use_case.list_review.ListReviewDataAccessInterface;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.List;
 /**
  * Data access object for managing reviews.
  */
-public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
+public class DBReviewListAccessObject implements ListReviewDataAccessInterface, CreateReviewDataAccessInterface {
     private FirestoreHelper helper;
     String collectionName;
 
@@ -32,6 +34,10 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
 
     @Override
     public List<UserReview> getReviews(int pageNumber, int pageSize) {
+        if (!checkPageExists(pageNumber, pageSize)) {
+            return new ArrayList<>();
+        }
+
         JsonObject page = helper.getPage(collectionName, pageNumber, pageSize);
         JsonArray documents = page.getAsJsonArray("documents");
 
@@ -67,5 +73,16 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
         }
 
         return reviewList;
+    }
+
+    @Override
+    public String saveReview(Review review) {
+
+        return "";
+    }
+
+    @Override
+    public Review getReview(String id) {
+        return null;
     }
 }

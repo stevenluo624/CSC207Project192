@@ -36,10 +36,8 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
 
         if (reviews.isEmpty()) {
             if (pageNumber == 1) {
-                System.out.println("No reviews found");
                 reviewPresenter.prepareFailView("No reviews found");
             } else {
-                System.out.println("Page does not exist");
                 reviewPresenter.prepareFailView("Page does not exist");
             }
         } else {
