@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ListReviewUseCaseTest {
     @Test
     void listReviewSuccessTest() {
+        // Initialize objects needed for the test
         ListReviewViewModel listReviewViewModel = new ListReviewViewModel();
         MapViewModel mapViewModel = new MapViewModel();
         ProfileViewModel profileViewModel = new ProfileViewModel();
@@ -36,11 +37,13 @@ class ListReviewUseCaseTest {
                 listReviewOutputBoundary
         );
 
+        // Execute the interactor with test data
         ListReviewInputData listReviewInputData = new ListReviewInputData(1, 4);
         listReviewInteractor.execute(listReviewInputData);
 
+        // Verify the state of the view model has been changed correctly.
         ListReviewState listReviewState = listReviewViewModel.getState();
         assertNull(listReviewState.getPageError());
-        assertEquals(listReviewState.getReviewList().size(), 4);
+        assertEquals(4, listReviewState.getReviewList().size());
     }
 }
