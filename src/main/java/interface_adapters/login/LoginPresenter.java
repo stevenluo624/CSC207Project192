@@ -3,6 +3,8 @@ package interface_adapters.login;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.change_password.LoggedInState;
 import interface_adapters.change_password.LoggedInViewModel;
+import interface_adapters.list_review.ListReviewState;
+import interface_adapters.list_review.ListReviewViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 
@@ -12,14 +14,14 @@ import use_case.login.LoginOutputData;
 public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
-    private final LoggedInViewModel loggedInViewModel;
+    private final ListReviewViewModel listReviewViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
-                          LoggedInViewModel loggedInViewModel,
+                          ListReviewViewModel listReviewViewModel,
                           LoginViewModel loginViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.loggedInViewModel = loggedInViewModel;
+        this.listReviewViewModel = listReviewViewModel;
         this.loginViewModel = loginViewModel;
     }
 
@@ -27,7 +29,7 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the logged in view.
 
-        final LoggedInState loggedInState = loggedInViewModel.getState();
+        final ListReviewState ListReviewState = loggedInViewModel.getState();
         loggedInState.setUsername(response.getUsername());
         this.loggedInViewModel.setState(loggedInState);
         this.loggedInViewModel.firePropertyChanged();

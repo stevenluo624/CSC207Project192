@@ -5,7 +5,6 @@ package interface_adapters.change_password;
  */
 public class LoggedInState {
     private String username = "";
-
     private String password = "";
     private String passwordError;
     private String likeError;
