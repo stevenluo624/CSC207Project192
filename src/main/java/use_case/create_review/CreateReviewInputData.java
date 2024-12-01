@@ -1,6 +1,5 @@
 package use_case.create_review;
 
-import entity.Location;
 import entity.User;
 
 /**
