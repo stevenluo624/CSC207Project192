@@ -24,6 +24,8 @@ import interface_adapters.list_review.ListReviewViewModel;
 //import interface_adapters.rate.RateController;
 //import interface_adapters.rate.RatePresenter;
 //import interface_adapters.rate.RateViewModel;
+import interface_adapters.login.LoginController;
+import interface_adapters.login.LoginPresenter;
 import interface_adapters.login.LoginViewModel;
 import interface_adapters.map.MapController;
 import interface_adapters.map.MapPresenter;
@@ -41,6 +43,9 @@ import use_case.check_map.CheckMapOutputBoundary;
 import use_case.list_review.ListReviewInputBoundary;
 import use_case.list_review.ListReviewInteractor;
 import use_case.list_review.ListReviewOutputBoundary;
+import use_case.login.LoginInputBoundary;
+import use_case.login.LoginInteractor;
+import use_case.login.LoginOutputBoundary;
 import use_case.profile.ProfileDataAccessInterface;
 import use_case.profile.ProfileInteractor;
 import use_case.profile.ProfileOutputBoundary;
@@ -59,12 +64,6 @@ import view.*;
 public class TempBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
-    private final UserFactory userFactory = new UserFactory() {
-        @Override
-        public User create(String name, String password) {
-            return null;
-        }
-    };
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
@@ -87,14 +86,47 @@ public class TempBuilder {
     private ProfileView profileView;
     private ProfileViewModel profileViewModel;
 
+    private UserFactory userFactory;
+
 
 
     public TempBuilder() {
         cardPanel.setLayout(cardLayout);
-        signupViewModel  = new SignupViewModel();
+
+        signupViewModel = new SignupViewModel();
+        loginViewModel = new LoginViewModel();
         listReviewViewModel = new ListReviewViewModel();
         mapViewModel = new MapViewModel();
         profileViewModel = new ProfileViewModel();
+        userFactory = new UserFactory() {
+            @Override
+            public User create(String name, String password) {
+                return new StudentUser(name, password);
+            }
+        };
+    }
+
+    /**
+     * Adds the SignUp View to the application.
+     * @return this builder
+     */
+    public TempBuilder addSignUpView() {
+        signupViewModel = new SignupViewModel();
+        signupView = new SignupView(signupViewModel);
+        cardPanel.add(signupView, signupView.getViewName());
+        defaultView = signupView.getViewName();
+        return this;
+    }
+
+    /**
+     * Adds the Login View to the application.
+     * @return this builder
+     */
+    public TempBuilder addLoginView() {
+        loginViewModel = new LoginViewModel();
+        loginView = new LoginView(loginViewModel);
+        cardPanel.add(loginView, loginView.getViewName());
+        return this;
     }
 
     /**
@@ -108,8 +140,6 @@ public class TempBuilder {
         state.setReviewList(dbReviewListAccessObject.getReviews(state.getPageNumber(), state.getPageSize()));
 
         cardPanel.add(listReviewView, listReviewView.getViewName());
-
-        defaultView = listReviewView.getViewName();
 
         return this;
     }
@@ -147,6 +177,32 @@ public class TempBuilder {
         return this;
     }
 
+    public TempBuilder addSignupUseCase() {
+        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel, signupViewModel
+                , loginViewModel);
+        final SignupInputBoundary signupInteractor = new SignupInteractor(dbUserAccessObject, signupOutputBoundary,
+                userFactory);
+
+        final SignupController controller = new SignupController((SignupInteractor) signupInteractor);
+        signupView.setSignupController(controller);
+        return this;
+    }
+
+    /**
+     * Adds the Login Use Case to the application.
+     * @return this builder
+     */
+    public TempBuilder addLoginUseCase() {
+        final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
+                listReviewViewModel, loginViewModel);
+        final LoginInputBoundary loginInteractor = new LoginInteractor(
+                dbUserAccessObject, loginOutputBoundary);
+
+        final LoginController loginController = new LoginController(loginInteractor);
+        loginView.setLoginController(loginController);
+        return this;
+    }
+
     /**
      * Adds the CreateReview Use Case to the application.
      * @return this builder
@@ -180,19 +236,6 @@ public class TempBuilder {
         return this;
     }
 
-    /**
-     * Adds the Signup Use Case to the application.
-     * @return this builder
-     */
-    public TempBuilder addSignupUseCase() {
-        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel);
-        final SignupInputBoundary signupInteractor = new SignupInteractor(
-                dbUserAccessObject, signupOutputBoundary, userFactory);
-        final SignupController controller = new SignupController(signupInteractor);
-        signupView.setSignupController(controller);
-        return this;
-    }
     /**
      * Adds the Profile Use Case to the application.
      * @return this builder
