@@ -30,6 +30,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         // On success, switch to the logged in view.
 
         final ListReviewState listReviewState = listReviewViewModel.getState();
+        listReviewState.setCurrentUser(response.getUsername());
         this.listReviewViewModel.setState(listReviewState);
         this.listReviewViewModel.firePropertyChanged();
 
