@@ -1,4 +1,4 @@
-package helper;
+package data_access.helper;
 
 import com.google.gson.JsonObject;
 
@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface DBAccessInterface {
     void addDocument(String collection, Map<String, Object> data, String documentValue);
-    void addDocument(String collection, Map<String, Object> data);
+    String addDocument(String collection, Map<String, Object> data);
     JsonObject getDocument(String collection, String documentValue);
     JsonObject getPage(String collection, int pageNumber, int pageSize);
     void updateDocument(String collection, Map<String, Object> data, String documentValue);

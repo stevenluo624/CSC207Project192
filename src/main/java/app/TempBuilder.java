@@ -1,8 +1,6 @@
 package app;
 
 import java.awt.*;
-import java.awt.font.TextMeasurer;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,7 +32,6 @@ import interface_adapters.map.MapPresenter;
 import interface_adapters.map.MapViewModel;
 import interface_adapters.profile.ProfileController;
 import interface_adapters.profile.ProfilePresenter;
-import interface_adapters.profile.ProfileState;
 import interface_adapters.profile.ProfileViewModel;
 import interface_adapters.signup.SignupController;
 import interface_adapters.signup.SignupPresenter;
@@ -51,7 +48,6 @@ import use_case.list_review.ListReviewOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
-import use_case.profile.ProfileDataAccessInterface;
 import use_case.profile.ProfileInteractor;
 import use_case.profile.ProfileOutputBoundary;
 import use_case.profile.ProfileInputBoundary;
