@@ -25,4 +25,5 @@ public class CreateReplyInputData {
     public Review getReview() {
         return review;
     }
+
 }

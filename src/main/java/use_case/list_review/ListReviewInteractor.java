@@ -57,8 +57,7 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
 
     @Override
     public void switchToProfileView(String username) {
-        User user = profileDataAccessObject.getUser(username);
         String bio = profileDataAccessObject.getBio(username);
-        reviewPresenter.switchToProfileView(new ProfileOutputData(user, bio, false));
+        reviewPresenter.switchToProfileView(new ProfileOutputData(username, bio, false));
     }
 }

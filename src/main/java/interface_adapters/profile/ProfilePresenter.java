@@ -14,20 +14,15 @@ public class ProfilePresenter implements ProfileOutputBoundary {
     private final ProfileViewModel profileViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public ProfilePresenter(ProfileViewModel profileViewModel, ViewManagerModel viewManagerModel) {
+    public ProfilePresenter(ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel) {
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
     @Override
-    public void execute(ProfileOutputData profileInputData) {
-
-    }
-
-    @Override
     public void prepareSuccessView(ProfileOutputData outputData) {
         final ProfileState profileState = profileViewModel.getState();
-        profileState.setUsername(outputData.getUser().getUsername());
+        profileState.setUsername(outputData.getUsername());
         profileState.setBio(outputData.getBio());
 
         this.profileViewModel.setState(profileState);

@@ -43,14 +43,11 @@ public class ProfileState {
         return profileError;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        this.username = user.getUsername();
-    }
-
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    public void setProfile(Profile profile) {this.profile = profile;}
 
     public void setProfileError(String error) {
         this.profileError = error;
