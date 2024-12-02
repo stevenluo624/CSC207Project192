@@ -28,4 +28,11 @@ public class CreateReviewController {
 
         rateInteractor.execute(createReviewInputData);
     }
+
+    /**
+     * Executes the "switch to list of reviews" use case.
+     */
+    public void switchToListReviewView() {
+        rateInteractor.switchToListReviewView();
+    }
 }

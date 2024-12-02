@@ -220,7 +220,7 @@ public class TempBuilder {
      */
     public TempBuilder addCreateReviewUseCase() {
         final CreateReviewOutputBoundary createReviewOutputBoundary = new CreateReviewPresenter(
-                (CreateReviewViewModel) createReviewViewModel);
+                (CreateReviewViewModel) createReviewViewModel, viewManagerModel, listReviewViewModel);
         final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
                 dbReviewListAccessObject, createReviewOutputBoundary);
 

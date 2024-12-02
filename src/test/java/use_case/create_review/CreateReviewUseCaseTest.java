@@ -56,6 +56,14 @@ class CreateReviewUseCaseTest {
             public void prepareFailureView(String message) {
                 fail("Use case failure is unexpected. Error: " + message);
             }
+
+            /**
+             * Switches to List of Reviews View.
+             */
+            @Override
+            public void switchToListReviewView() {
+                fail("The use case should not switch");
+            }
         };
 
         interactor = new CreateReviewInteractor(dataAccess, mockPresenter);

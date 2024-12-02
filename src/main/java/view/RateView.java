@@ -72,7 +72,15 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
                     }
                 }
         );
-        cancel.addActionListener(this);
+
+        cancel.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        createReviewController.switchToListReviewView();
+                    }
+                }
+        );
 
         commentInputField.getDocument().addDocumentListener(new DocumentListener() {
 

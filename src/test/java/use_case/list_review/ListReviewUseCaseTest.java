@@ -6,6 +6,8 @@ import data_access.DBReviewListAccessObject;
 import data_access.in_memory_dao.ProfileInMemoryDAO;
 import data_access.in_memory_dao.ReviewListInMemoryDAO;
 import entity.Profile;
+import entity.StudentUser;
+import entity.User;
 import entity.UserProfile;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.list_review.ListReviewPresenter;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import use_case.check_map.*;
 import use_case.create_review.CreateReviewInputBoundary;
 import use_case.create_review.CreateReviewInteractor;
+import use_case.create_review.CreateReviewOutputData;
 import use_case.profile.ProfileDataAccessInterface;
 
 import org.junit.jupiter.api.Test;
@@ -88,6 +91,16 @@ class ListReviewUseCaseTest {
             public void switchToProfileView(ProfileOutputData profileOutputData) {
                 fail("The use case is not expected to switch");
             }
+
+            /**
+             * Switch to create review view.
+             *
+             * @param createReviewOutputData contains output for create review
+             */
+            @Override
+            public void switchToCreateReviewView(CreateReviewOutputData createReviewOutputData) {
+                fail("The use case is not expected to switch");
+            }
         };
         listReviewInteractor = new ListReviewInteractor(
                 listReviewDAO,
@@ -120,6 +133,16 @@ class ListReviewUseCaseTest {
             @Override
             public void switchToProfileView(ProfileOutputData profileOutputData) {
                 fail("The use case is not expected to switch");
+            }
+
+            /**
+             * Switch to create review view.
+             *
+             * @param createReviewOutputData contains output for create review
+             */
+            @Override
+            public void switchToCreateReviewView(CreateReviewOutputData createReviewOutputData) {
+                fail("The use case should not switch");
             }
         };
         listReviewEmptyInteractor = new ListReviewInteractor(
@@ -154,6 +177,16 @@ class ListReviewUseCaseTest {
             public void switchToProfileView(ProfileOutputData profileOutputData) {
                 fail("The use case is not expected to switch");
             }
+
+            /**
+             * Switch to create review view.
+             *
+             * @param createReviewOutputData contains output for create review
+             */
+            @Override
+            public void switchToCreateReviewView(CreateReviewOutputData createReviewOutputData) {
+                fail("The use case is not expected to switch");
+            }
         };
         listReviewInteractor = new ListReviewInteractor(
                 listReviewDAO,
@@ -168,6 +201,7 @@ class ListReviewUseCaseTest {
         // This creates a presenter that tests whether the test case is as we expect.
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         CheckMapInputData checkMapInputData = new CheckMapInputData("Truck", "1", "2");
+        User user = new StudentUser("1234", "1234");
         ListReviewOutputBoundary switchPresenter = new ListReviewOutputBoundary() {
             @Override
             public void prepareSuccessView(ListReviewOutputData location) {
@@ -203,6 +237,17 @@ class ListReviewUseCaseTest {
                 assertEquals("Profile", viewManagerModel.getState());
             }
 
+            /**
+             * Switch to create review view.
+             *
+             * @param createReviewOutputData contains output for create review
+             */
+            @Override
+            public void switchToCreateReviewView(CreateReviewOutputData createReviewOutputData) {
+                viewManagerModel.setState("Create Review");
+                assertEquals("Create Review", viewManagerModel.getState());
+            }
+
         };
         ListReviewInputBoundary interactor = new ListReviewInteractor(
                 listReviewInMemoryDAO,
@@ -210,5 +255,6 @@ class ListReviewUseCaseTest {
                 switchPresenter);
         interactor.switchToMapView(checkMapInputData);
         interactor.switchToProfileView("1234");
+        interactor.switchToCreateReviewView(user);
     }
 }
