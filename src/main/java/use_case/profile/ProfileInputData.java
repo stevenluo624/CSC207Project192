@@ -6,13 +6,13 @@ import entity.User;
  */
 public class ProfileInputData {
 
-    private final User user;
+    private final String username;
     private final String bio;
 
-    public ProfileInputData(User user, String bio) {
-        this.user = user;
+    public ProfileInputData(String username, String bio) {
+        this.username = username;
         this.bio = bio;
     }
-    User getUser() { return user; }
+    String getUsername() { return username; }
     String getBio() { return bio; }
 }

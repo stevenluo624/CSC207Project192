@@ -26,8 +26,6 @@ public class CreateReplyInteractor implements CreateReplyInputBoundary {
         rootReview = inputData.getReview();
 
         final Reply reply = new Reply(user, comment);
-        reply.setId();
-        // System.out.println(reply.getId()); // For test purposes only
 
         dataAccess.updateReviewThread(rootReview, reply);
         rootReview.updateListOfReplies(reply);

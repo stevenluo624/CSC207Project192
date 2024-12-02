@@ -17,12 +17,12 @@ public class ProfileController {
 
     /**
      * Executes the Note related Use Cases.
-     * @param user the user that is creating the porfile.
+     * @param username the user that is creating the porfile.
      * @param profile the profile that the user is creating.
      */
 
-    public void execute(User user, Profile profile) {
-        final ProfileInputData profileInputData = new ProfileInputData(user, profile.getBio());
+    public void execute(String username, Profile profile) {
+        final ProfileInputData profileInputData = new ProfileInputData(username, profile.getBio());
 
         profileInteractor.excute(profileInputData);
     }

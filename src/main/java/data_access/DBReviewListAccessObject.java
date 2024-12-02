@@ -3,12 +3,15 @@ package data_access;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import entity.Location;
 import entity.User;
 import entity.reviews_thread.Review;
-import entity.reviews_thread.Review;
+
+import data_access.helper.GlobalHelper;
 import data_access.helper.ProjectConstants;
 import data_access.helper.FirestoreHelper;
+
 import use_case.create_review.CreateReviewDataAccessInterface;
 import use_case.list_review.ListReviewDataAccessInterface;
 
@@ -25,7 +28,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
     private final String collectionName;
 
     public DBReviewListAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.collectionName = ProjectConstants.REVIEWS_COLLECTION;
     }
 
@@ -36,6 +39,10 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
 
     @Override
     public List<Review> getReviews(int pageNumber, int pageSize) {
+        if (!checkPageExists(pageNumber, pageSize)) {
+            return new ArrayList<>();
+        }
+
         JsonObject page = helper.getPage(collectionName, pageNumber, pageSize);
         JsonArray documents = page.getAsJsonArray("documents");
 
@@ -59,6 +66,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
                     .get("stringValue").getAsString() : null;
             String longitude = fields.has("longitude") ? fields.getAsJsonObject("longitude")
                     .get("stringValue").getAsString() : null;
+            String key = document.get("name").getAsString().substring(70);
 
             User userObject = dbUserAccessObject.get(user);
             Location locationObject = new Location(location, latitude, longitude) {};

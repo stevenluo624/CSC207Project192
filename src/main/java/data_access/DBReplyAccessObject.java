@@ -4,9 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import entity.reviews_thread.Review;
-import entity.reviews_thread.Reply;
-import data_access.helper.FirestoreHelper;
+
+import data_access.helper.GlobalHelper;
 import data_access.helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
+
+import entity.reviews_thread.Reply;
 import use_case.create_reply.CreateReplyDataAccessInterface;
 
 import java.util.HashMap;
@@ -22,7 +25,7 @@ public class DBReplyAccessObject implements CreateReplyDataAccessInterface {
     private final String reviewsCollectionName;
 
     public DBReplyAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.repliesCollectionName = ProjectConstants.REPLIES_COLLECTION;
         this.reviewsCollectionName = ProjectConstants.REVIEWS_COLLECTION;
     }

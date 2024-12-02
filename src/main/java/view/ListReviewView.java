@@ -8,10 +8,7 @@ import interface_adapters.like_review.LikeReviewPresenter;
 import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
-import interface_adapters.signup.SignupState;
-import interface_adapters.signup.SignupViewModel;
 import use_case.like_review.LikeReviewInteractor;
-import use_case.like_review.LikeReviewOutputBoundary;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -81,7 +77,6 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                             }
                         }
                 );
-                // addMapAction(mapButton, review);
 
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
@@ -108,8 +103,20 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         final JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new GridBagLayout());
         gbc.gridx = 0;
-        gbc.weightx = 0.8;
+        gbc.weightx = 0.6;
         menuPanel.add(title, gbc);
+
+        final JButton addReviewButton = new JButton(ListReviewViewModel.ADD_REVIEW_BUTTON_LABEL);
+        addReviewButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(addReviewButton)) {
+                        listReviewController.switchToCreateReviewView(listReviewViewModel.getState().getCurrentUserObject());
+                    }
+                }
+        );
+        gbc.gridx = 1;
+        gbc.weightx = 0.2;
+        menuPanel.add(addReviewButton, gbc);
 
         final JButton profileButton = new JButton(ListReviewViewModel.PROFILE_BUTTON_LABEL);
         profileButton.addActionListener( evt -> {
@@ -119,7 +126,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 }
         );
 
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.weightx = 0.2;
         menuPanel.add(profileButton, gbc);
 
@@ -176,7 +183,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("Property change: " + evt);
+//        System.out.println("Property change: " + evt);
         updateReviews();
         this.revalidate();
         this.repaint();

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import entity.Profile;
 import entity.StudentUser;
 import entity.User;
+import data_access.helper.GlobalHelper;
 import data_access.helper.ProjectConstants;
 import data_access.helper.FirestoreHelper;
 import use_case.profile.ProfileDataAccessInterface;
@@ -20,18 +21,26 @@ public class DBProfileAccessObject implements ProfileDataAccessInterface {
     String collectionName;
 
     public DBProfileAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.collectionName = ProjectConstants.PROFILE_COLLECTION;
     }
 
     @Override
     public void save(Profile profile) {
         Map<String, Object> data = new HashMap<>();
-        data.put("username", profile.getUser().getUsername());
-        data.put("password", profile.getUser().getPassword());
+        data.put("username", profile.getUsername());
         data.put("bio", profile.getBio());
-        helper.addDocument(collectionName, data, profile.getUser().getUsername());
+        helper.addDocument(collectionName, data, profile.getUsername());
     }
+
+    @Override
+    public void update(Profile profile) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", profile.getUsername());
+        data.put("bio", profile.getBio());
+        helper.updateDocument(collectionName, data, profile.getUsername());
+    }
+
 
     @Override
     public String getBio(String username) {
