@@ -1,5 +1,7 @@
 package interface_adapters.login;
 
+import entity.StudentUser;
+import entity.User;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.change_password.LoggedInState;
 import interface_adapters.change_password.LoggedInViewModel;
@@ -30,6 +32,9 @@ public class LoginPresenter implements LoginOutputBoundary {
         // On success, switch to the logged in view.
 
         final ListReviewState listReviewState = listReviewViewModel.getState();
+        listReviewState.setCurrentUsername(response.getUsername());
+        final LoginState loginState = loginViewModel.getState();
+        listReviewState.setCurrentUser(new StudentUser(loginState.getUsername(), loginState.getPassword()));
         this.listReviewViewModel.setState(listReviewState);
         this.listReviewViewModel.firePropertyChanged();
 

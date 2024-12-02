@@ -1,6 +1,7 @@
 package interface_adapters.list_review;
 
 import entity.Location;
+import entity.User;
 import entity.UserReview;
 import use_case.check_map.CheckMapInputData;
 import use_case.list_review.ListReviewInputBoundary;
@@ -43,6 +44,17 @@ public class ListReviewController {
         listReviewInteractor.switchToMapView(inputData);
     }
 
+    /**
+     * Switch to create review view
+     */
+    public void switchToCreateReviewView(User user) {
+        listReviewInteractor.switchToCreateReviewView(user);
+    }
+
+    /**
+     * Switch to profile view
+     * @param username currently logged in user
+     */
     public void switchToProfileView(String username) {
         listReviewInteractor.switchToProfileView(username);
     }

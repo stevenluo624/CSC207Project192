@@ -1,5 +1,6 @@
 package interface_adapters.list_review;
 
+import entity.User;
 import entity.UserReview;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ public class ListReviewState {
     private String pageError;
     private List<UserReview> reviewList = new ArrayList<>();
     private String likeError;
-    private String currentUser;
+    private String currentUsername;
+    private User currentUser;
 
     public int getPageNumber() {
         return pageNumber;
@@ -73,15 +75,23 @@ public class ListReviewState {
                 '}';
     }
 
-    public String getCurrentUser() {
-        return currentUser;
+    public String getCurrentUsername() {
+        return currentUsername;
     }
 
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
+    public void setCurrentUsername(String currentUsername) {
+        this.currentUsername = currentUsername;
     }
 
     public String getLikeError() {
         return likeError;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }
