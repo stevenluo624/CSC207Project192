@@ -8,6 +8,7 @@ import data_access.helper.ProjectConstants;
 import data_access.helper.FirestoreHelper;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.util.HashMap;
@@ -16,7 +17,8 @@ import java.util.Map;
 /**
  * Data access object for manading user data.
  */
-public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface, ChangePasswordUserDataAccessInterface {
+public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface,
+        ChangePasswordUserDataAccessInterface, LogoutUserDataAccessInterface {
     private FirestoreHelper helper;
     String collectionName;
     User user;
@@ -64,5 +66,24 @@ public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupU
         data.put("username", user.getUsername());
         data.put("password", user.getPassword());
         helper.updateDocument(collectionName, data, user.getUsername());
+    }
+
+    /**
+     * Returns the username of the curren user of the application.
+     *
+     * @return the username of the current user
+     */
+    @Override
+    public String getCurrentUsername() {
+        return user.getUsername();
+    }
+
+    /**
+     * Sets the username indicating who is the current user of the application.
+     *
+     * @param username the new current username
+     */
+    @Override
+    public void setCurrentUsername(String username) {
     }
 }
