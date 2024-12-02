@@ -9,10 +9,16 @@ import entity.User;
 public interface ProfileDataAccessInterface {
 
     /**
-     * Returns the username of the current user of the application.
+     * Saves new user profile
      * @param profile the profile to save
      */
     void save(Profile profile);
+
+    /**
+     * Updates existing user profile
+     * @param profile the profile to save
+     */
+    void update(Profile profile);
 
     /**
      * Returns the bio of tthe current user of the application

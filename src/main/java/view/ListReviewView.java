@@ -183,7 +183,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("Property change: " + evt);
+//        System.out.println("Property change: " + evt);
         updateReviews();
         this.revalidate();
         this.repaint();

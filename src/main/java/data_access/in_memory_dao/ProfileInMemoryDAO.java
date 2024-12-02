@@ -13,6 +13,11 @@ public class ProfileInMemoryDAO implements ProfileDataAccessInterface {
 
     }
 
+    @Override
+    public void update(Profile profile) {
+
+    }
+
     /**
      * @param username document id
      * @return
