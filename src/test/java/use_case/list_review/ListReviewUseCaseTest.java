@@ -3,6 +3,7 @@ package use_case.list_review;
 import data_access.DBProfileAccessObject;
 import data_access.DBReviewListAccessObject;
 import interface_adapters.ViewManagerModel;
+import interface_adapters.create_review.CreateReviewViewModel;
 import interface_adapters.list_review.ListReviewPresenter;
 import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
@@ -18,6 +19,7 @@ class ListReviewUseCaseTest {
     ListReviewViewModel listReviewViewModel;
     MapViewModel mapViewModel;
     ProfileViewModel profileViewModel;
+    CreateReviewViewModel createReviewViewModel;
     ViewManagerModel viewManagerModel;
     ListReviewDataAccessInterface listReviewDAO;
     ProfileDataAccessInterface profileDAO;
@@ -30,6 +32,7 @@ class ListReviewUseCaseTest {
         listReviewViewModel = new ListReviewViewModel();
         mapViewModel = new MapViewModel();
         profileViewModel = new ProfileViewModel();
+        createReviewViewModel = new CreateReviewViewModel();
         viewManagerModel = new ViewManagerModel();
 
         listReviewDAO = new DBReviewListAccessObject();
@@ -38,6 +41,7 @@ class ListReviewUseCaseTest {
                 listReviewViewModel,
                 mapViewModel,
                 profileViewModel,
+                createReviewViewModel,
                 viewManagerModel
         );
 
