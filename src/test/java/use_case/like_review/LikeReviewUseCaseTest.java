@@ -1,12 +1,10 @@
-package use_case;
+package use_case.like_review;
 
 import interface_adapters.ViewManagerModel;
-import interface_adapters.change_password.LoggedInViewModel;
 import interface_adapters.like_review.LikeReviewPresenter;
 import interface_adapters.list_review.ListReviewViewModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import use_case.like_review.*;
 
 import java.util.HashMap;
 import java.util.HashSet;

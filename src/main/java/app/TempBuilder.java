@@ -295,7 +295,7 @@ public class TempBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("List Review Example");
+        final JFrame application = new JFrame("RateMyCampus");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);

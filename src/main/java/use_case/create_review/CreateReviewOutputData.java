@@ -9,12 +9,14 @@ public class CreateReviewOutputData {
     private final User user;
     private final int rating;
     private final String comment;
+    private final String locationName;
     private final boolean useCaseFailed;
 
-    public CreateReviewOutputData(User user, int rating, String comment, boolean useCaseFailed) {
+    public CreateReviewOutputData(User user, int rating, String comment, String locationName, boolean useCaseFailed) {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
+        this.locationName = locationName;
         this.useCaseFailed = useCaseFailed;
     }
 
@@ -33,4 +35,6 @@ public class CreateReviewOutputData {
     public boolean isUseCaseFailed() {
         return useCaseFailed;
     }
+
+    public String getLocationName() { return locationName; }
 }

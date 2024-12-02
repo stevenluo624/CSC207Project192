@@ -23,8 +23,9 @@ public class CreateReviewController {
      * @param user the user inputed the rating
      * @param comment the comment the user made
      */
-    public void execute(User user, int rating, String comment) {
-        final CreateReviewInputData createReviewInputData = new CreateReviewInputData(user, rating, comment);
+    public void execute(User user, int rating, String comment, String locationName) {
+        final CreateReviewInputData createReviewInputData = new CreateReviewInputData(user, rating, comment,
+                locationName);
 
         rateInteractor.execute(createReviewInputData);
     }

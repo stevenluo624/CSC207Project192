@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ public class UserReview {
         this.rating = rating;
         this.comment = comment;
         this.numberOfLikes = 0;
+        this.listOfReplies = new ArrayList<UserReview>();
     }
 
     /**
@@ -50,6 +52,7 @@ public class UserReview {
         this.comment = comment;
         this.location = location;
         this.numberOfLikes = 0;
+        this.listOfReplies = new ArrayList<UserReview>();
     }
 
     /**

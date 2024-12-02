@@ -2,7 +2,7 @@ package entity;
 
 import java.util.List;
 
-public abstract class Location {
+public class Location {
     String name;
     String description = "";
     String address = "";
