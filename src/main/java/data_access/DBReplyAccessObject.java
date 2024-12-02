@@ -7,9 +7,10 @@ import use_case.create_reply.CreateReplyDataAccessInterface;
 /**
  * Data access object for managing replies to reviews
  */
-public class DBReplyAccessObject implements CreateReplyDataAccessInterface {
+public class  DBReplyAccessObject implements CreateReplyDataAccessInterface {
     @Override
     public String updateReviewThread(AbstractReview parentReview, Reply reply) {
+
         return "";
     }
 

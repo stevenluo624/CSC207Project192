@@ -192,10 +192,14 @@ public class TempBuilder {
     public TempBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel, signupViewModel
                 , loginViewModel);
-        final SignupInputBoundary signupInteractor = new SignupInteractor(dbUserAccessObject, signupOutputBoundary,
-                userFactory);
+        final SignupInputBoundary signupInteractor = new SignupInteractor(
+                dbUserAccessObject,
+                dbProfileAccessObject,
+                signupOutputBoundary,
+                userFactory
+        );
 
-        final SignupController controller = new SignupController((SignupInteractor) signupInteractor);
+        final SignupController controller = new SignupController(signupInteractor);
         signupView.setSignupController(controller);
         return this;
     }
