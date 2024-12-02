@@ -5,6 +5,7 @@ import entity.Profile;
 import use_case.profile.ProfileInputBoundary;
 import use_case.profile.ProfileInputData;
 import use_case.profile.ProfileInteractor;
+import use_case.profile.ProfileOutputData;
 
 /**
  * The Countroller for the ProfileFile Use Case.
@@ -12,21 +13,27 @@ import use_case.profile.ProfileInteractor;
 public class ProfileController {
 
     private final ProfileInteractor profileInteractor;
-
     public ProfileController(ProfileInteractor profileInteractor) {this.profileInteractor = profileInteractor;}
 
     /**
      * Executes the Note related Use Cases.
      * @param username the user that is creating the porfile.
-     * @param profile the profile that the user is creating.
+     * @param bio the bio that the user is creating.
      */
 
-    public void execute(String username, Profile profile) {
-        final ProfileInputData profileInputData = new ProfileInputData(username, profile.getBio());
+    public void execute(String username, String bio) {
+        final ProfileInputData profileInputData = new ProfileInputData(username, bio);
 
         profileInteractor.excute(profileInputData);
     }
 
+
+    /**
+     * Executes the "switch to list of reviews" use case.
+     */
+    public void switchToListReviewView() {
+        profileInteractor.switchToListReviewView();
+    }
 
 }
 

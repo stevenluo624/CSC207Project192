@@ -5,15 +5,11 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapters.logout.LogoutController;
 import interface_adapters.profile.ProfileController;
 import interface_adapters.profile.ProfileState;
 import interface_adapters.profile.ProfileViewModel;
@@ -29,26 +25,40 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
     private final JTextField bioInputField = new JTextField(50);
     private final JLabel bioErrorField = new JLabel();
 
+    private final JTextArea bioShowPane;
+
     private final JButton save;
-    private final JButton cancel;
+    private final JButton back;
+    private final JButton logout;
+
     private ProfileController profileController;
+    private LogoutController logoutController;
 
     public ProfileView(ProfileViewModel profileViewModel) {
 
         this.profileViewModel = profileViewModel;
         this.profileViewModel.addPropertyChangeListener(this);
 
+        bioShowPane = new JTextArea(15, 30);
+        final ProfileState currentState = profileViewModel.getState();
+        if (currentState.getBio() != null) {
+            bioShowPane.setText("Write something about yourself...");
+        }
+        else {
+            bioShowPane.setText(currentState.getBio());
+        }
+        bioShowPane.setEditable(false);
+
         final JLabel title = new JLabel("Profile Screen");
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
+        final JTextPane bioShowPane = new JTextPane();
         final LabelTextPanel bioInput = new LabelTextPanel(
                 new JLabel("Bio"), bioInputField);
-
         final JPanel buttons = new JPanel();
+
         save = new JButton("Save");
         buttons.add(save);
-        cancel = new JButton("Cancel");
-        buttons.add(cancel);
 
         save.addActionListener(
                 new ActionListener() {
@@ -58,15 +68,30 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
                             profileController.execute(
                                     currentState.getUsername(),
-                                    currentState.getProfile()
+                                    currentState.getBio()
                             );
                         }
                     }
-
                 }
         );
 
-        cancel.addActionListener(this);
+        back = new JButton("Back");
+        back.addActionListener( evt -> {
+            if (evt.getSource().equals(back)) {
+                profileController.switchToListReviewView();
+            }
+        });
+
+        logout = new JButton("Logout");
+        logout.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(logout)) {
+                        final ProfileState profileState = profileViewModel.getState();
+                        logoutController.execute(profileState.getUsername());
+                    }
+                }
+        );
 
         bioInputField.getDocument().addDocumentListener(new DocumentListener() {
             private void documentListenerHelper() {
@@ -109,6 +134,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("PropertyChange" + evt);
         final ProfileState state = (ProfileState) evt.getSource();
         setFields(state);
         bioErrorField.setText(state.getProfileError());
@@ -124,5 +150,9 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     public void setProfileController(ProfileController profileController) {
         this.profileController = profileController;
+    }
+
+    public void setLogoutController(LogoutController logoutController) {
+        this.logoutController = logoutController;
     }
 }

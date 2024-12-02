@@ -7,28 +7,17 @@ import entity.User;
  * The State information representing the user using profile.
  */
 public class ProfileState {
-    private User user;
     private Profile profile;
     private String profileError;
     private String username = "";
-    private String bio = "";
+    private String bio = null;
 
-    public ProfileState(ProfileState copy) {
-        user = copy.user;
-        profile = copy.profile;
-    }
-
-    // Because of the previous copy constructor, the default constructor must be explicit.
     public ProfileState() {
         this.profileError = "";
     }
 
     public Profile getProfile() {
         return profile;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public String getUsername() {

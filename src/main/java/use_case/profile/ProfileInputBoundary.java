@@ -10,4 +10,9 @@ public interface ProfileInputBoundary {
      * @param inputData the output data for this use case
      */
     void excute (ProfileInputData inputData);
+
+    /**
+     * Executes the switch to list of reviews use case.
+     */
+    void switchToListReviewView();
 }

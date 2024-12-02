@@ -16,9 +16,13 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapters.profile.ProfileViewModel;
 import interface_adapters.signup.SignupController;
 import interface_adapters.signup.SignupState;
 import interface_adapters.signup.SignupViewModel;
+import interface_adapters.profile.ProfileState;
+import interface_adapters.profile.ProfileController;
+import use_case.profile.ProfileInteractor;
 
 /**
  * The View for the Signup Use Case.
@@ -31,12 +35,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
     private SignupController signupController;
+    private ProfileController profileController;
 
     private final JButton signUp;
-    private final JButton cancel;
     private final JButton toLogin;
 
     public SignupView(SignupViewModel signupViewModel) {
+
         this.signupViewModel = signupViewModel;
         signupViewModel.addPropertyChangeListener(this);
 
@@ -55,8 +60,6 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         buttons.add(toLogin);
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
         buttons.add(signUp);
-        cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
-        buttons.add(cancel);
 
         signUp.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -64,11 +67,15 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(signUp)) {
                             final SignupState currentState = signupViewModel.getState();
-
                             signupController.execute(
                                     currentState.getUsername(),
                                     currentState.getPassword(),
                                     currentState.getRepeatPassword()
+                            );
+                            String newBio = "Write something about yourself...";
+                            profileController.execute(
+                                    currentState.getUsername(),
+                                    newBio
                             );
                         }
                     }
@@ -82,8 +89,6 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     }
                 }
         );
-
-        cancel.addActionListener(this);
 
         addUsernameListener();
         addPasswordListener();
@@ -196,4 +201,5 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     public void setSignupController(SignupController controller) {
         this.signupController = controller;
     }
+
 }

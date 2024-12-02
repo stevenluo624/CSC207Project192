@@ -1,6 +1,5 @@
 package use_case.profile;
 
-import entity.User;
 /**
  * The input data for the ProfileFile Use Case.
  */

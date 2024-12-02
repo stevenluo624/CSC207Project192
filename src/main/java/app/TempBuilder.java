@@ -27,6 +27,7 @@ import interface_adapters.list_review.ListReviewViewModel;
 import interface_adapters.login.LoginController;
 import interface_adapters.login.LoginPresenter;
 import interface_adapters.login.LoginViewModel;
+import interface_adapters.logout.LogoutController;
 import interface_adapters.map.MapController;
 import interface_adapters.map.MapPresenter;
 import interface_adapters.map.MapViewModel;
@@ -46,6 +47,9 @@ import use_case.list_review.ListReviewOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.logout.LogoutInputBoundary;
+import use_case.logout.LogoutInteractor;
+import use_case.logout.LogoutOutputBoundary;
 import use_case.profile.ProfileDataAccessInterface;
 import use_case.profile.ProfileInteractor;
 import use_case.profile.ProfileOutputBoundary;
@@ -106,17 +110,6 @@ public class TempBuilder {
         };
     }
 
-    /**
-     * Adds the SignUp View to the application.
-     * @return this builder
-     */
-    public TempBuilder addSignUpView() {
-        signupViewModel = new SignupViewModel();
-        signupView = new SignupView(signupViewModel);
-        cardPanel.add(signupView, signupView.getViewName());
-        defaultView = signupView.getViewName();
-        return this;
-    }
 
     /**
      * Adds the Login View to the application.
@@ -159,10 +152,11 @@ public class TempBuilder {
      * Adds the SignUp View to the application.
      * @return the Signup builder
      */
-    public TempBuilder addSignupView() {
+    public TempBuilder addSignUpView() {
         signupViewModel = new SignupViewModel();
         signupView = new SignupView(signupViewModel);
         cardPanel.add(signupView, signupView.getViewName());
+        defaultView = signupView.getViewName();
         return this;
     }
 
@@ -182,9 +176,12 @@ public class TempBuilder {
                 , loginViewModel);
         final SignupInputBoundary signupInteractor = new SignupInteractor(dbUserAccessObject, signupOutputBoundary,
                 userFactory);
-
         final SignupController controller = new SignupController((SignupInteractor) signupInteractor);
         signupView.setSignupController(controller);
+
+
+        final ProfileOutputBoundary profileOutputBoundary = new ProfilePresenter(viewManagerModel,
+                profileViewModel, listReviewViewModel);
         return this;
     }
 
@@ -242,7 +239,7 @@ public class TempBuilder {
      */
     public TempBuilder addProfileUseCase() {
         final ProfileOutputBoundary profileOutputBoundary = new ProfilePresenter(viewManagerModel,
-                profileViewModel);
+                profileViewModel, listReviewViewModel);
         final ProfileInputBoundary profileInteractor = new ProfileInteractor(dbProfileAccessObject,
                 profileOutputBoundary);
         final ProfileController controller = new ProfileController((ProfileInteractor) profileInteractor);

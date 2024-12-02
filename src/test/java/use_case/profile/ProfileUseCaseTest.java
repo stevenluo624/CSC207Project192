@@ -51,6 +51,19 @@ public class ProfileUseCaseTest {
             public void prepareFailView(String errorMessage) {
                 fail("Use case fialure is unexpected.");
             }
+
+            /**
+             * Switches to List of Reviews View.
+             */
+            @Override
+            public void switchToListReviewView() {
+
+            }
+
+            @Override
+            public void switchToLogOutView(String username) {
+
+            }
         };
         ProfileInputBoundary interactor = new ProfileInteractor(profileInMemoryDAO, successPresenter);
         interactor.excute(inputData);
