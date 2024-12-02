@@ -17,9 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class EntityTest {
     private User testUser;
     private Review testReview;
-    private FoodLocation testFoodLocation;
-    private StudyLocation testStudyLocation;
     private UserProfile testProfile;
+    private Location testLocation;
     private UserReview testUserReview;
     private UserReview testUserReply;
     private Reply testReply;
@@ -28,10 +27,9 @@ public class EntityTest {
     void setup() {
         testUser = new StudentUser("Steven", "1234");
         testReview = new Review(testUser, 3, "Test 1");
-        testFoodLocation = new FoodLocation("Truck 1", "43.77", "63.33", "Fast Food");
-        testStudyLocation = new StudyLocation("building 1", "23.77", "21.11", "CS Building");
+        testLocation = new Location("Truck 1", "43.77", "63.33");
         testProfile = new UserProfile("Steven", "I am a uoft Student");
-        testUserReview = new UserReview(testUser, 3, "It is good", testFoodLocation);
+        testUserReview = new UserReview(testUser, 3, "It is good", testLocation);
         testUserReply = new UserReview(testUser, 6, "It is bad");
         testReply = new Reply(testUser, "This is a reply");
     }
@@ -58,19 +56,16 @@ public class EntityTest {
     void locationTest() {
         Integer numRating = Integer.valueOf(1);
         List<Integer> ratingList = List.of(numRating);
-        testFoodLocation.setName("Test Truck");
-        testFoodLocation.setAddress("12 Norton Ave");
-        testStudyLocation.setRating(ratingList);
-        testStudyLocation.setName("Test Building");
-        testStudyLocation.setDescription("This is a really good building");
-        assertEquals("Test Truck", testFoodLocation.getName());
-        assertEquals("12 Norton Ave", testFoodLocation.getAddress());
-        assertEquals(1, testStudyLocation.getRating());
-        assertEquals("43.77", testFoodLocation.getLatitude());
-        assertEquals("63.33", testFoodLocation.getLongitude());
-        assertEquals("This is a really good building", testStudyLocation.getDescription());
-        assertEquals("Fast Food", testFoodLocation.getType());
-        assertEquals("CS Building", testStudyLocation.getBuilding());
+        testLocation.setAddress("12 Norton Ave");
+        testLocation.setRating(ratingList);
+        testLocation.setName("Test Building");
+        testLocation.setDescription("This is a really good building");
+        assertEquals("Test Building", testLocation.getName());
+        assertEquals("12 Norton Ave", testLocation.getAddress());
+        assertEquals(1, testLocation.getRating());
+        assertEquals("43.77", testLocation.getLatitude());
+        assertEquals("63.33", testLocation.getLongitude());
+        assertEquals("This is a really good building", testLocation.getDescription());
     }
 
     @Test
@@ -90,7 +85,7 @@ public class EntityTest {
         assertEquals(3, testUserReview.getRating());
         assertEquals("It is good", testUserReview.getComment());
         assertEquals(1, testUserReview.getNumberOfLikes());
-        assertEquals(testFoodLocation, testUserReview.getLocation());
+        assertEquals(testLocation, testUserReview.getLocation());
         assertEquals("1234567", testUserReview.getKey());
         assertEquals(replyList, testUserReview.getListOfReplies());
     }
