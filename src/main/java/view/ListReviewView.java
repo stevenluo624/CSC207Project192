@@ -63,7 +63,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
-                        state.getCurrentUsername(),
+                        state.getCurrentUser(),
                         review.getKey(),
                         review.getNumberOfLikes()
                 );
@@ -111,7 +111,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         addReviewButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(addReviewButton)) {
-                        listReviewController.switchToCreateReviewView(listReviewViewModel.getState().getCurrentUser());
+                        listReviewController.switchToCreateReviewView(listReviewViewModel.getState().getCurrentUserObject());
                     }
                 }
         );
@@ -122,7 +122,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         final JButton profileButton = new JButton(ListReviewViewModel.PROFILE_BUTTON_LABEL);
         profileButton.addActionListener( evt -> {
                     if (evt.getSource().equals(profileButton)) {
-                        listReviewController.switchToProfileView(listReviewViewModel.getState().getCurrentUsername());
+                        listReviewController.switchToProfileView(listReviewViewModel.getState().getCurrentUser());
                     }
                 }
         );
@@ -212,7 +212,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
-                        state.getCurrentUsername(),
+                        state.getCurrentUser(),
                         review.getKey(),
                         review.getNumberOfLikes()
                 );

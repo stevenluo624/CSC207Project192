@@ -16,8 +16,8 @@ public class ListReviewState {
     private String pageError;
     private List<UserReview> reviewList = new ArrayList<>();
     private String likeError;
-    private String currentUsername;
-    private User currentUser;
+    private String currentUser;
+    private User currentUserObject;
 
     public int getPageNumber() {
         return pageNumber;
@@ -75,23 +75,23 @@ public class ListReviewState {
                 '}';
     }
 
-    public String getCurrentUsername() {
-        return currentUsername;
+    public String getCurrentUser() {
+        return currentUser;
     }
 
-    public void setCurrentUsername(String currentUsername) {
-        this.currentUsername = currentUsername;
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
     }
 
     public String getLikeError() {
         return likeError;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public User getCurrentUserObject() {
+        return currentUserObject;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public void setCurrentUserObject(User currentUserObject) {
+        this.currentUserObject = currentUserObject;
     }
 }
