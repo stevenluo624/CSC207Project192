@@ -10,11 +10,13 @@ public class MainRateMyCampusApp {
         final JFrame application = builder
                 .addSignUpView()
                 .addLoginView()
+                .addCreateReviewView()
                 .addListReviewView()
                 .addProfileView()
                 .addMapView()
                 .addSignupUseCase()
                 .addLoginUseCase()
+                .addCreateReviewUseCase()
                 .addListReviewUseCase()
                 .addMapUseCase()
                 .addProfileUseCase()

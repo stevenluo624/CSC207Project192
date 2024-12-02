@@ -43,6 +43,7 @@ class CreateReviewUseCaseTest {
                 assertEquals("Password", outputData.getUser().getPassword());
                 assertEquals(5, outputData.getRating());
                 assertEquals("Test comment.", outputData.getComment());
+                assertFalse(outputData.isUseCaseFailed());
 
                 assertTrue(dataAccess.getReviews().stream().anyMatch(
                         review -> review.getUser().equals(testUser)
