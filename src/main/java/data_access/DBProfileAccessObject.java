@@ -34,6 +34,15 @@ public class DBProfileAccessObject implements ProfileDataAccessInterface {
     }
 
     @Override
+    public void update(Profile profile) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", profile.getUsername());
+        data.put("bio", profile.getBio());
+        helper.updateDocument(collectionName, data, profile.getUsername());
+    }
+
+
+    @Override
     public String getBio(String username) {
         JsonObject data = helper.getDocument(collectionName, username);
         return data.getAsJsonObject("bio").get("stringValue").getAsString();
