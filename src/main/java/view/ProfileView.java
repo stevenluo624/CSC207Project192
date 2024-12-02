@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapters.logout.LogoutController;
 import interface_adapters.profile.ProfileController;
 import interface_adapters.profile.ProfileState;
 import interface_adapters.profile.ProfileViewModel;
@@ -32,6 +33,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
     private final JButton save;
     private final JButton cancel;
     private ProfileController profileController;
+    private LogoutController logoutController;
 
     public ProfileView(ProfileViewModel profileViewModel) {
 
@@ -124,5 +126,9 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     public void setProfileController(ProfileController profileController) {
         this.profileController = profileController;
+    }
+
+    public void setLogoutController(LogoutController logoutController) {
+        this.logoutController = logoutController;
     }
 }

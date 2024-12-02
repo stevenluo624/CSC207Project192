@@ -70,7 +70,8 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
             String key = document.get("name").getAsString().substring(70);
 
             User userObject = dbUserAccessObject.get(user);
-            Location locationObject = new Location(location, latitude, longitude) {};
+            Location locationObject = new Location(location, latitude, longitude) {
+            };
 
             UserReview review = new UserReview(userObject, (int) Math.round(rating), comment, locationObject);
             review.setKey(key);
@@ -83,6 +84,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
 
     /**
      * Saves the review into the database and returns a String with the firestore id
+     *
      * @param review contains details of the review
      */
     @Override
@@ -95,7 +97,6 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
         data.put("comment", review.getComment());
         data.put("replies", review.getListOfReplies());
         data.put("likes", review.getNumberOfLikes());
-
         helper.addDocument(collectionName, data, documentValue);
     }
 }

@@ -16,4 +16,9 @@ public interface CreateReviewOutputBoundary {
      * @param message the error message
      */
     void prepareFailureView(String message);
+
+    /**
+     * Switches to List of Reviews View.
+     */
+    void switchToListReviewView();
 }

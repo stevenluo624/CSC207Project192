@@ -43,6 +43,7 @@ class CreateReviewUseCaseTest {
                 assertEquals("Password", outputData.getUser().getPassword());
                 assertEquals(5, outputData.getRating());
                 assertEquals("Test comment.", outputData.getComment());
+                assertFalse(outputData.isUseCaseFailed());
 
                 assertTrue(dataAccess.getReviews().stream().anyMatch(
                         review -> review.getUser().equals(testUser)
@@ -54,6 +55,14 @@ class CreateReviewUseCaseTest {
             @Override
             public void prepareFailureView(String message) {
                 fail("Use case failure is unexpected. Error: " + message);
+            }
+
+            /**
+             * Switches to List of Reviews View.
+             */
+            @Override
+            public void switchToListReviewView() {
+                fail("The use case should not switch");
             }
         };
 
