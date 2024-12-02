@@ -14,12 +14,14 @@ public class MainRateMyCampusApp {
                 .addListReviewView()
                 .addProfileView()
                 .addMapView()
+                .addCreateReviewView()
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addCreateReviewUseCase()
                 .addListReviewUseCase()
                 .addMapUseCase()
                 .addProfileUseCase()
+                .addCreateReviewUseCase()
                 .build();
         application.pack();
         application.setVisible(true);

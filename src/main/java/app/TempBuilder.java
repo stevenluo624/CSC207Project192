@@ -21,9 +21,6 @@ import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewPresenter;
 import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
-//import interface_adapters.rate.RateController;
-//import interface_adapters.rate.RatePresenter;
-//import interface_adapters.rate.RateViewModel;
 import interface_adapters.login.LoginController;
 import interface_adapters.login.LoginPresenter;
 import interface_adapters.login.LoginViewModel;
@@ -238,6 +235,7 @@ public class TempBuilder {
                 listReviewViewModel,
                 mapViewModel,
                 profileViewModel,
+                createReviewViewModel,
                 viewManagerModel
         );
 

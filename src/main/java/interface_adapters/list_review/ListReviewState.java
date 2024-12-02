@@ -1,5 +1,6 @@
 package interface_adapters.list_review;
 
+import entity.User;
 import entity.UserReview;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class ListReviewState {
     private List<UserReview> reviewList = new ArrayList<>();
     private String likeError;
     private String currentUser;
+    private User currentUserObject;
 
     public int getPageNumber() {
         return pageNumber;
@@ -83,5 +85,13 @@ public class ListReviewState {
 
     public String getLikeError() {
         return likeError;
+    }
+
+    public User getCurrentUserObject() {
+        return currentUserObject;
+    }
+
+    public void setCurrentUserObject(User currentUserObject) {
+        this.currentUserObject = currentUserObject;
     }
 }
