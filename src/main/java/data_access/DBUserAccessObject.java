@@ -1,11 +1,12 @@
 package data_access;
 
 import com.google.gson.JsonObject;
-import entity.Profile;
 import entity.StudentUser;
 import entity.User;
-import helper.ProjectConstants;
-import helper.FirestoreHelper;
+import data_access.helper.GlobalHelper;
+import data_access.helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
+import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -15,13 +16,13 @@ import java.util.Map;
 /**
  * Data access object for manading user data.
  */
-public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
+public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface, ChangePasswordUserDataAccessInterface {
     private FirestoreHelper helper;
     String collectionName;
     User user;
 
     public DBUserAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.collectionName = ProjectConstants.USER_COLLECTION;
     }
 
@@ -55,5 +56,13 @@ public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupU
     @Override
     public User getCurrentUser() {
         return this.user;
+    }
+
+    @Override
+    public void changePassword(User user) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", user.getUsername());
+        data.put("password", user.getPassword());
+        helper.updateDocument(collectionName, data, user.getUsername());
     }
 }

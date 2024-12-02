@@ -3,25 +3,33 @@ package data_access;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import entity.Location;
 import entity.User;
 import entity.UserReview;
-import helper.ProjectConstants;
-import helper.FirestoreHelper;
+import entity.reviews_thread.Review;
+
+import data_access.helper.GlobalHelper;
+import data_access.helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
+
+import use_case.create_review.CreateReviewDataAccessInterface;
 import use_case.list_review.ListReviewDataAccessInterface;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Data access object for managing reviews.
  */
-public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
-    private FirestoreHelper helper;
-    String collectionName;
+public class DBReviewListAccessObject implements ListReviewDataAccessInterface, CreateReviewDataAccessInterface {
+    private final FirestoreHelper helper;
+    private final String collectionName;
 
     public DBReviewListAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.collectionName = ProjectConstants.REVIEWS_COLLECTION;
     }
 
@@ -32,6 +40,10 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
 
     @Override
     public List<UserReview> getReviews(int pageNumber, int pageSize) {
+        if (!checkPageExists(pageNumber, pageSize)) {
+            return new ArrayList<>();
+        }
+
         JsonObject page = helper.getPage(collectionName, pageNumber, pageSize);
         JsonArray documents = page.getAsJsonArray("documents");
 
@@ -68,4 +80,21 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface {
 
         return reviewList;
     }
+
+    /**
+     * Saves the review into the database and returns a String with the firestore id
+     * @param review contains details of the review
+     */
+    @Override
+    public void saveReview(Review review) {
+        String documentValue = "review" + review.getId();
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("user", review.getUser().getUsername());
+        data.put("rating", review.getRating());
+        data.put("comment", review.getComment());
+        data.put("replies", review.getListOfReplies());
+        data.put("likes", review.getNumberOfLikes());
+
+        helper.addDocument(collectionName, data);
 }
