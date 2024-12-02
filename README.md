@@ -27,12 +27,16 @@ The application addresses the lack of an integrated platform for University of T
 - [License](#license)
 - [Feedback and Contributions](#feedback-and-contributions)
 
-## 
+
 ## Features
 * User registration and authentication system.
+![image of signup](images/signup.jpg)
+![impage of login](images/login.jpg)
 * Profile creation with unique bios.
 * Post, view and rate reviews of University of Toronto places.
+![images of create reviews](images/rate.jpg)
 * Interactive map integration to explore various places location.
+![images of viewing map](images/map.jpg)
 * Ability to like and reply to reviews.
 
 ## Installation Instructions
