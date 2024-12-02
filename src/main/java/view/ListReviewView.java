@@ -77,7 +77,6 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                             }
                         }
                 );
-                // addMapAction(mapButton, review);
 
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
