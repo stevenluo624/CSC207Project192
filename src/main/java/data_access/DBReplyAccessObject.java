@@ -35,8 +35,8 @@ public class DBReplyAccessObject implements CreateReplyDataAccessInterface {
     public void updateReviewThread(Review parentReview, Reply reply) {
         try {
             // Retrieve the parent review document as JSON
-            String documentId = String.valueOf(parentReview.getId());
-            JsonObject parentReviewJson = helper.getDocument(reviewsCollectionName, documentId);
+            String reviewId = "review" + String.valueOf(parentReview.getId());
+            JsonObject parentReviewJson = helper.getDocument(reviewsCollectionName, reviewId);
 
             // Prepare the new reply data
             JsonObject replyData = new JsonObject();
@@ -56,15 +56,16 @@ public class DBReplyAccessObject implements CreateReplyDataAccessInterface {
             // Update "reviews" collection in Firestore
             Map<String, Object> updatedReviewFields = new HashMap<>();
             updatedReviewFields.put("replies", new Gson().fromJson(repliesFieldJson, List.class));
-            helper.updateDocument(reviewsCollectionName, updatedReviewFields, documentId);
+            helper.updateDocument(reviewsCollectionName, updatedReviewFields, reviewId);
 
             // Update "replies" collection in Firestore
+            final String replyId = String.valueOf(reply.getId());
             Map<String, Object> replyDocumentData = new HashMap<>();
             replyDocumentData.put("user", reply.getUser().getUsername());
             replyDocumentData.put("comment", reply.getComment());
             replyDocumentData.put("likes", reply.getNumberOfLikes());
-            replyDocumentData.put("id", "reply" + String.valueOf(reply.getId()));
-            helper.addDocument(repliesCollectionName, replyDocumentData);
+            replyDocumentData.put("id", replyId);
+            helper.addDocument(repliesCollectionName, replyDocumentData, replyId);
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to update the review thread", e);
