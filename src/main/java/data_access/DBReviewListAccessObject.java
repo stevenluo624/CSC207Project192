@@ -5,10 +5,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import entity.Location;
 import entity.User;
-import entity.UserReview;
 import entity.reviews_thread.Review;
-import helper.ProjectConstants;
-import helper.FirestoreHelper;
+import entity.reviews_thread.Review;
+import data_access.helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
 import use_case.create_review.CreateReviewDataAccessInterface;
 import use_case.list_review.ListReviewDataAccessInterface;
 
@@ -35,11 +35,11 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
     }
 
     @Override
-    public List<UserReview> getReviews(int pageNumber, int pageSize) {
+    public List<Review> getReviews(int pageNumber, int pageSize) {
         JsonObject page = helper.getPage(collectionName, pageNumber, pageSize);
         JsonArray documents = page.getAsJsonArray("documents");
 
-        List<UserReview> reviewList = new ArrayList<>();
+        List<Review> reviewList = new ArrayList<>();
 
         DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
 
@@ -59,13 +59,12 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
                     .get("stringValue").getAsString() : null;
             String longitude = fields.has("longitude") ? fields.getAsJsonObject("longitude")
                     .get("stringValue").getAsString() : null;
-            String key = document.get("name").getAsString().substring(70);
 
             User userObject = dbUserAccessObject.get(user);
             Location locationObject = new Location(location, latitude, longitude) {};
 
-            UserReview review = new UserReview(userObject, (int) Math.round(rating), comment, locationObject);
-            review.setKey(key);
+            Review review = new Review(userObject, (int) Math.round(rating), comment);
+            review.setLocation(locationObject);
 
             reviewList.add(review);
         }
@@ -79,7 +78,6 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
      */
     @Override
     public void saveReview(Review review) {
-        String documentValue = "review" + review.getId();
         Map<String, Object> data = new HashMap<>();
 
         data.put("user", review.getUser().getUsername());
@@ -87,7 +85,8 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
         data.put("comment", review.getComment());
         data.put("replies", review.getListOfReplies());
         data.put("likes", review.getNumberOfLikes());
+        final String reviewId = String.valueOf(review.getId());
 
-        helper.addDocument(collectionName, data);
+        helper.addDocument(collectionName, data, reviewId);
     }
 }

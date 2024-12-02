@@ -1,4 +1,4 @@
-package helper;
+package data_access.helper;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.Blob;
@@ -7,7 +7,6 @@ import com.google.cloud.firestore.GeoPoint;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

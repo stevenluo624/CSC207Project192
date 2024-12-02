@@ -1,7 +1,7 @@
 package interface_adapters.list_review;
 
 import entity.Location;
-import entity.UserReview;
+import entity.reviews_thread.Review;
 import use_case.check_map.CheckMapInputData;
 import use_case.list_review.ListReviewInputBoundary;
 import use_case.list_review.ListReviewInputData;
@@ -32,7 +32,7 @@ public class ListReviewController {
      * Switch to map view
      * @param review
      */
-    public void switchToMapView(UserReview review) {
+    public void switchToMapView(Review review) {
         Location location = review.getLocation();
 
         final CheckMapInputData inputData = new CheckMapInputData(

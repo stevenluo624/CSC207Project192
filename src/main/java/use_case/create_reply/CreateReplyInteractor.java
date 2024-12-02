@@ -10,7 +10,7 @@ import entity.reviews_thread.Review;
 public class CreateReplyInteractor implements CreateReplyInputBoundary {
     private final CreateReplyDataAccessInterface dataAccess;
     private final CreateReplyOutputBoundary presenter;
-    private final Review rootReview;
+    private Review rootReview;
 
     public CreateReplyInteractor(CreateReplyDataAccessInterface dataAccess, CreateReplyOutputBoundary presenter,
                                  Review rootReview) {
@@ -23,9 +23,14 @@ public class CreateReplyInteractor implements CreateReplyInputBoundary {
     public void execute(CreateReplyInputData inputData) {
         User user = inputData.getUser();
         String comment = inputData.getComment();
+        rootReview = inputData.getReview();
+
         final Reply reply = new Reply(user, comment);
-        rootReview.updateListOfReplies(reply);
+        reply.setId();
+        // System.out.println(reply.getId()); // For test purposes only
+
         dataAccess.updateReviewThread(rootReview, reply);
+        rootReview.updateListOfReplies(reply);
 
         final CreateReplyOutputData outputData = new CreateReplyOutputData(user, comment, false);
         presenter.prepareSuccessView(outputData);

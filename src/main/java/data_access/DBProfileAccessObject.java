@@ -5,8 +5,8 @@ import com.google.gson.JsonObject;
 import entity.Profile;
 import entity.StudentUser;
 import entity.User;
-import helper.ProjectConstants;
-import helper.FirestoreHelper;
+import data_access.helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
 import use_case.profile.ProfileDataAccessInterface;
 
 import java.util.HashMap;
