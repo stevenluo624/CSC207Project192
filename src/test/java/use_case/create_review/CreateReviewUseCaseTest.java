@@ -45,11 +45,16 @@ class CreateReviewUseCaseTest {
                 assertEquals("Test comment.", outputData.getComment());
                 assertFalse(outputData.isUseCaseFailed());
 
+                // Check if the review was successfully saved to the DAO
                 assertTrue(dataAccess.getReviews().stream().anyMatch(
                         review -> review.getUser().equals(testUser)
                                 && review.getRating() == testRating
-                                && review.getComment().equals(testComment))
+                                && review.getComment().equals(testComment)
+                        )
                 );
+
+                // Check if id is correct
+                assertEquals(1, dataAccess.getReviews().get(0).getId());
             }
 
             @Override

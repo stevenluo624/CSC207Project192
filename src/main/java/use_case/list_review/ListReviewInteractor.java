@@ -1,7 +1,7 @@
 package use_case.list_review;
 
 import entity.User;
-import entity.UserReview;
+import entity.reviews_thread.Review;
 import use_case.check_map.CheckMapInputData;
 import use_case.check_map.CheckMapOutputData;
 import use_case.create_review.CreateReviewInputData;
@@ -34,7 +34,7 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
         int pageNumber = listReviewInputData.getPageNumber();
         int pageSize = listReviewInputData.getPageSize();
 
-        List<UserReview> reviews = reviewDataAccessObject.getReviews(pageNumber, pageSize);
+        List<Review> reviews = reviewDataAccessObject.getReviews(pageNumber, pageSize);
 
         if (reviews.isEmpty()) {
             if (pageNumber == 1) {

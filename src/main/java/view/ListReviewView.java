@@ -1,7 +1,7 @@
 package view;
 
 import data_access.DBLikeAccessObject;
-import entity.UserReview;
+import entity.reviews_thread.Review;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.like_review.LikeReviewController;
 import interface_adapters.like_review.LikeReviewPresenter;
@@ -52,9 +52,9 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         try {
             final JPanel reviewsPanel = new JPanel();
             reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
-            List<UserReview> reviewList = state.getReviewList();
+            List<Review> reviewList = state.getReviewList();
 
-            for (UserReview review : reviewList) {
+            for (Review review : reviewList) {
                 final JPanel buttonsPanel = new JPanel();
                 buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
@@ -64,7 +64,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
-                        review.getKey(),
+                        "review" + String.valueOf(review.getId()),
                         review.getNumberOfLikes()
                 );
 
@@ -196,13 +196,13 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         try {
             final JPanel reviewsPanel = new JPanel();
             reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
-            List<UserReview> reviewList = state.getReviewList();
+            List<Review> reviewList = state.getReviewList();
 
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weighty = 1.0;
 
-            for (UserReview review : reviewList) {
+            for (Review review : reviewList) {
                 final JPanel buttonsPanel = new JPanel();
                 buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
@@ -212,7 +212,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
-                        review.getKey(),
+                        "review" + String.valueOf(review.getId()),
                         review.getNumberOfLikes()
                 );
 
@@ -255,7 +255,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         scrollPanel = newScrollPanel;
     }
 
-    private void addMapAction(JButton button, UserReview review) {
+    private void addMapAction(JButton button, Review review) {
         button.addActionListener(evt -> {
             if (evt.getSource().equals(button)) {
                 listReviewController.switchToMapView(review);

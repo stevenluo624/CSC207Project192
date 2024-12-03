@@ -6,11 +6,14 @@ import entity.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractReview implements ReviewThread {
+public abstract class AbstractReview {
     private final User user;
     private final String comment;
+    private Location location;
+    private final List<Reply> listOfReplies;
     private int numberOfLikes;
-    private static String id;
+    private int counter;
+    private final int id;
 
     /**
      * Creates a new AbstractReview object
@@ -20,14 +23,16 @@ public abstract class AbstractReview implements ReviewThread {
     public AbstractReview(User user, String comment) {
         this.user = user;
         this.comment = comment;
+        this.listOfReplies = new ArrayList<>();
         this.numberOfLikes = 0;
+        counter += 1;
+        this.id = counter;
     }
 
     /**
      * Gets the username of the user who created this review
      * @return the username
      */
-    @Override
     public User getUser() {
         return user;
     }
@@ -36,18 +41,32 @@ public abstract class AbstractReview implements ReviewThread {
      * Gets the comment
      * @return comment
      */
-    @Override
     public String getComment() {
         return comment;
+    }
+
+    /**
+     * Get listOfReplies
+     * @return the list of replies
+     */
+    public List<Reply> getListOfReplies() {
+        return listOfReplies;
     }
 
     /**
      * Gets the number of likes
      * @return the number of likes
      */
-    @Override
     public int getNumberOfLikes() {
         return numberOfLikes;
+    }
+
+    /**
+     * Update list of replies with a new reply
+     * @param reply a Reply object representing a reply to this review or reply
+     */
+    public void updateListOfReplies(Reply reply) {
+        listOfReplies.add(reply);
     }
 
     /**
@@ -58,17 +77,18 @@ public abstract class AbstractReview implements ReviewThread {
     }
 
     /**
-     * Increments the id by 1
-     */
-    public void setId() {
-        id += 1;
-    }
-
-    /**
      * Getter for the id
      * @return id
      */
-    public String getId() {
+    public int getId() {
         return id;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

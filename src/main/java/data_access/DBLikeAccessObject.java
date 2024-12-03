@@ -1,5 +1,8 @@
 package data_access;
 
+import com.google.api.core.ApiFuture;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.*;
 import com.google.gson.JsonObject;
 import data_access.helper.FirestoreHelper;
 import data_access.helper.GlobalHelper;
