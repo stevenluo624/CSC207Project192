@@ -17,6 +17,7 @@ public class LikeReviewUseCaseTest {
     private LikeReviewInputBoundary likeReviewInteractor;
     private TestLikeReviewDataAccess dataAccess;
     private ListReviewViewModel listReviewViewModel;
+    private helper.Callback callback;
 
     @BeforeEach
     void setUp() {
@@ -80,7 +81,7 @@ public class LikeReviewUseCaseTest {
             }
         };
         likeReviewInteractor = new LikeReviewInteractor(dataAccess, successPresenter);
-        likeReviewInteractor.execute(inputData);
+        likeReviewInteractor.execute(inputData, callback);
 
         assertTrue(dataAccess.hasUserLikedReview(username, reviewId));
         assertEquals(1, dataAccess.getLikeCount(reviewId));
@@ -91,12 +92,12 @@ public class LikeReviewUseCaseTest {
         String reviewId = "test123";
         String username = "testUser";
         LikeReviewInputData likeData = new LikeReviewInputData(username, reviewId);
-        likeReviewInteractor.execute(likeData);
+        likeReviewInteractor.execute(likeData, callback);
 
         assertTrue(dataAccess.hasUserLikedReview(username, reviewId));
         assertEquals(1, dataAccess.getLikeCount(reviewId));
 
-        likeReviewInteractor.execute(likeData);
+        likeReviewInteractor.execute(likeData, callback);
 
         assertFalse(dataAccess.hasUserLikedReview(username, reviewId));
         assertEquals(0, dataAccess.getLikeCount(reviewId));
@@ -119,6 +120,6 @@ public class LikeReviewUseCaseTest {
             }
         };
         likeReviewInteractor = new LikeReviewInteractor(dataAccess, failPresenter);
-        likeReviewInteractor.execute(inputData);
+        likeReviewInteractor.execute(inputData, callback);
     }
 }

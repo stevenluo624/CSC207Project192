@@ -1,7 +1,6 @@
 package app;
 
 import javax.swing.*;
-import java.io.IOException;
 
 public class MainRateMyCampusApp {
 

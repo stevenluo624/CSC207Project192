@@ -21,6 +21,7 @@ class CreateReviewUseCaseTest {
     int testRating;
     String testComment;
     String testLocationName;
+    String testId;
 
     ReviewListInMemoryDAO dataAccess;
     CreateReviewInputData inputData;
@@ -32,6 +33,7 @@ class CreateReviewUseCaseTest {
         testRating = 0;
         testComment = "Comment";
         testLocationName = "Building 1";
+        testId = (testComment + "|" + testUser.getUsername()).replaceAll("\\s", "");
 
         dataAccess = new ReviewListInMemoryDAO();
         inputData = new CreateReviewInputData(testUser, testRating, testComment, testLocationName);
@@ -42,6 +44,7 @@ class CreateReviewUseCaseTest {
         testUser = new StudentUser("Test Username", "Password");
         testRating = 5;
         testComment = "Test comment.";
+        testId = (testComment + "|" + testUser.getUsername()).replaceAll("\\s", "");
 
         dataAccess = new ReviewListInMemoryDAO();
         inputData = new CreateReviewInputData(testUser, testRating, testComment, testLocationName);
@@ -49,9 +52,6 @@ class CreateReviewUseCaseTest {
         CreateReviewOutputBoundary mockPresenter = new CreateReviewOutputBoundary() {
             @Override
             public void prepareSuccessView(CreateReviewOutputData outputData) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
-                LocalDateTime now = LocalDateTime.now();
-                String time = now.format(formatter);
                 assertEquals("Test Username", outputData.getUser().getUsername());
                 assertEquals("Password", outputData.getUser().getPassword());
                 assertEquals(5, outputData.getRating());
@@ -68,7 +68,7 @@ class CreateReviewUseCaseTest {
                 );
 
                 // Check if id is correct
-                assertEquals(time, dataAccess.getReviews().get(0).getId().substring(0, 8));
+                assertEquals(testId, dataAccess.getReviews().get(0).getId());
             }
 
             @Override

@@ -34,7 +34,7 @@ public class EntityTest {
     void likeTest() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
         LocalDateTime now = LocalDateTime.now();
-        String time = now.format(formatter);
+        String id = "Itisgood";
         Like testLike = new Like(testUser, testReview);
         testReview.incrementLikes();
         assertEquals("Steven", testLike.getUser().getUsername());
@@ -43,7 +43,7 @@ public class EntityTest {
         assertEquals(3, testLike.getReview().getRating());
         assertEquals("It is good", testLike.getReview().getComment());
         assertEquals(1, testReview.getNumberOfLikes());
-        assertEquals(time, testReview.getId().substring(0, 8));
+        assertEquals(id, testReview.getId().substring(0, 8));
     }
 
     @Test
