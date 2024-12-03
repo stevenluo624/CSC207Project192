@@ -4,6 +4,7 @@ package use_case.like_review;
 import helper.Callback;
 
 
+
 /**
  * Input Boundary for actions which are related to liking a review.
  */

@@ -14,16 +14,20 @@ public class LikeReviewButton extends JButton implements ActionListener {
     private int likeCount;
     private final ImageIcon likeIcon;
     private final ImageIcon likedIcon;
+    private boolean isLiked;
 
-    public LikeReviewButton(LikeReviewController controller, String username, String reviewId, int initialLikeCount) {
+    public LikeReviewButton(LikeReviewController controller, String username, String reviewId,
+                            int initialLikeCount, boolean initialLikedState) {
         this.controller = controller;
         this.username = username;
         this.reviewId = reviewId;
         this.likeCount = initialLikeCount;
+        this.isLiked = initialLikedState;
 
-
-        ImageIcon originalLikeIcon = new ImageIcon("src/main/resources/images/youtube-like-button-png-11.png");
+        // Load the original icons
+        ImageIcon originalLikeIcon = new ImageIcon("src/main/java/resources/images/youtube-like-button-png-11.png");
         ImageIcon originalLikedIcon = new ImageIcon("src/main/java/resources/images/blue-like-button-icon.png");
+
 
         // Scale them to the correct size
         Image scaledLikeImage = originalLikeIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
