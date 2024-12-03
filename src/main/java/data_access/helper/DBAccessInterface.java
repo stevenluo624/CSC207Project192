@@ -13,5 +13,5 @@ public interface DBAccessInterface {
     boolean checkExists(String collection, String documentValue);
     boolean checkPageExists(String collection, int pageNumber, int pageSize);
     void deleteDocument(String collection, String documentValue);
-    void incrementField(String collection, String documentValue, String fieldName, int value);
+    void incrementField(String collection, String documentValue, String fieldName, Double value);
 }

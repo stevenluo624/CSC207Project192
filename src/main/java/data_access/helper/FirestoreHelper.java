@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -415,7 +416,7 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
     }
 
     @Override
-    public void incrementField(String collection, String documentValue, String fieldName, int value) {
+    public void incrementField(String collection, String documentValue, String fieldName, Double value) {
         String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
                 "/databases/(default)/documents:commit";
         String doc = "projects/" + this.projectId +

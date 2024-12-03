@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 //import data_access.DBReviewAccessObject;
+import data_access.*;
 import data_access.DBProfileAccessObject;
 import data_access.DBReviewListAccessObject;
 import data_access.DBUserAccessObject;
@@ -67,6 +68,7 @@ public class TempBuilder {
     private final DBReviewListAccessObject dbReviewListAccessObject = new DBReviewListAccessObject();
     private final DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
     private final DBProfileAccessObject dbProfileAccessObject = new DBProfileAccessObject();
+    private final DBLikeAccessObject dbLikeAccessObject = new DBLikeAccessObject();
 
     String defaultView = "";
     private SignupView signupView;
