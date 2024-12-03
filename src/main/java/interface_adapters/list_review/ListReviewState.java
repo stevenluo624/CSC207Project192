@@ -18,6 +18,7 @@ public class ListReviewState {
     private String likeError;
     private String currentUser;
     private User currentUserObject;
+    private boolean refreshed = false;
 
     public int getPageNumber() {
         return pageNumber;
@@ -93,5 +94,13 @@ public class ListReviewState {
 
     public void setCurrentUserObject(User currentUserObject) {
         this.currentUserObject = currentUserObject;
+    }
+
+    public boolean isRefreshed() {
+        return refreshed;
+    }
+
+    public void setRefreshed(boolean refreshed) {
+        this.refreshed = refreshed;
     }
 }
