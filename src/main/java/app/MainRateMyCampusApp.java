@@ -23,7 +23,6 @@ public class MainRateMyCampusApp {
                 .addCreateReplyUseCase()
                 .addMapUseCase()
                 .addProfileUseCase()
-                .addCreateReviewUseCase()
                 .build();
         application.pack();
         application.setVisible(true);
