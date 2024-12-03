@@ -18,15 +18,18 @@ public class ProfileController {
     /**
      * Executes the Note related Use Cases.
      * @param username the user that is creating the porfile.
-     * @param profile the profile that the user is creating.
+     * @param bio the profile that the user is creating.
      */
 
-    public void execute(String username, Profile profile) {
-        final ProfileInputData profileInputData = new ProfileInputData(username, profile.getBio());
+    public void execute(String username, String bio) {
+        final ProfileInputData profileInputData = new ProfileInputData(username, bio);
 
         profileInteractor.excute(profileInputData);
     }
 
 
+    public void switchToListReviewView() {
+        profileInteractor.switchToListReviewView();
+    }
 }
 

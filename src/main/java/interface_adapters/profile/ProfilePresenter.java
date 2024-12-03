@@ -1,8 +1,7 @@
 package interface_adapters.profile;
 
 import interface_adapters.ViewManagerModel;
-import interface_adapters.profile.ProfileState;
-import interface_adapters.profile.ProfileViewModel;
+import interface_adapters.list_review.ListReviewViewModel;
 import use_case.profile.ProfileOutputBoundary;
 import use_case.profile.ProfileOutputData;
 
@@ -13,10 +12,14 @@ public class ProfilePresenter implements ProfileOutputBoundary {
 
     private final ProfileViewModel profileViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final ListReviewViewModel listReviewViewModel;
 
-    public ProfilePresenter(ViewManagerModel viewManagerModel, ProfileViewModel profileViewModel) {
+    public ProfilePresenter(ViewManagerModel viewManagerModel,
+                            ProfileViewModel profileViewModel,
+                            ListReviewViewModel listReviewViewModel) {
         this.profileViewModel = profileViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.listReviewViewModel = listReviewViewModel;
     }
 
     @Override
@@ -37,6 +40,12 @@ public class ProfilePresenter implements ProfileOutputBoundary {
         final ProfileState profileState = profileViewModel.getState();
         profileState.setProfileError(errorMessage);
         profileViewModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToListReviewView() {
+        viewManagerModel.setState(listReviewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }
 

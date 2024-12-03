@@ -10,4 +10,6 @@ public interface ProfileInputBoundary {
      * @param inputData the output data for this use case
      */
     void excute (ProfileInputData inputData);
+
+    void switchToListReviewView();
 }

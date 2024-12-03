@@ -36,8 +36,12 @@ public class ProfileState {
     }
 
     public String getBio() {
-        return bio;
-    }
+        if (bio.isEmpty()) {
+            return "Write something about yourself...";
+        }
+        else {
+            return bio;
+        }}
 
     public String getProfileError() {
         return profileError;
