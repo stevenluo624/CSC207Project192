@@ -2,7 +2,7 @@
 ## 🏆 Contributors:
 | Name                     | GitHub Username          |
 |---------------------------|--------------------------|
-| **Leandro Hamaguchi**     | [leandrohamaguchi](https://github.com/LeandroHamaguchi)|
+| **Leandro Hamaguchi**     | [LeandroHamaguchi](https://github.com/LeandroHamaguchi)|
 | **Tianyu Luo**            | [stevenluo624](https://github.com/stevenluo624)        |
 | **Karan Singh**           | [codymavok](https://github.com/codymavok)              |
 | **Minghao Sun**           | [TNDLight](https://github.com/TNDLight)                |
