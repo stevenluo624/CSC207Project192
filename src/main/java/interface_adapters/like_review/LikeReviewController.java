@@ -15,9 +15,11 @@ public class LikeReviewController {
     }
 
     /**
-     * Executes the Like Review Use Case.
-     * @param username the username of the user logging in
-     * @param reviewId the ID of the review the user is liking
+     * Executes the Like Review Use Case with a callback.
+     *
+     * @param username the username of the user liking/unliking
+     * @param reviewId the ID of the review being liked/unliked
+     * @param callback a function to handle the result of the operation
      */
     public void execute(String username, String reviewId, Callback callback) {
         final LikeReviewInputData likeReviewInputData = new LikeReviewInputData(username, reviewId);
