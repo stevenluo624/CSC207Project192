@@ -36,9 +36,9 @@ public class EntityTest {
     void likeTest() {
 
         Like testLike = new Like(testUser, testReview);
-        testReview.updateListOfReplies(testReply);
+        testReview.updateListOfReplies("reply1");
         testReview.incrementLikes();
-        List<Reply> replyList = List.of(testReply);
+        List<String> replyList = List.of("reply1");
         assertEquals("Steven", testLike.getUser().getUsername());
         assertEquals("1234", testLike.getUser().getPassword());
         assertEquals(testUser, testReview.getUser());
@@ -74,9 +74,9 @@ public class EntityTest {
     @Test
     void userReviewTest() {
         testReview.incrementLikes();
-        testReview.updateListOfReplies(testReply);
+        testReview.updateListOfReplies("reply1");
         testReview.setLocation(testLocation);
-        List<Reply> replyList = List.of(testReply);
+        List<String> replyList = List.of("reply1");
         assertEquals(testUser, testReview.getUser());
         assertEquals(3, testReview.getRating());
         assertEquals("It is good", testReview.getComment());
