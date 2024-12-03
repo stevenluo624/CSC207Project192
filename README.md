@@ -1,13 +1,15 @@
 # RateMyCampus
 ## 🏆 Contributors:
-* [Leandro Hamaguchi](https://github.com/LeandroHamaguchi)
-* [Tianyu Luo](https://github.com/stevenluo624)
-* [Karan Singh](https://github.com/codymavok)
-* [Minghao Sun](https://github.com/TNDLight)
-* [David Wang](https://github.com/David1425)
+| Name                     | GitHub Username          |
+|---------------------------|--------------------------|
+| **Leandro Hamaguchi**     | [leandrohamaguchi](https://github.com/LeandroHamaguchi)|
+| **Tianyu Luo**            | [stevenluo624](https://github.com/stevenluo624)        |
+| **Karan Singh**           | [codymavok](https://github.com/codymavok)              |
+| **Minghao Sun**           | [TNDLight](https://github.com/TNDLight)                |
+| **David Wang**            | [david1425](https://github.com/David1425)              |
 
 ## 📊 Project Summary
-This project is a Java Swing-based application allowing users to creat acouunts, post reviews, and rate various University or Toronto places such as library, food truck, building. Users can also view the places on an interactive map, they can view, reply or like other people's review on each place, plus user can build personal profiles with unque bios. 
+This project is a Java Swing-based application allowing users to create accounts, post reviews, and rate various University or Toronto places such as library, food truck, building. Users can also view the places on an interactive map, they can view, reply or like other people's review on each place, plus user can build personal profiles with unque bios. 
 
 The application aims to provide a collaborative and engaging platform for students, staff, and vistors to share and explore perspectives about campus spaces.
 
@@ -100,6 +102,7 @@ This project is licensed under the MIT License. See the [LICENSE.md](LICENSE) fi
 ## 💻 Feedback and Contributions
 ### Feedbacks
 We welcome feedback and suggestions! Please open an issue on GitHub or contact us via [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfLvapOTcbBCixbNcKGnz9T7zNVomn7YI8HXXTcTsjRQ9pMzg/viewform?usp=sf_link).
+
 People who wants to provide feedback must provide their name and email address in case we need to contact you. Valid feedback must contain a clear description of either a clear description of the issue and what is expected to be fixed or a detailed elaboration of the feature we can add for improvement and a short description of your propose solution. 
 
 ### Contributions
