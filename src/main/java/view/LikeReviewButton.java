@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapters.like_review.LikeReviewController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,28 +25,42 @@ public class LikeReviewButton extends JButton implements ActionListener {
         ImageIcon originalLikeIcon = new ImageIcon("src/main/resources/images/youtube-like-button-png-11.png");
         ImageIcon originalLikedIcon = new ImageIcon("src/main/java/resources/images/blue-like-button-icon.png");
 
+        // Scale them to the correct size
         Image scaledLikeImage = originalLikeIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
         Image scaledLikedImage = originalLikedIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
 
         this.likeIcon = new ImageIcon(scaledLikeImage);
         this.likedIcon = new ImageIcon(scaledLikedImage);
-        setIcon(likeIcon);
-        setText(String.valueOf(initialLikeCount));
+
+        updateButtonAppearance();
+
         setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(false);
 
         addActionListener(this);
+        System.out.println("Button created with count: " + likeCount + ", liked: " + isLiked);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        controller.execute(username, reviewId);
+        controller.execute(username, reviewId, success -> {
+            if (success) {
+                isLiked = !isLiked;
+                likeCount += isLiked ? 1 : -1;
+                updateButtonAppearance();
+                System.out.println("Database updated successfully. New state: liked=" + isLiked + ", count=" + likeCount);
+            } else {
+                System.out.println("Database update failed.");
+            }
+        });
     }
 
-    public void updateLikeCount(int newLikeCount, boolean isLiked) {
-        this.likeCount = newLikeCount;
-        setText("Likes: " + likeCount);
+    private void updateButtonAppearance() {
         setIcon(isLiked ? likedIcon : likeIcon);
+        setText(String.valueOf(likeCount));
+        revalidate();
+        repaint();
+        System.out.println("Updating appearance - Icon: " + (isLiked ? "blue" : "black") + ", Count: " + likeCount);
     }
 }
