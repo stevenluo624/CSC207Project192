@@ -41,7 +41,7 @@ class CreateReplyUseCaseTest {
             @Override
             public void prepareFailureView(String message) { /* Empty */ }
         };
-        interactor = new CreateReplyInteractor(mockDataAccess, mockPresenter, rootReview);
+        interactor = new CreateReplyInteractor(mockDataAccess, mockPresenter);
     }
 
     @Test
@@ -52,22 +52,17 @@ class CreateReplyUseCaseTest {
                 new StudentUser("ReviewUsername", "ReviewPassword"), 5, "Test");
 
         mockDataAccess = new ReplyInMemoryDAO();
+        int lenReplies = 1;
         inputData = new CreateReplyInputData(testReplyUser, testReplyComment, rootReview);
-
+        // Check if reply was added to review's list of replies
         mockPresenter = new CreateReplyOutputBoundary() {
             @Override
             public void prepareSuccessView(CreateReplyOutputData outputData) {
                 // Check username and comment
                 assertEquals("Test Username", outputData.getUser().getUsername());
                 assertEquals("Test comment.", outputData.getComment());
-
-                // Check if reply was added to review's list of replies
-                assertTrue(mockDataAccess.getReviews().stream().anyMatch(
-                        review -> review.getListOfReplies().stream().anyMatch(
-                                reply -> reply.getUser().equals(testReplyUser)
-                                && reply.getComment().equals(testReplyComment)
-                        )
-                ));
+                assertEquals(lenReplies+1, mockDataAccess.getReviews().get(0).getListOfReplies().size());
+                assertFalse(outputData.isUseCaseFailed());
             }
 
             @Override
@@ -76,7 +71,7 @@ class CreateReplyUseCaseTest {
             }
         };
 
-        interactor = new CreateReplyInteractor(mockDataAccess, mockPresenter, rootReview);
+        interactor = new CreateReplyInteractor(mockDataAccess, mockPresenter);
         interactor.execute(inputData);
     }
 }

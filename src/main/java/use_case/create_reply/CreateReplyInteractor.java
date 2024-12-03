@@ -10,28 +10,37 @@ import entity.reviews_thread.Review;
 public class CreateReplyInteractor implements CreateReplyInputBoundary {
     private final CreateReplyDataAccessInterface dataAccess;
     private final CreateReplyOutputBoundary presenter;
-    private Review rootReview;
 
-    public CreateReplyInteractor(CreateReplyDataAccessInterface dataAccess, CreateReplyOutputBoundary presenter,
-                                 Review rootReview) {
+    /**
+     * @param dataAccess the data access for the use case
+     * @param presenter the presenter for the use case
+     */
+    public CreateReplyInteractor(CreateReplyDataAccessInterface dataAccess, CreateReplyOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
-        this.rootReview = rootReview;
     }
 
     @Override
     public void execute(CreateReplyInputData inputData) {
         User user = inputData.getUser();
         String comment = inputData.getComment();
-        rootReview = inputData.getReview();
+        Review rootReview = inputData.getReview();
 
         final Reply reply = new Reply(user, comment);
-        final String replyId = "reply" + String.valueOf(reply.getId());
+        final String replyId = "reply" + reply.getId();
 
         dataAccess.updateReviewThread(rootReview, reply);
         rootReview.updateListOfReplies(replyId);
 
         final CreateReplyOutputData outputData = new CreateReplyOutputData(user, comment, false);
         presenter.prepareSuccessView(outputData);
+    }
+
+    /**
+     * Executes the switch to list of reviews use case
+     */
+    @Override
+    public void switchToListReviewView() {
+        presenter.switchToListReviewView();
     }
 }

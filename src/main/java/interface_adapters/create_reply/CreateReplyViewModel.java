@@ -1,5 +1,6 @@
 package interface_adapters.create_reply;
 
+import entity.reviews_thread.Review;
 import interface_adapters.ViewModel;
 
 /**

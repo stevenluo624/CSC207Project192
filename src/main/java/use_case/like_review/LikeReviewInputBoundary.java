@@ -1,7 +1,8 @@
 package use_case.like_review;
 
+
 import helper.Callback;
-import use_case.logout.LogoutInputData;
+
 
 /**
  * Input Boundary for actions which are related to liking a review.

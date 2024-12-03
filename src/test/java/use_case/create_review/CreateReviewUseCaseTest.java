@@ -1,5 +1,6 @@
 package use_case.create_review;
 
+import interface_adapters.ViewManagerModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,6 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import entity.StudentUser;
 import entity.User;
 import data_access.in_memory_dao.ReviewListInMemoryDAO;
+import use_case.check_map.CheckMapInputBoundary;
+import use_case.check_map.CheckMapInteractor;
+import use_case.check_map.CheckMapOutputBoundary;
+import use_case.check_map.CheckMapOutputData;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 class CreateReviewUseCaseTest {
     User testUser;
@@ -41,10 +49,14 @@ class CreateReviewUseCaseTest {
         CreateReviewOutputBoundary mockPresenter = new CreateReviewOutputBoundary() {
             @Override
             public void prepareSuccessView(CreateReviewOutputData outputData) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
+                LocalDateTime now = LocalDateTime.now();
+                String time = now.format(formatter);
                 assertEquals("Test Username", outputData.getUser().getUsername());
                 assertEquals("Password", outputData.getUser().getPassword());
                 assertEquals(5, outputData.getRating());
                 assertEquals("Test comment.", outputData.getComment());
+                assertEquals("Building 1", outputData.getLocationName());
                 assertFalse(outputData.isUseCaseFailed());
 
                 // Check if the review was successfully saved to the DAO
@@ -56,7 +68,7 @@ class CreateReviewUseCaseTest {
                 );
 
                 // Check if id is correct
-                assertEquals(1, dataAccess.getReviews().get(0).getId());
+                assertEquals(time, dataAccess.getReviews().get(0).getId().substring(0, 8));
             }
 
             @Override
@@ -75,5 +87,36 @@ class CreateReviewUseCaseTest {
 
         interactor = new CreateReviewInteractor(dataAccess, mockPresenter);
         interactor.execute(inputData);
+    }
+
+    @Test
+    void switchToListReviewViewTest() {
+        // switch the view to list of reviews
+        // This creates a presenter that tests whether the test case is as we expect.
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        CreateReviewOutputBoundary switchPresenter = new CreateReviewOutputBoundary() {
+            @Override
+            public void prepareSuccessView(CreateReviewOutputData review) {
+                // this should never be reached since the test case should fail
+                fail("Use case success is unexpected.");
+            }
+
+            @Override
+            public void prepareFailureView(String error) {
+                // this should never be reached since the test case should fail
+                fail("Use case failure is unexpected.");
+            }
+
+            /**
+             * Switches to List of Reviews View.
+             */
+            @Override
+            public void switchToListReviewView() {
+                viewManagerModel.setState("review list");
+                assertEquals("review list", viewManagerModel.getState());
+            }
+        };
+        CreateReviewInputBoundary interactor = new CreateReviewInteractor(dataAccess, switchPresenter);
+        interactor.switchToListReviewView();
     }
 }
