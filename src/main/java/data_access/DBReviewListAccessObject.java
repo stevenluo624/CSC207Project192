@@ -66,7 +66,6 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
                     .get("stringValue").getAsString() : null;
             String longitude = fields.has("longitude") ? fields.getAsJsonObject("longitude")
                     .get("stringValue").getAsString() : null;
-            String key = document.get("name").getAsString().substring(70);
 
             User userObject = dbUserAccessObject.get(user);
             Location locationObject = new Location(location, latitude, longitude);
@@ -93,7 +92,8 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
         data.put("comment", review.getComment());
         data.put("replies", review.getListOfReplies());
         data.put("likes", review.getNumberOfLikes());
-        final String reviewId = String.valueOf(review.getId());
+        final String reviewId = "review" + String.valueOf(review.getId());
+        System.out.println(data);
 
         helper.addDocument(collectionName, data, reviewId);
     }
