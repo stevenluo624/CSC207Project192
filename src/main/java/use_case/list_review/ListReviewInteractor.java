@@ -63,6 +63,6 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
 
     @Override
     public void switchToCreateReviewView(User user) {
-        reviewPresenter.switchToCreateReviewView(new CreateReviewOutputData(user, 0, "", false));
+        reviewPresenter.switchToCreateReviewView(new CreateReviewOutputData(user, 0, "", "", false));
     }
 }

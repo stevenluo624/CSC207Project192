@@ -12,6 +12,7 @@ class CreateReviewUseCaseTest {
     User testUser;
     int testRating;
     String testComment;
+    String testLocationName;
 
     ReviewListInMemoryDAO dataAccess;
     CreateReviewInputData inputData;
@@ -22,9 +23,10 @@ class CreateReviewUseCaseTest {
         testUser = new StudentUser("Username", "Password");
         testRating = 0;
         testComment = "Comment";
+        testLocationName = "Building 1";
 
         dataAccess = new ReviewListInMemoryDAO();
-        inputData = new CreateReviewInputData(testUser, testRating, testComment);
+        inputData = new CreateReviewInputData(testUser, testRating, testComment, testLocationName);
     }
 
     @Test
@@ -34,7 +36,7 @@ class CreateReviewUseCaseTest {
         testComment = "Test comment.";
 
         dataAccess = new ReviewListInMemoryDAO();
-        inputData = new CreateReviewInputData(testUser, testRating, testComment);
+        inputData = new CreateReviewInputData(testUser, testRating, testComment, testLocationName);
 
         CreateReviewOutputBoundary mockPresenter = new CreateReviewOutputBoundary() {
             @Override

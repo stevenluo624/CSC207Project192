@@ -20,7 +20,7 @@ public class CreateReviewInteractor implements CreateReviewInputBoundary {
         dataAccess.saveReview(review);
 
         final CreateReviewOutputData outputData = new CreateReviewOutputData(inputData.getUser(),
-                inputData.getRating(), inputData.getComment(), false);
+                inputData.getRating(), inputData.getComment(), inputData.getLocationName(), false);
         presenter.prepareSuccessView(outputData);
     }
 
