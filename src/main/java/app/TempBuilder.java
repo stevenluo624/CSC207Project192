@@ -288,7 +288,7 @@ public class TempBuilder {
      */
     public TempBuilder addProfileUseCase() {
         final ProfileOutputBoundary profileOutputBoundary = new ProfilePresenter(viewManagerModel,
-                profileViewModel);
+                profileViewModel, listReviewViewModel);
         final ProfileInputBoundary profileInteractor = new ProfileInteractor(dbProfileAccessObject,
                 profileOutputBoundary);
         final ProfileController controller = new ProfileController((ProfileInteractor) profileInteractor);

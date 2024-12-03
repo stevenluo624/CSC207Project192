@@ -23,5 +23,10 @@ public class ProfileInteractor implements ProfileInputBoundary {
         presenter.prepareSuccessView(outputData);
     }
 
+    @Override
+    public void switchToListReviewView() {
+        presenter.switchToListReviewView();
+    }
+
 
 }
