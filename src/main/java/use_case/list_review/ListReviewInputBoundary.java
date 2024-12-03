@@ -30,10 +30,4 @@ public interface ListReviewInputBoundary {
      * @param user the logged in user
      */
     void switchToCreateReviewView(User user);
-
-    /**
-     * Switches to the create reply use case.
-     * @param user the logged in user
-     */
-    void switchToReplyView(User user);
 }

@@ -4,7 +4,6 @@ import entity.User;
 import entity.reviews_thread.Review;
 import use_case.check_map.CheckMapInputData;
 import use_case.check_map.CheckMapOutputData;
-import use_case.create_reply.CreateReplyOutputData;
 import use_case.create_review.CreateReviewInputData;
 import use_case.create_review.CreateReviewOutputData;
 import use_case.profile.ProfileDataAccessInterface;
@@ -65,13 +64,5 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
     @Override
     public void switchToCreateReviewView(User user) {
         reviewPresenter.switchToCreateReviewView(new CreateReviewOutputData(user, 0, "", "", false));
-    }
-
-    /**
-     * @param user the logged in user
-     */
-    @Override
-    public void switchToReplyView(User user) {
-        reviewPresenter.switchToCreateReplyView(new CreateReplyOutputData(user, "", false));
     }
 }
