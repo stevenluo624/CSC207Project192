@@ -1,8 +1,6 @@
 package interface_adapters.like_review;
 
 import interface_adapters.ViewManagerModel;
-import interface_adapters.change_password.LoggedInState;
-import interface_adapters.change_password.LoggedInViewModel;
 import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
 import use_case.like_review.LikeReviewOutputBoundary;
