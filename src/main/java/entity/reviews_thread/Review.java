@@ -2,12 +2,9 @@ package entity.reviews_thread;
 
 import entity.User;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The representation of a Review in our program.
- * A review is the root of the thread. From it, a series of Reply objects can be created expanding the thread.
+ * A review is the root of the thread.
  * A review cannot form another review (i.e. a Review object cannot be part of the listOfReplies attribute.
  */
 public class Review extends AbstractReview {
@@ -33,6 +30,4 @@ public class Review extends AbstractReview {
     public int getRating() {
         return rating;
     }
-
-
 }
