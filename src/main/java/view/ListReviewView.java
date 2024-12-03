@@ -73,6 +73,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent evt) {
+                                state.setRefreshed(false);
                                 listReviewController.switchToMapView(review);
                             }
                         }
@@ -121,6 +122,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         addReviewButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(addReviewButton)) {
+                        state.setRefreshed(false);
                         listReviewController.switchToCreateReviewView(listReviewViewModel.getState()
                                 .getCurrentUserObject());
                     }
@@ -133,6 +135,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         final JButton profileButton = new JButton(ListReviewViewModel.PROFILE_BUTTON_LABEL);
         profileButton.addActionListener( evt -> {
                     if (evt.getSource().equals(profileButton)) {
+                        state.setRefreshed(false);
                         listReviewController.switchToProfileView(listReviewViewModel.getState().getCurrentUser());
                     }
                 }
@@ -154,6 +157,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         final ListReviewState currentState = listReviewViewModel.getState();
                         currentState.prevPage();
 
+                        currentState.setRefreshed(false);
                         listReviewController.execute(
                                 currentState.getPageNumber(),
                                 currentState.getPageSize()
@@ -168,6 +172,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         final ListReviewState currentState = listReviewViewModel.getState();
                         currentState.nextPage();
 
+                        currentState.setRefreshed(false);
                         listReviewController.execute(
                                 currentState.getPageNumber(),
                                 currentState.getPageSize()
@@ -203,6 +208,14 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     private void updateReviews() {
         final ListReviewState state = listReviewViewModel.getState();
+        if (!state.isRefreshed()) {
+            state.setRefreshed(true);
+            System.out.println("refreshed");
+            listReviewController.execute(state.getPageNumber(), state.getPageSize());
+        } else {
+            System.out.println("already refreshed");
+            state.setRefreshed(false);
+        }
 
         JScrollPane newScrollPanel;
         try {
@@ -233,6 +246,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent evt) {
+                                state.setRefreshed(false);
                                 listReviewController.switchToMapView(review);
                             }
                         }
@@ -286,7 +300,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
             }
         });
     }
-
+  
     public String getViewName() {
         return viewName;
     }
