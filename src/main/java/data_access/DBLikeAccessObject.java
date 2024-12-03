@@ -78,9 +78,9 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
             JsonObject doc = helper.getDocument(userReviews, newReviewId);
 
             if (doc != null && doc.has("likes")) {
-                int count = doc.get("likes").getAsInt();
+                Double count = doc.getAsJsonObject("likes").get("doubleValue").getAsDouble();
                 System.out.println("Found like count: " + count);
-                return count;
+                return (int)Math.round(count);
             }
             System.out.println("No likes field found, returning 0");
             return 0;

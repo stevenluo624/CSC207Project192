@@ -56,6 +56,10 @@ public abstract class AbstractReview {
         this.numberOfLikes++;
     }
 
+    public void setNumberOfLikes(int numberOfLikes) {
+        this.numberOfLikes = numberOfLikes;
+    }
+
     /**
      * Getter for the id
      * @return id
