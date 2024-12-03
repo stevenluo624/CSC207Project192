@@ -144,9 +144,9 @@ public class TempBuilder {
      */
     public TempBuilder addListReviewView() {
         listReviewViewModel = new ListReviewViewModel();
-        listReviewView = new ListReviewView(listReviewViewModel);
         final ListReviewState state = listReviewViewModel.getState();
         state.setReviewList(dbReviewListAccessObject.getReviews(state.getPageNumber(), state.getPageSize()));
+        listReviewView = new ListReviewView(listReviewViewModel);
 
         cardPanel.add(listReviewView, listReviewView.getViewName());
 
