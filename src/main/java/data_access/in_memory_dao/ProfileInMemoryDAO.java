@@ -14,7 +14,7 @@ public class ProfileInMemoryDAO implements ProfileDataAccessInterface {
     }
 
     @Override
-    public void update(Profile profile) {
+    public void update(String username, String bio) {
 
     }
 
