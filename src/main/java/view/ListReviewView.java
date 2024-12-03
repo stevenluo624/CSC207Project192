@@ -69,7 +69,8 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         this.likeReviewController,
                         state.getCurrentUser(),
                         review.getKey(),
-                        review.getNumberOfLikes()
+                        review.getNumberOfLikes(),
+                        review.
                 );
 
                 final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);

@@ -1,5 +1,6 @@
 package use_case.like_review;
 
+import helper.Callback;
 import use_case.logout.LogoutInputData;
 
 /**
@@ -10,5 +11,5 @@ public interface LikeReviewInputBoundary {
      * Executes the Like Review use case.
      * @param likeReviewInputData the input data
      */
-    void execute(LikeReviewInputData likeReviewInputData);
+    void execute(LikeReviewInputData likeReviewInputData, Callback callback);
 }
