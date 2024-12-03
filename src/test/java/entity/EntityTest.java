@@ -1,7 +1,6 @@
 package entity;
 
 import app.UserFactory;
-import entity.reviews_thread.Reply;
 import entity.reviews_thread.Review;
 import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +20,6 @@ public class EntityTest {
     private Review testReview;
     private UserProfile testProfile;
     private Location testLocation;
-    private Reply testReply;
 
     @BeforeEach
     void setup() {
@@ -29,8 +27,6 @@ public class EntityTest {
         testLocation = new Location("Truck 1", "43.77", "63.33");
         testProfile = new UserProfile("Steven", "I am a uoft Student");
         testReview = new Review(testUser, 3, "It is good");
-        testReply = new Reply(testUser, "It is bad");
-        testReply = new Reply(testUser, "This is a reply");
     }
 
 
@@ -40,15 +36,12 @@ public class EntityTest {
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
         Like testLike = new Like(testUser, testReview);
-        testReview.updateListOfReplies("reply1");
         testReview.incrementLikes();
-        List<String> replyList = List.of("reply1");
         assertEquals("Steven", testLike.getUser().getUsername());
         assertEquals("1234", testLike.getUser().getPassword());
         assertEquals(testUser, testReview.getUser());
         assertEquals(3, testLike.getReview().getRating());
         assertEquals("It is good", testLike.getReview().getComment());
-        assertEquals(replyList, testReview.getListOfReplies());
         assertEquals(1, testReview.getNumberOfLikes());
         assertEquals(time, testReview.getId().substring(0, 8));
     }
@@ -78,14 +71,11 @@ public class EntityTest {
     @Test
     void userReviewTest() {
         testReview.incrementLikes();
-        testReview.updateListOfReplies("reply1");
         testReview.setLocation(testLocation);
-        List<String> replyList = List.of("reply1");
         assertEquals(testUser, testReview.getUser());
         assertEquals(3, testReview.getRating());
         assertEquals("It is good", testReview.getComment());
         assertEquals(1, testReview.getNumberOfLikes());
         assertEquals(testLocation, testReview.getLocation());
-        assertEquals(replyList, testReview.getListOfReplies());
     }
 }

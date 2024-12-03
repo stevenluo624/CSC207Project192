@@ -19,11 +19,8 @@ public class MainRateMyCampusApp {
                 .addLoginUseCase()
                 .addListReviewUseCase()
                 .addCreateReviewUseCase()
-                .addCreateReplyView()
-                .addCreateReplyUseCase()
                 .addMapUseCase()
                 .addProfileUseCase()
-                .addCreateReviewUseCase()
                 .build();
         application.pack();
         application.setVisible(true);

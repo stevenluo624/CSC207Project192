@@ -95,7 +95,6 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
         data.put("user", review.getUser().getUsername());
         data.put("rating", review.getRating());
         data.put("comment", review.getComment());
-        data.put("replies", review.getListOfReplies());
         data.put("likes", review.getNumberOfLikes());
         data.put("location", review.getLocation().getName());
         final String reviewId = "review" + review.getId();

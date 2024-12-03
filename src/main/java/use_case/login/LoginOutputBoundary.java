@@ -1,5 +1,7 @@
 package use_case.login;
 
+import use_case.profile.ProfileOutputData;
+
 /**
  * The output boundary for the Login Use Case.
  */
@@ -15,4 +17,6 @@ public interface LoginOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    void changeProfile(ProfileOutputData profileOutputData);
 }

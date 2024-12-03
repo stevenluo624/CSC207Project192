@@ -51,6 +51,11 @@ public class ProfileUseCaseTest {
             public void prepareFailView(String errorMessage) {
                 fail("Use case fialure is unexpected.");
             }
+
+            @Override
+            public void switchToListReviewView() {
+
+            }
         };
         ProfileInputBoundary interactor = new ProfileInteractor(profileInMemoryDAO, successPresenter);
         interactor.excute(inputData);

@@ -8,14 +8,12 @@ import javax.swing.WindowConstants;
 
 //import data_access.DBReviewAccessObject;
 import data_access.*;
+import data_access.DBProfileAccessObject;
+import data_access.DBReviewListAccessObject;
+import data_access.DBUserAccessObject;
 import entity.StudentUser;
 import entity.User;
-import entity.reviews_thread.Review;
 import interface_adapters.ViewManagerModel;
-import interface_adapters.ViewModel;
-import interface_adapters.create_reply.CreateReplyController;
-import interface_adapters.create_reply.CreateReplyPresenter;
-import interface_adapters.create_reply.CreateReplyViewModel;
 import interface_adapters.create_review.CreateReviewController;
 import interface_adapters.create_review.CreateReviewPresenter;
 import interface_adapters.create_review.CreateReviewViewModel;
@@ -38,9 +36,6 @@ import interface_adapters.signup.SignupViewModel;
 import use_case.check_map.CheckMapInputBoundary;
 import use_case.check_map.CheckMapInteractor;
 import use_case.check_map.CheckMapOutputBoundary;
-import use_case.create_reply.CreateReplyInputBoundary;
-import use_case.create_reply.CreateReplyInteractor;
-import use_case.create_reply.CreateReplyOutputBoundary;
 import use_case.create_review.CreateReviewInputBoundary;
 import use_case.create_review.CreateReviewInteractor;
 import use_case.create_review.CreateReviewOutputBoundary;
@@ -71,7 +66,6 @@ public class TempBuilder {
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     private final DBReviewListAccessObject dbReviewListAccessObject = new DBReviewListAccessObject();
-    private final DBReplyAccessObject dbReplyAccessObject = new DBReplyAccessObject();
     private final DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
     private final DBProfileAccessObject dbProfileAccessObject = new DBProfileAccessObject();
     private final DBLikeAccessObject dbLikeAccessObject = new DBLikeAccessObject();
@@ -85,8 +79,6 @@ public class TempBuilder {
     private ListReviewViewModel listReviewViewModel;
     private RateView createReviewView;
     private CreateReviewViewModel createReviewViewModel;
-    private CreateReplyViewModel createReplyViewModel;
-    private CreateReplyView createReplyView;
     private MapView mapView;
     private MapViewModel mapViewModel;
     private ProfileView profileView;
@@ -103,7 +95,6 @@ public class TempBuilder {
         mapViewModel = new MapViewModel();
         profileViewModel = new ProfileViewModel();
         createReviewViewModel = new CreateReviewViewModel();
-        createReplyViewModel = new CreateReplyViewModel();
 
         userFactory = new UserFactory() {
             @Override
@@ -155,13 +146,6 @@ public class TempBuilder {
         createReviewViewModel = new CreateReviewViewModel();
         createReviewView = new RateView(createReviewViewModel);
         cardPanel.add(createReviewView, createReviewView.getViewName());
-        return this;
-    }
-
-    public TempBuilder addCreateReplyView() {
-        createReplyViewModel = new CreateReplyViewModel();
-        createReplyView = new CreateReplyView(createReplyViewModel);
-        cardPanel.add(createReplyView, createReplyView.getViewName());
         return this;
     }
 
@@ -219,9 +203,9 @@ public class TempBuilder {
      */
     public TempBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                listReviewViewModel, loginViewModel);
+                listReviewViewModel, loginViewModel, profileViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                dbUserAccessObject, loginOutputBoundary);
+                dbUserAccessObject, loginOutputBoundary, dbProfileAccessObject);
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
@@ -244,28 +228,12 @@ public class TempBuilder {
         return this;
     }
 
-    public TempBuilder addCreateReplyUseCase() {
-        final CreateReplyOutputBoundary createReplyOutputBoundary = new CreateReplyPresenter(
-                (CreateReplyViewModel) createReplyViewModel, listReviewViewModel, viewManagerModel
-        );
-        final CreateReplyInputBoundary createReplyInteractor = new CreateReplyInteractor(
-                dbReplyAccessObject, createReplyOutputBoundary
-        );
-
-        final CreateReplyController createReplyController = new CreateReplyController(
-                (CreateReplyInteractor) createReplyInteractor
-        );
-        createReplyView.setController(createReplyController);
-        return this;
-    }
-
     public TempBuilder addListReviewUseCase() {
         final ListReviewOutputBoundary listReviewOutputBoundary = new ListReviewPresenter(
                 listReviewViewModel,
                 mapViewModel,
                 profileViewModel,
                 createReviewViewModel,
-                createReplyViewModel,
                 viewManagerModel
         );
 

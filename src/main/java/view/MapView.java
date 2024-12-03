@@ -205,6 +205,13 @@ public class MapView extends JPanel implements ActionListener, PropertyChangeLis
         latitudeErrorField.setText(state.getLatitudeError());
         longitudeErrorField.setText(state.getLongitudeError());
 
+        if (state.getLatitude() == null) {
+            state.setLatitude("43.6532");
+        }
+        if (state.getLongitude() == null) {
+            state.setLongitude("-79.3832");
+        }
+
         addMarkerToMap(Double.parseDouble(state.getLatitude()), Double.parseDouble(state.getLongitude()));
     }
 
