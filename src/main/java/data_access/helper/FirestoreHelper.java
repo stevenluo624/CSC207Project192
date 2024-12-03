@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -495,6 +496,14 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
     }
 
     private Map<String, Object> dbEntry(String type, Object obj) {
+        if (type.equals("arrayValue")) {
+            List<Object> list = ((List<Object>)obj);
+            for (int i = 0; i < list.size(); i++) {
+                Object o = list.get(i);
+                list.set(i, dbEntry(getFirestoreValueType(o), o));
+            }
+            return Map.ofEntries(entry(type, dbEntry("values",list)));
+        }
         return Map.ofEntries(entry(type, obj));
     }
 
