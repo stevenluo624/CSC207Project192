@@ -51,13 +51,6 @@ public class ListReviewController {
         listReviewInteractor.switchToCreateReviewView(user);
     }
 
-    /**
-     * @param user currently logged-in user
-     */
-    public void switchToReplyView(User user) {
-        listReviewInteractor.switchToReplyView(user);
-    }
-
     public void switchToProfileView(String currentUser) {
         listReviewInteractor.switchToProfileView(currentUser);
     }

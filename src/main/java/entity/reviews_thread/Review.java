@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class Review extends AbstractReview {
     private final int rating;
-    private final List<String> listOfReplyIds;
     private final String id;
 
     /**
@@ -23,7 +22,6 @@ public class Review extends AbstractReview {
      */
     public Review(User user, int rating, String comment) {
         super(user, comment);
-        this.listOfReplyIds = new ArrayList<>();
         this.rating = rating;
         this.id = (comment + "|" + user.getUsername()).replaceAll("\\s", "");
     }
@@ -37,27 +35,4 @@ public class Review extends AbstractReview {
     }
 
 
-    /**
-     * Get listOfReplyIds
-     * @return the list of replies
-     */
-    public List<String> getListOfReplies() {
-        return listOfReplyIds;
-    }
-
-    /**
-     * Update list of replies with a new reply
-     * @param replyId a Reply object representing a reply to this review or reply
-     */
-    public void updateListOfReplies(String replyId) {
-        listOfReplyIds.add(replyId);
-    }
-
-    /**
-     * Getter for the id
-     * @return id
-     */
-    public String getId() {
-        return id;
-    }
 }
