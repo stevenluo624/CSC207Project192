@@ -80,7 +80,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
-                bigPanel.add(review, gbc);
+                bigPanel.add(new UserReviewPanel(review), gbc);
 
                 buttonsPanel.add(likeButton);
                 buttonsPanel.add(mapButton);
@@ -212,7 +212,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
-                        review.getKey(),
+                        "review" + String.valueOf(review.getId()),
                         review.getNumberOfLikes()
                 );
 
@@ -229,7 +229,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
-                bigPanel.add(new Review(review), gbc);
+                bigPanel.add(new UserReviewPanel(review), gbc);
 
                 buttonsPanel.add(likeButton);
                 buttonsPanel.add(mapButton);

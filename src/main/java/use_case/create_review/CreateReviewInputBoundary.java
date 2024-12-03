@@ -10,4 +10,9 @@ public interface CreateReviewInputBoundary {
      * @param inputData the input data for this use case
      */
     void execute(CreateReviewInputData inputData);
+
+    /**
+     * Executes the switch to list of reviews use case.
+     */
+    void switchToListReviewView();
 }

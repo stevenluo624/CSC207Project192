@@ -1,5 +1,7 @@
 package interface_adapters.create_review;
 
+import interface_adapters.ViewManagerModel;
+import interface_adapters.list_review.ListReviewViewModel;
 import use_case.create_review.CreateReviewOutputBoundary;
 import use_case.create_review.CreateReviewOutputData;
 
@@ -9,9 +11,15 @@ import use_case.create_review.CreateReviewOutputData;
 public class CreateReviewPresenter implements CreateReviewOutputBoundary {
 
     private final CreateReviewViewModel createReviewViewModel;
+    private final ListReviewViewModel listReviewViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public CreateReviewPresenter(CreateReviewViewModel createReviewViewModel) {
+    public CreateReviewPresenter(CreateReviewViewModel createReviewViewModel,
+                                 ViewManagerModel viewManagerModel,
+                                 ListReviewViewModel listReviewViewModel) {
         this.createReviewViewModel = createReviewViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.listReviewViewModel = listReviewViewModel;
     }
 
     /**
@@ -24,6 +32,9 @@ public class CreateReviewPresenter implements CreateReviewOutputBoundary {
         createReviewViewModel.getState().setRating(outputData.getRating());
         createReviewViewModel.getState().setError(null);
         createReviewViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(listReviewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     /**
@@ -35,5 +46,14 @@ public class CreateReviewPresenter implements CreateReviewOutputBoundary {
     public void prepareFailureView(String message) {
         createReviewViewModel.getState().setError(message);
         createReviewViewModel.firePropertyChanged();
+    }
+
+    /**
+     * Switches to List of Reviews View.
+     */
+    @Override
+    public void switchToListReviewView() {
+        viewManagerModel.setState(listReviewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

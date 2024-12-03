@@ -14,7 +14,7 @@ import use_case.list_review.ListReviewOutputData;
 import use_case.profile.ProfileOutputData;
 import view.MapView;
 
-/**
+/**dqw
  * Presenter for the list review use case.
  */
 public class ListReviewPresenter implements ListReviewOutputBoundary {
@@ -79,5 +79,7 @@ public class ListReviewPresenter implements ListReviewOutputBoundary {
     public void switchToCreateReviewView(CreateReviewOutputData createReviewOutputData) {
         CreateReviewState createReviewState = createReviewViewModel.getState();
         createReviewState.setUser(createReviewOutputData.getUser());
+        viewManagerModel.setState(createReviewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

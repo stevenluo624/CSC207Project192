@@ -69,7 +69,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
             String key = document.get("name").getAsString().substring(70);
 
             User userObject = dbUserAccessObject.get(user);
-            Location locationObject = new Location(location, latitude, longitude) {};
+            Location locationObject = new Location(location, latitude, longitude);
 
             Review review = new Review(userObject, (int) Math.round(rating), comment);
             review.setLocation(locationObject);
