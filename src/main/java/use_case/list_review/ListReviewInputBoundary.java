@@ -1,5 +1,6 @@
 package use_case.list_review;
 
+import entity.User;
 import use_case.check_map.CheckMapInputData;
 
 /**
@@ -23,4 +24,16 @@ public interface ListReviewInputBoundary {
      * @param username the logged-in username
      */
     void switchToProfileView(String username);
+
+    /**
+     * Switches to the create review use case.
+     * @param user the logged in user
+     */
+    void switchToCreateReviewView(User user);
+
+    /**
+     * Switches to the create reply use case.
+     * @param user the logged in user
+     */
+    void switchToReplyView(User user);
 }

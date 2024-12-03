@@ -4,46 +4,46 @@ import entity.User;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserInMemoryDAO implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
-    /**
-     * @param username the username to look for
-     * @return
-     */
+    private final Map<String, User> users = new HashMap<>();
+
+    private String currentUsername;
+
     @Override
-    public boolean existsByName(String username) {
-        return false;
+    public boolean existsByName(String identifier) {
+        return users.containsKey(identifier);
     }
 
-    /**
-     * @param user the user to save
-     */
     @Override
     public void save(User user) {
-
+        users.put(user.getUsername(), user);
     }
 
-    /**
-     * @param username the username to look up
-     * @return
-     */
     @Override
     public User get(String username) {
-        return null;
+        return users.get(username);
     }
 
     /**
+     * Setter for currentUser.
+     *
      * @param name username
      */
     @Override
     public void setCurrentUser(String name) {
-
+        currentUsername = name;
     }
 
     /**
-     * @return
+     * Getter for currentUser.
+     *
+     * @return String: currentUser
      */
     @Override
     public User getCurrentUser() {
-        return null;
+        return users.get(currentUsername);
     }
 }

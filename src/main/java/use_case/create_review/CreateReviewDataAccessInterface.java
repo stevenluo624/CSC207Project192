@@ -10,14 +10,6 @@ public interface CreateReviewDataAccessInterface {
     /**
      * Adds a new review.
      * @param review contains details of the review
-     * @return the id of the new review
      */
-    String saveReview(Review review);
-
-    /**
-     * Retrieves the review with the given id.
-     * @param id the review id
-     * @return details of the review
-     */
-    Review getReview(String id);
+    void saveReview(Review review);
 }

@@ -28,6 +28,7 @@ public class LikeReviewButton extends JButton implements ActionListener {
         ImageIcon originalLikeIcon = new ImageIcon("src/main/java/resources/images/youtube-like-button-png-11.png");
         ImageIcon originalLikedIcon = new ImageIcon("src/main/java/resources/images/blue-like-button-icon.png");
 
+
         // Scale them to the correct size
         Image scaledLikeImage = originalLikeIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
         Image scaledLikedImage = originalLikedIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);

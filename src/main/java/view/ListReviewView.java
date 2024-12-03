@@ -1,17 +1,14 @@
 package view;
 
 import data_access.DBLikeAccessObject;
-import entity.UserReview;
+import entity.reviews_thread.Review;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.like_review.LikeReviewController;
 import interface_adapters.like_review.LikeReviewPresenter;
 import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
-import interface_adapters.signup.SignupState;
-import interface_adapters.signup.SignupViewModel;
 import use_case.like_review.LikeReviewInteractor;
-import use_case.like_review.LikeReviewOutputBoundary;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -61,9 +57,9 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         try {
             final JPanel reviewsPanel = new JPanel();
             reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
-            List<UserReview> reviewList = state.getReviewList();
+            List<Review> reviewList = state.getReviewList();
 
-            for (UserReview review : reviewList) {
+            for (Review review : reviewList) {
                 final JPanel buttonsPanel = new JPanel();
                 buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
@@ -77,7 +73,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
-                        review.getKey(),
+                        "review" + String.valueOf(review.getId()),
                         review.getNumberOfLikes(),
                         hasUserLiked // Pass the boolean value here
                 );
@@ -87,7 +83,18 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent evt) {
+                                state.setRefreshed(false);
                                 listReviewController.switchToMapView(review);
+                            }
+                        }
+                );
+
+                final JButton replyButton = new JButton(ListReviewViewModel.REPLY_BUTTON_LABEL);
+                replyButton.addActionListener(
+                        evt -> {
+                            if (evt.getSource().equals(replyButton)) {
+                                listReviewController.switchToReplyView(listReviewViewModel.getState()
+                                        .getCurrentUserObject());
                             }
                         }
                 );
@@ -98,6 +105,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
                 buttonsPanel.add(likeButton);
                 buttonsPanel.add(mapButton);
+                buttonsPanel.add(replyButton);
 
                 gbc.gridx = 1;
                 gbc.weightx = 0.3;
@@ -117,18 +125,33 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         final JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new GridBagLayout());
         gbc.gridx = 0;
-        gbc.weightx = 0.8;
+        gbc.weightx = 0.6;
         menuPanel.add(title, gbc);
+
+        final JButton addReviewButton = new JButton(ListReviewViewModel.ADD_REVIEW_BUTTON_LABEL);
+        addReviewButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(addReviewButton)) {
+                        state.setRefreshed(false);
+                        listReviewController.switchToCreateReviewView(listReviewViewModel.getState()
+                                .getCurrentUserObject());
+                    }
+                }
+        );
+        gbc.gridx = 1;
+        gbc.weightx = 0.2;
+        menuPanel.add(addReviewButton, gbc);
 
         final JButton profileButton = new JButton(ListReviewViewModel.PROFILE_BUTTON_LABEL);
         profileButton.addActionListener( evt -> {
                     if (evt.getSource().equals(profileButton)) {
+                        state.setRefreshed(false);
                         listReviewController.switchToProfileView(listReviewViewModel.getState().getCurrentUser());
                     }
                 }
         );
 
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.weightx = 0.2;
         menuPanel.add(profileButton, gbc);
 
@@ -144,6 +167,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         final ListReviewState currentState = listReviewViewModel.getState();
                         currentState.prevPage();
 
+                        currentState.setRefreshed(false);
                         listReviewController.execute(
                                 currentState.getPageNumber(),
                                 currentState.getPageSize()
@@ -158,6 +182,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         final ListReviewState currentState = listReviewViewModel.getState();
                         currentState.nextPage();
 
+                        currentState.setRefreshed(false);
                         listReviewController.execute(
                                 currentState.getPageNumber(),
                                 currentState.getPageSize()
@@ -185,7 +210,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("Property change: " + evt);
+//        System.out.println("Property change: " + evt);
         updateReviews();
         this.revalidate();
         this.repaint();
@@ -193,18 +218,26 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     private void updateReviews() {
         final ListReviewState state = listReviewViewModel.getState();
+        if (!state.isRefreshed()) {
+            state.setRefreshed(true);
+            System.out.println("refreshed");
+            listReviewController.execute(state.getPageNumber(), state.getPageSize());
+        } else {
+            System.out.println("already refreshed");
+            state.setRefreshed(false);
+        }
 
         JScrollPane newScrollPanel;
         try {
             final JPanel reviewsPanel = new JPanel();
             reviewsPanel.setLayout(new BoxLayout(reviewsPanel, BoxLayout.Y_AXIS));
-            List<UserReview> reviewList = state.getReviewList();
+            List<Review> reviewList = state.getReviewList();
 
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weighty = 1.0;
 
-            for (UserReview review : reviewList) {
+            for (Review review : reviewList) {
                 final JPanel buttonsPanel = new JPanel();
                 buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
@@ -218,7 +251,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
-                        review.getKey(),
+                        "review" + String.valueOf(review.getId()),
                         review.getNumberOfLikes(),
                         hasUserLiked
                 );
@@ -228,11 +261,22 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent evt) {
+                                state.setRefreshed(false);
                                 listReviewController.switchToMapView(review);
                             }
                         }
                 );
                 // addMapAction(mapButton, review);
+
+                final JButton replyButton = new JButton(ListReviewViewModel.REPLY_BUTTON_LABEL);
+                replyButton.addActionListener(
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent evt) {
+                                listReviewController.switchToReplyView(state.getCurrentUserObject());
+                            }
+                        }
+                );
 
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
@@ -240,6 +284,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
                 buttonsPanel.add(likeButton);
                 buttonsPanel.add(mapButton);
+                buttonsPanel.add(replyButton);
 
                 gbc.gridx = 1;
                 gbc.weightx = 0.3;
@@ -262,12 +307,20 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         scrollPanel = newScrollPanel;
     }
 
-    private void addMapAction(JButton button, UserReview review) {
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
+
+    private void addMapAction(JButton button, Review review) {
+        button.addActionListener(evt -> {
+            if (evt.getSource().equals(button)) {
                 listReviewController.switchToMapView(review);
             }
         });
+    }
+  
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setListReviewController(ListReviewController listReviewController) {
+        this.listReviewController = listReviewController;
     }
 }

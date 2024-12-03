@@ -1,8 +1,6 @@
 package app;
 
 import java.awt.*;
-import java.awt.font.TextMeasurer;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,20 +8,24 @@ import javax.swing.WindowConstants;
 
 //import data_access.DBReviewAccessObject;
 import data_access.DBProfileAccessObject;
+import data_access.DBReplyAccessObject;
 import data_access.DBReviewListAccessObject;
 import data_access.DBUserAccessObject;
 import entity.StudentUser;
 import entity.User;
+import entity.reviews_thread.Review;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.ViewModel;
+import interface_adapters.create_reply.CreateReplyController;
+import interface_adapters.create_reply.CreateReplyPresenter;
+import interface_adapters.create_reply.CreateReplyViewModel;
+import interface_adapters.create_review.CreateReviewController;
+import interface_adapters.create_review.CreateReviewPresenter;
 import interface_adapters.create_review.CreateReviewViewModel;
 import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewPresenter;
 import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
-//import interface_adapters.rate.RateController;
-//import interface_adapters.rate.RatePresenter;
-//import interface_adapters.rate.RateViewModel;
 import interface_adapters.login.LoginController;
 import interface_adapters.login.LoginPresenter;
 import interface_adapters.login.LoginViewModel;
@@ -32,7 +34,6 @@ import interface_adapters.map.MapPresenter;
 import interface_adapters.map.MapViewModel;
 import interface_adapters.profile.ProfileController;
 import interface_adapters.profile.ProfilePresenter;
-import interface_adapters.profile.ProfileState;
 import interface_adapters.profile.ProfileViewModel;
 import interface_adapters.signup.SignupController;
 import interface_adapters.signup.SignupPresenter;
@@ -40,13 +41,18 @@ import interface_adapters.signup.SignupViewModel;
 import use_case.check_map.CheckMapInputBoundary;
 import use_case.check_map.CheckMapInteractor;
 import use_case.check_map.CheckMapOutputBoundary;
+import use_case.create_reply.CreateReplyInputBoundary;
+import use_case.create_reply.CreateReplyInteractor;
+import use_case.create_reply.CreateReplyOutputBoundary;
+import use_case.create_review.CreateReviewInputBoundary;
+import use_case.create_review.CreateReviewInteractor;
+import use_case.create_review.CreateReviewOutputBoundary;
 import use_case.list_review.ListReviewInputBoundary;
 import use_case.list_review.ListReviewInteractor;
 import use_case.list_review.ListReviewOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
-import use_case.profile.ProfileDataAccessInterface;
 import use_case.profile.ProfileInteractor;
 import use_case.profile.ProfileOutputBoundary;
 import use_case.profile.ProfileInputBoundary;
@@ -68,11 +74,11 @@ public class TempBuilder {
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     private final DBReviewListAccessObject dbReviewListAccessObject = new DBReviewListAccessObject();
+    private final DBReplyAccessObject dbReplyAccessObject = new DBReplyAccessObject();
     private final DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
     private final DBProfileAccessObject dbProfileAccessObject = new DBProfileAccessObject();
 
     String defaultView = "";
-    private JPanel view;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginView loginView;
@@ -81,14 +87,14 @@ public class TempBuilder {
     private ListReviewViewModel listReviewViewModel;
     private RateView createReviewView;
     private CreateReviewViewModel createReviewViewModel;
+    private CreateReplyViewModel createReplyViewModel;
+    private CreateReplyView createReplyView;
     private MapView mapView;
     private MapViewModel mapViewModel;
     private ProfileView profileView;
     private ProfileViewModel profileViewModel;
 
-    private UserFactory userFactory;
-
-
+    private final UserFactory userFactory;
 
     public TempBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -98,6 +104,9 @@ public class TempBuilder {
         listReviewViewModel = new ListReviewViewModel();
         mapViewModel = new MapViewModel();
         profileViewModel = new ProfileViewModel();
+        createReviewViewModel = new CreateReviewViewModel();
+        createReplyViewModel = new CreateReplyViewModel();
+
         userFactory = new UserFactory() {
             @Override
             public User create(String name, String password) {
@@ -144,6 +153,20 @@ public class TempBuilder {
         return this;
     }
 
+    public TempBuilder addCreateReviewView() {
+        createReviewViewModel = new CreateReviewViewModel();
+        createReviewView = new RateView(createReviewViewModel);
+        cardPanel.add(createReviewView, createReviewView.getViewName());
+        return this;
+    }
+
+    public TempBuilder addCreateReplyView() {
+        createReplyViewModel = new CreateReplyViewModel();
+        createReplyView = new CreateReplyView(createReplyViewModel);
+        cardPanel.add(createReplyView, createReplyView.getViewName());
+        return this;
+    }
+
     /**
      * Add the Profile View to the application.
      * @return the Profile builder
@@ -180,10 +203,14 @@ public class TempBuilder {
     public TempBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel, signupViewModel
                 , loginViewModel);
-        final SignupInputBoundary signupInteractor = new SignupInteractor(dbUserAccessObject, signupOutputBoundary,
-                userFactory);
+        final SignupInputBoundary signupInteractor = new SignupInteractor(
+                dbUserAccessObject,
+                dbProfileAccessObject,
+                signupOutputBoundary,
+                userFactory
+        );
 
-        final SignupController controller = new SignupController((SignupInteractor) signupInteractor);
+        final SignupController controller = new SignupController(signupInteractor);
         signupView.setSignupController(controller);
         return this;
     }
@@ -208,12 +235,29 @@ public class TempBuilder {
      * @return this builder
      */
     public TempBuilder addCreateReviewUseCase() {
-//        final CreateReviewOutputBoundary createReviewOutputBoundary = new RatePresenter((RateViewModel) model);
-//        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
-//                dbReviewAccessObject, createReviewOutputBoundary);
+        final CreateReviewOutputBoundary createReviewOutputBoundary = new CreateReviewPresenter(
+                (CreateReviewViewModel) createReviewViewModel, viewManagerModel, listReviewViewModel);
+        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
+                dbReviewListAccessObject, createReviewOutputBoundary);
 
-//        final RateController rateController = new RateController((CreateReviewInteractor) createReviewInteractor);
-//        RateView.setRateController(rateController);
+        final CreateReviewController createReviewController = new CreateReviewController(
+                (CreateReviewInteractor) createReviewInteractor);
+        createReviewView.setRateController(createReviewController);
+        return this;
+    }
+
+    public TempBuilder addCreateReplyUseCase() {
+        final CreateReplyOutputBoundary createReplyOutputBoundary = new CreateReplyPresenter(
+                (CreateReplyViewModel) createReplyViewModel, listReviewViewModel, viewManagerModel
+        );
+        final CreateReplyInputBoundary createReplyInteractor = new CreateReplyInteractor(
+                dbReplyAccessObject, createReplyOutputBoundary
+        );
+
+        final CreateReplyController createReplyController = new CreateReplyController(
+                (CreateReplyInteractor) createReplyInteractor
+        );
+        createReplyView.setController(createReplyController);
         return this;
     }
 
@@ -222,6 +266,8 @@ public class TempBuilder {
                 listReviewViewModel,
                 mapViewModel,
                 profileViewModel,
+                createReviewViewModel,
+                createReplyViewModel,
                 viewManagerModel
         );
 
@@ -265,7 +311,7 @@ public class TempBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("List Review Example");
+        final JFrame application = new JFrame("RateMyCampus");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);

@@ -1,5 +1,6 @@
 package use_case.create_review;
 
+import entity.Location;
 import entity.reviews_thread.Review;
 
 /**
@@ -17,10 +18,19 @@ public class CreateReviewInteractor implements CreateReviewInputBoundary {
     @Override
     public void execute(CreateReviewInputData inputData) {
         final Review review = new Review(inputData.getUser(), inputData.getRating(), inputData.getComment());
+        review.setLocation(new Location(inputData.getLocationName(), "43.6532", "-79.3832"));
         dataAccess.saveReview(review);
 
         final CreateReviewOutputData outputData = new CreateReviewOutputData(inputData.getUser(),
-                inputData.getRating(), inputData.getComment(), false);
+                inputData.getRating(), inputData.getComment(), inputData.getLocationName(), false);
         presenter.prepareSuccessView(outputData);
+    }
+
+    /**
+     * Executes the switch to list of reviews use case.
+     */
+    @Override
+    public void switchToListReviewView() {
+        presenter.switchToListReviewView();
     }
 }

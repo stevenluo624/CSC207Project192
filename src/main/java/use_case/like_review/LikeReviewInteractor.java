@@ -30,7 +30,7 @@ public class LikeReviewInteractor implements LikeReviewInputBoundary {
 
             // Notify the callback of success
             callback.onComplete(true);
-
+          
         } catch (Exception e) {
             // Prepare the fail view
             likeReviewPresenter.prepareFailView(e.getMessage());
