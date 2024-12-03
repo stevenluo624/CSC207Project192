@@ -19,18 +19,15 @@ public class EntityTest {
     private Review testReview;
     private UserProfile testProfile;
     private Location testLocation;
-    private UserReview testUserReview;
-    private UserReview testUserReply;
     private Reply testReply;
 
     @BeforeEach
     void setup() {
         testUser = new StudentUser("Steven", "1234");
-        testReview = new Review(testUser, 3, "Test 1");
         testLocation = new Location("Truck 1", "43.77", "63.33");
         testProfile = new UserProfile("Steven", "I am a uoft Student");
-        testUserReview = new UserReview(testUser, 3, "It is good", testLocation);
-        testUserReply = new UserReview(testUser, 6, "It is bad");
+        testReview = new Review(testUser, 3, "It is good");
+        testReply = new Reply(testUser, "It is bad");
         testReply = new Reply(testUser, "This is a reply");
     }
 
@@ -46,10 +43,10 @@ public class EntityTest {
         assertEquals("1234", testLike.getUser().getPassword());
         assertEquals(testUser, testReview.getUser());
         assertEquals(3, testLike.getReview().getRating());
-        assertEquals("Test 1", testLike.getReview().getComment());
+        assertEquals("It is good", testLike.getReview().getComment());
         assertEquals(replyList, testReview.getListOfReplies());
         assertEquals(1, testReview.getNumberOfLikes());
-        assertNull(testReview.getId());
+        assertEquals(1, testReview.getId());
     }
 
     @Test
@@ -76,17 +73,15 @@ public class EntityTest {
 
     @Test
     void userReviewTest() {
-        UserReview lazyReview = new UserReview(testUser, "I don't wanna give a rating");
-        testUserReview.setKey("1234567");
-        testUserReview.incrementLikes();
-        testUserReview.updateListOfReplies(testUserReply);
-        List<UserReview> replyList = List.of(testUserReply);
-        assertEquals(testUser, testUserReview.getUser());
-        assertEquals(3, testUserReview.getRating());
-        assertEquals("It is good", testUserReview.getComment());
-        assertEquals(1, testUserReview.getNumberOfLikes());
-        assertEquals(testLocation, testUserReview.getLocation());
-        assertEquals("1234567", testUserReview.getKey());
-        assertEquals(replyList, testUserReview.getListOfReplies());
+        testReview.incrementLikes();
+        testReview.updateListOfReplies(testReply);
+        testReview.setLocation(testLocation);
+        List<Reply> replyList = List.of(testReply);
+        assertEquals(testUser, testReview.getUser());
+        assertEquals(3, testReview.getRating());
+        assertEquals("It is good", testReview.getComment());
+        assertEquals(1, testReview.getNumberOfLikes());
+        assertEquals(testLocation, testReview.getLocation());
+        assertEquals(replyList, testReview.getListOfReplies());
     }
 }

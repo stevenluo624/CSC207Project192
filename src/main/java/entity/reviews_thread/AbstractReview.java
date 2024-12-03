@@ -46,27 +46,11 @@ public abstract class AbstractReview {
     }
 
     /**
-     * Get listOfReplies
-     * @return the list of replies
-     */
-    public List<Reply> getListOfReplies() {
-        return listOfReplies;
-    }
-
-    /**
      * Gets the number of likes
      * @return the number of likes
      */
     public int getNumberOfLikes() {
         return numberOfLikes;
-    }
-
-    /**
-     * Update list of replies with a new reply
-     * @param reply a Reply object representing a reply to this review or reply
-     */
-    public void updateListOfReplies(Reply reply) {
-        listOfReplies.add(reply);
     }
 
     /**
