@@ -84,4 +84,5 @@ public class ListReviewState {
     public String getLikeError() {
         return likeError;
     }
+
 }
