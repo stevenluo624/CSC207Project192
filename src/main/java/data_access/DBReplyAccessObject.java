@@ -12,6 +12,7 @@ import data_access.helper.FirestoreHelper;
 import entity.reviews_thread.Reply;
 import use_case.create_reply.CreateReplyDataAccessInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,14 +43,17 @@ public class DBReplyAccessObject implements CreateReplyDataAccessInterface {
             JsonObject parentReviewJson = helper.getDocument(reviewsCollectionName, reviewId);
 
             // Get the "replies" field from the parent review document and add the new reply to the "replies" array
-            JsonArray repliesFieldJson = parentReviewJson.has("replies")
-                    ? parentReviewJson.getAsJsonArray("replies")
-                    : new JsonArray();
-            repliesFieldJson.add(replyId);
+            JsonArray repliesFieldJson = parentReviewJson.getAsJsonArray("replies");
+            List<String> repliesList = new ArrayList<>();
+            for (int i = 0; i < repliesFieldJson.size(); i++) {
+                JsonObject repliesJson = repliesFieldJson.get(i).getAsJsonObject();
+                repliesList.add(repliesJson.get("id").getAsString());
+            }
+            repliesList.add(replyId);
 
             // Update "reviews" collection in Firestore
             Map<String, Object> updatedReviewFields = new HashMap<>();
-            updatedReviewFields.put("replies", repliesFieldJson);
+            updatedReviewFields.put("replies", repliesList);
             helper.updateDocument(reviewsCollectionName, updatedReviewFields, reviewId);
 
             // Update "replies" collection in Firestore

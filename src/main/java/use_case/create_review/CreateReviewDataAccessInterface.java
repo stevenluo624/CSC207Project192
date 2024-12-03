@@ -10,7 +10,6 @@ public interface CreateReviewDataAccessInterface {
     /**
      * Adds a new review.
      * @param review contains details of the review
-     * @return the id of the new review
      */
     void saveReview(Review review);
 }

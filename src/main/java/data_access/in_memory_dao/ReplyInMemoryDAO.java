@@ -21,9 +21,11 @@ public class ReplyInMemoryDAO implements CreateReplyDataAccessInterface {
             reviews.add(parentReview);
         }
 
+        final String replyId = "reply" + String.valueOf(reply.getId());
+
         for (Review review : reviews) {
             if (review.equals(parentReview)) {
-                review.updateListOfReplies(reply);
+                review.updateListOfReplies(replyId);
                 break;
             }
         }
