@@ -1,6 +1,6 @@
 package use_case.list_review;
 
-import entity.UserReview;
+import entity.reviews_thread.Review;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ public class ListReviewOutputData {
 
     private final int pageNumber;
     private final int pageSize;
-    private final List<UserReview> reviewList;
+    private final List<Review> reviewList;
     private final boolean useCaseFailed;
 
-    public ListReviewOutputData(int pageNumber, int pageSize, List<UserReview> reviewList, boolean useCaseFailed) {
+    public ListReviewOutputData(int pageNumber, int pageSize, List<Review> reviewList, boolean useCaseFailed) {
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
         this.reviewList = reviewList;
@@ -29,7 +29,7 @@ public class ListReviewOutputData {
         return pageSize;
     }
 
-    public List<UserReview> getReviewList() {
+    public List<Review> getReviewList() {
         return reviewList;
     }
 

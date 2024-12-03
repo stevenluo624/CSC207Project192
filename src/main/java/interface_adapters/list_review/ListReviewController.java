@@ -1,11 +1,12 @@
 package interface_adapters.list_review;
 
 import entity.Location;
-import entity.UserReview;
+import entity.User;
+import entity.reviews_thread.Review;
+
 import use_case.check_map.CheckMapInputData;
 import use_case.list_review.ListReviewInputBoundary;
 import use_case.list_review.ListReviewInputData;
-import use_case.profile.ProfileInputData;
 
 /**
  * Controller for the list review use case.
@@ -32,7 +33,7 @@ public class ListReviewController {
      * Switch to map view
      * @param review
      */
-    public void switchToMapView(UserReview review) {
+    public void switchToMapView(Review review) {
         Location location = review.getLocation();
 
         final CheckMapInputData inputData = new CheckMapInputData(
@@ -43,7 +44,21 @@ public class ListReviewController {
         listReviewInteractor.switchToMapView(inputData);
     }
 
-    public void switchToProfileView(String username) {
-        listReviewInteractor.switchToProfileView(username);
+    /**
+     * Switch to create review view
+     */
+    public void switchToCreateReviewView(User user) {
+        listReviewInteractor.switchToCreateReviewView(user);
+    }
+
+    /**
+     * @param user currently logged-in user
+     */
+    public void switchToReplyView(User user) {
+        listReviewInteractor.switchToReplyView(user);
+    }
+
+    public void switchToProfileView(String currentUser) {
+        // TODO document why this method is empty
     }
 }

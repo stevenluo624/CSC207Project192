@@ -1,9 +1,12 @@
 package use_case.list_review;
 
 import entity.User;
-import entity.UserReview;
+import entity.reviews_thread.Review;
 import use_case.check_map.CheckMapInputData;
 import use_case.check_map.CheckMapOutputData;
+import use_case.create_reply.CreateReplyOutputData;
+import use_case.create_review.CreateReviewInputData;
+import use_case.create_review.CreateReviewOutputData;
 import use_case.profile.ProfileDataAccessInterface;
 import use_case.profile.ProfileOutputBoundary;
 import use_case.profile.ProfileOutputData;
@@ -32,14 +35,12 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
         int pageNumber = listReviewInputData.getPageNumber();
         int pageSize = listReviewInputData.getPageSize();
 
-        List<UserReview> reviews = reviewDataAccessObject.getReviews(pageNumber, pageSize);
+        List<Review> reviews = reviewDataAccessObject.getReviews(pageNumber, pageSize);
 
         if (reviews.isEmpty()) {
             if (pageNumber == 1) {
-                System.out.println("No reviews found");
                 reviewPresenter.prepareFailView("No reviews found");
             } else {
-                System.out.println("Page does not exist");
                 reviewPresenter.prepareFailView("Page does not exist");
             }
         } else {
@@ -59,5 +60,18 @@ public class ListReviewInteractor implements ListReviewInputBoundary {
     public void switchToProfileView(String username) {
         String bio = profileDataAccessObject.getBio(username);
         reviewPresenter.switchToProfileView(new ProfileOutputData(username, bio, false));
+    }
+
+    @Override
+    public void switchToCreateReviewView(User user) {
+        reviewPresenter.switchToCreateReviewView(new CreateReviewOutputData(user, 0, "", "", false));
+    }
+
+    /**
+     * @param user the logged in user
+     */
+    @Override
+    public void switchToReplyView(User user) {
+        reviewPresenter.switchToCreateReplyView(new CreateReplyOutputData(user, "", false));
     }
 }

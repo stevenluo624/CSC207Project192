@@ -1,5 +1,6 @@
 package use_case.create_reply;
 
+
 public interface CreateReplyOutputBoundary {
 
     /**
@@ -13,4 +14,9 @@ public interface CreateReplyOutputBoundary {
      * @param message the error message
      */
     void prepareFailureView(String message);
+
+    /**
+     * Switches to the list of reviews view
+     */
+    void switchToListReviewView();
 }

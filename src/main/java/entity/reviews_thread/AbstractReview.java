@@ -3,13 +3,15 @@ package entity.reviews_thread;
 import entity.Location;
 import entity.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public abstract class AbstractReview implements ReviewThread {
+public abstract class AbstractReview {
     private final User user;
     private final String comment;
+    private Location location;
     private int numberOfLikes;
+    private final String id;
 
     /**
      * Creates a new AbstractReview object
@@ -20,13 +22,16 @@ public abstract class AbstractReview implements ReviewThread {
         this.user = user;
         this.comment = comment;
         this.numberOfLikes = 0;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyyHHmmssSSS");
+        LocalDateTime now = LocalDateTime.now();
+        this.id = now.format(formatter);
     }
 
     /**
      * Gets the username of the user who created this review
      * @return the username
      */
-    @Override
     public User getUser() {
         return user;
     }
@@ -35,7 +40,6 @@ public abstract class AbstractReview implements ReviewThread {
      * Gets the comment
      * @return comment
      */
-    @Override
     public String getComment() {
         return comment;
     }
@@ -44,7 +48,6 @@ public abstract class AbstractReview implements ReviewThread {
      * Gets the number of likes
      * @return the number of likes
      */
-    @Override
     public int getNumberOfLikes() {
         return numberOfLikes;
     }
@@ -54,5 +57,21 @@ public abstract class AbstractReview implements ReviewThread {
      */
     public void incrementLikes() {
         this.numberOfLikes++;
+    }
+
+    /**
+     * Getter for the id
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

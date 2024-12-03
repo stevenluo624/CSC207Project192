@@ -1,11 +1,11 @@
 package data_access;
 
 import com.google.gson.JsonObject;
-import entity.Profile;
 import entity.StudentUser;
 import entity.User;
-import helper.ProjectConstants;
-import helper.FirestoreHelper;
+import data_access.helper.GlobalHelper;
+import data_access.helper.ProjectConstants;
+import data_access.helper.FirestoreHelper;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
@@ -16,12 +16,12 @@ import java.util.Map;
  * Data access object for manading user data.
  */
 public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
-    private FirestoreHelper helper;
-    String collectionName;
-    User user;
+    private final FirestoreHelper helper;
+    private final String collectionName;
+    private User user;
 
     public DBUserAccessObject() {
-        helper = new FirestoreHelper(ProjectConstants.API_KEY, ProjectConstants.PROJECT_ID);
+        helper = GlobalHelper.getHelper();
         this.collectionName = ProjectConstants.USER_COLLECTION;
     }
 
