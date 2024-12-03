@@ -41,7 +41,7 @@ class CreateReplyUseCaseTest {
             @Override
             public void prepareFailureView(String message) { /* Empty */ }
         };
-        interactor = new CreateReplyInteractor(mockDataAccess, mockPresenter, rootReview);
+        interactor = new CreateReplyInteractor(mockDataAccess, mockPresenter);
     }
 
     @Test
@@ -76,7 +76,7 @@ class CreateReplyUseCaseTest {
             }
         };
 
-        interactor = new CreateReplyInteractor(mockDataAccess, mockPresenter, rootReview);
+        interactor = new CreateReplyInteractor(mockDataAccess, mockPresenter);
         interactor.execute(inputData);
     }
 }

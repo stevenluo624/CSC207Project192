@@ -11,25 +11,19 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-
 import interface_adapters.create_review.CreateReviewController;
 import interface_adapters.create_review.CreateReviewState;
 import interface_adapters.create_review.CreateReviewViewModel;
-import interface_adapters.map.MapState;
-
 
 /**
  * The View for when the user is ratting different place.
  */
 public class RateView extends JPanel implements ActionListener, PropertyChangeListener {
-
-
     public static final int NUMSTARS = 5;
     public static final int DIMENSION = 30;
   
     private final String viewName = "create_review";
     private final CreateReviewViewModel  createReviewViewModel;
-
 
     private final JButton submit;
     private final JButton cancel;

@@ -1,6 +1,5 @@
 package use_case.create_reply;
 
-import use_case.create_review.CreateReviewOutputData;
 
 public interface CreateReplyOutputBoundary {
 
@@ -15,4 +14,9 @@ public interface CreateReplyOutputBoundary {
      * @param message the error message
      */
     void prepareFailureView(String message);
+
+    /**
+     * Switches to the list of reviews view
+     */
+    void switchToListReviewView();
 }

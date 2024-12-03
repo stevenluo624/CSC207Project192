@@ -7,4 +7,6 @@ public interface CreateReplyInputBoundary {
      * @param inputData the input data for this use case
      */
     void execute(CreateReplyInputData inputData);
+
+    void switchToListReviewView();
 }
