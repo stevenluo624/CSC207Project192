@@ -34,11 +34,11 @@ public class DBProfileAccessObject implements ProfileDataAccessInterface {
     }
 
     @Override
-    public void update(Profile profile) {
+    public void update(String username, String bio) {
         Map<String, Object> data = new HashMap<>();
-        data.put("username", profile.getUsername());
-        data.put("bio", profile.getBio());
-        helper.updateDocument(collectionName, data, profile.getUsername());
+        data.put("username", username);
+        data.put("bio", bio);
+        helper.updateDocument(collectionName, data, username);
     }
 
 

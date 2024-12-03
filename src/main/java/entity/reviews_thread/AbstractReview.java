@@ -22,10 +22,7 @@ public abstract class AbstractReview {
         this.user = user;
         this.comment = comment;
         this.numberOfLikes = 0;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyyHHmmssSSS");
-        LocalDateTime now = LocalDateTime.now();
-        this.id = now.format(formatter);
+        this.id = (comment + "|" + user.getUsername()).replaceAll("\\s", "");
     }
 
     /**

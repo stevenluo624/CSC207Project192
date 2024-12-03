@@ -29,6 +29,7 @@ The application addresses the lack of an integrated platform for University of T
 
 ## Features
 * Profile creation with unique bios.
+![img.png](src/main/resources/images/profileafter.png)
 * Post, view and rate reviews of University of Toronto places.
 ![images of create reviews](src/main/resources/images/rate.jpg)
 * Interactive map integration to explore various places location.
@@ -62,11 +63,13 @@ The Project is compatible through all OS.
 ![images of create reviews](src/main/resources/images/rate.jpg)
 5. Click on the stars to add your review (from a scale of 1-5) and add your comment. Once you finish your review click submit
 6. Or you can check our the location of the place being reviewed by clicking view map button, you zoom in to see the exact location of the place.
-![images of viewing map](src/main/resources/images/map.jpg)
+![img.png](src/main/resources/images/mapbefore.png)
+7. Click the View Profile button in List Review to create your own profile.
+![img.png](src/main/resources/images/profilebefore.png)
 
 
 ## License
-This project is licensed under the MIT License. See the LICENSE.md file for details.
+This project is licensed under the MIT License. See the [LICENSE.md](LICENSE) file for details.
 
 ## Feedback and Contributions
 ### Feedbacks
