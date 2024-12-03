@@ -1,8 +1,6 @@
 package app;
 
 import java.awt.*;
-import java.awt.font.TextMeasurer;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,23 +14,23 @@ import entity.StudentUser;
 import entity.User;
 import interface_adapters.ViewManagerModel;
 import interface_adapters.ViewModel;
+import interface_adapters.create_review.CreateReviewController;
+import interface_adapters.create_review.CreateReviewPresenter;
 import interface_adapters.create_review.CreateReviewViewModel;
 import interface_adapters.list_review.ListReviewController;
 import interface_adapters.list_review.ListReviewPresenter;
 import interface_adapters.list_review.ListReviewState;
 import interface_adapters.list_review.ListReviewViewModel;
-//import interface_adapters.rate.RateController;
-//import interface_adapters.rate.RatePresenter;
-//import interface_adapters.rate.RateViewModel;
 import interface_adapters.login.LoginController;
 import interface_adapters.login.LoginPresenter;
 import interface_adapters.login.LoginViewModel;
+import interface_adapters.logout.LogoutController;
+import interface_adapters.logout.LogoutPresenter;
 import interface_adapters.map.MapController;
 import interface_adapters.map.MapPresenter;
 import interface_adapters.map.MapViewModel;
 import interface_adapters.profile.ProfileController;
 import interface_adapters.profile.ProfilePresenter;
-import interface_adapters.profile.ProfileState;
 import interface_adapters.profile.ProfileViewModel;
 import interface_adapters.signup.SignupController;
 import interface_adapters.signup.SignupPresenter;
@@ -40,13 +38,18 @@ import interface_adapters.signup.SignupViewModel;
 import use_case.check_map.CheckMapInputBoundary;
 import use_case.check_map.CheckMapInteractor;
 import use_case.check_map.CheckMapOutputBoundary;
+import use_case.create_review.CreateReviewInputBoundary;
+import use_case.create_review.CreateReviewInteractor;
+import use_case.create_review.CreateReviewOutputBoundary;
 import use_case.list_review.ListReviewInputBoundary;
 import use_case.list_review.ListReviewInteractor;
 import use_case.list_review.ListReviewOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
-import use_case.profile.ProfileDataAccessInterface;
+import use_case.logout.LogoutInputBoundary;
+import use_case.logout.LogoutInteractor;
+import use_case.logout.LogoutOutputBoundary;
 import use_case.profile.ProfileInteractor;
 import use_case.profile.ProfileOutputBoundary;
 import use_case.profile.ProfileInputBoundary;
@@ -98,6 +101,7 @@ public class TempBuilder {
         listReviewViewModel = new ListReviewViewModel();
         mapViewModel = new MapViewModel();
         profileViewModel = new ProfileViewModel();
+        createReviewViewModel = new CreateReviewViewModel();
         userFactory = new UserFactory() {
             @Override
             public User create(String name, String password) {
@@ -144,6 +148,13 @@ public class TempBuilder {
         return this;
     }
 
+    public TempBuilder addCreateReviewView() {
+        createReviewViewModel = new CreateReviewViewModel();
+        createReviewView = new RateView(createReviewViewModel);
+        cardPanel.add(createReviewView, createReviewView.getViewName());
+        return this;
+    }
+
     /**
      * Add the Profile View to the application.
      * @return the Profile builder
@@ -180,10 +191,14 @@ public class TempBuilder {
     public TempBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel, signupViewModel
                 , loginViewModel);
-        final SignupInputBoundary signupInteractor = new SignupInteractor(dbUserAccessObject, signupOutputBoundary,
-                userFactory);
+        final SignupInputBoundary signupInteractor = new SignupInteractor(
+                dbUserAccessObject,
+                dbProfileAccessObject,
+                signupOutputBoundary,
+                userFactory
+        );
 
-        final SignupController controller = new SignupController((SignupInteractor) signupInteractor);
+        final SignupController controller = new SignupController(signupInteractor);
         signupView.setSignupController(controller);
         return this;
     }
@@ -208,12 +223,14 @@ public class TempBuilder {
      * @return this builder
      */
     public TempBuilder addCreateReviewUseCase() {
-//        final CreateReviewOutputBoundary createReviewOutputBoundary = new RatePresenter((RateViewModel) model);
-//        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
-//                dbReviewAccessObject, createReviewOutputBoundary);
+        final CreateReviewOutputBoundary createReviewOutputBoundary = new CreateReviewPresenter(
+                (CreateReviewViewModel) createReviewViewModel, viewManagerModel, listReviewViewModel);
+        final CreateReviewInputBoundary createReviewInteractor = new CreateReviewInteractor(
+                dbReviewListAccessObject, createReviewOutputBoundary);
 
-//        final RateController rateController = new RateController((CreateReviewInteractor) createReviewInteractor);
-//        RateView.setRateController(rateController);
+        final CreateReviewController createReviewController = new CreateReviewController(
+                (CreateReviewInteractor) createReviewInteractor);
+        createReviewView.setRateController(createReviewController);
         return this;
     }
 
@@ -222,6 +239,7 @@ public class TempBuilder {
                 listReviewViewModel,
                 mapViewModel,
                 profileViewModel,
+                createReviewViewModel,
                 viewManagerModel
         );
 
@@ -260,12 +278,28 @@ public class TempBuilder {
         return this;
     }
 
+//    /**
+//     * Adds the Logout Use Case to the application.
+//     * @return this builder
+//     */
+//    public TempBuilder addLogoutUseCase() {
+//        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
+//                profileViewModel, loginViewModel);
+//
+//        final LogoutInputBoundary logoutInteractor =
+//                new LogoutInteractor(dbUserAccessObject, logoutOutputBoundary);
+//
+//        final LogoutController logoutController = new LogoutController(logoutInteractor);
+//        profileView.setLogoutController(logoutController);
+//        return this;
+//    }
+
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("List Review Example");
+        final JFrame application = new JFrame("RateMyCampus");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);

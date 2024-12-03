@@ -1,5 +1,7 @@
 package use_case.create_reply;
 
+import use_case.create_review.CreateReviewOutputData;
+
 public interface CreateReplyOutputBoundary {
 
     /**

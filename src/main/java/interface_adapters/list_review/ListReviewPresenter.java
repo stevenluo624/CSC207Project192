@@ -1,17 +1,20 @@
 package interface_adapters.list_review;
 
 import interface_adapters.ViewManagerModel;
+import interface_adapters.create_review.CreateReviewState;
+import interface_adapters.create_review.CreateReviewViewModel;
 import interface_adapters.map.MapController;
 import interface_adapters.map.MapViewModel;
 import interface_adapters.profile.ProfileState;
 import interface_adapters.profile.ProfileViewModel;
 import use_case.check_map.CheckMapOutputData;
+import use_case.create_review.CreateReviewOutputData;
 import use_case.list_review.ListReviewOutputBoundary;
 import use_case.list_review.ListReviewOutputData;
 import use_case.profile.ProfileOutputData;
 import view.MapView;
 
-/**
+/**dqw
  * Presenter for the list review use case.
  */
 public class ListReviewPresenter implements ListReviewOutputBoundary {
@@ -19,15 +22,17 @@ public class ListReviewPresenter implements ListReviewOutputBoundary {
     private final ListReviewViewModel listReviewViewModel;
     private final MapViewModel mapViewModel;
     private final ProfileViewModel profileViewModel;
+    private final CreateReviewViewModel createReviewViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public ListReviewPresenter(ListReviewViewModel listReviewViewModel,
                                MapViewModel mapViewModel,
-                               ProfileViewModel profileViewModel,
+                               ProfileViewModel profileViewModel, CreateReviewViewModel createReviewViewModel,
                                ViewManagerModel viewManagerModel) {
         this.listReviewViewModel = listReviewViewModel;
         this.mapViewModel = mapViewModel;
         this.profileViewModel = profileViewModel;
+        this.createReviewViewModel = createReviewViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -70,5 +75,11 @@ public class ListReviewPresenter implements ListReviewOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
-
+    @Override
+    public void switchToCreateReviewView(CreateReviewOutputData createReviewOutputData) {
+        CreateReviewState createReviewState = createReviewViewModel.getState();
+        createReviewState.setUser(createReviewOutputData.getUser());
+        viewManagerModel.setState(createReviewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 }
