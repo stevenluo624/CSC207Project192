@@ -54,15 +54,15 @@ The Project is compatible through all OS.
 
 ## Usage
 1. Signup for an account (if you have an existing account jump to login)
-![image of signup](images/signup.jpg)
+![image of signup](src/main/resources/images/signup.jpg)
 2. Login with your account
-![impage of login](images/login.jpg)
+![impage of login](src/main/resources/images/login.jpg)
 3. Check the reviews posted
 4. Make your own review by clicking add your review button
-![images of create reviews](images/rate.jpg)
+![images of create reviews](src/main/resources/images/rate.jpg)
 5. Click on the stars to add your review (from a scale of 1-5) and add your comment. Once you finish your review click submit
 6. Or you can check our the location of the place being reviewed by clicking view map button, you zoom in to see the exact location of the place.
-![images of viewing map](images/map.jpg)
+![images of viewing map](src/main/resources/images/map.jpg)
 
 
 ## License
