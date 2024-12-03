@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
 /**
  *
  */
-public class CreateReplyPanel extends JPanel implements ActionListener, PropertyChangeListener {
+public class CreateReplyView extends JPanel implements ActionListener, PropertyChangeListener {
     private final User user;
     private Review rootReview = null;
 
@@ -32,7 +32,7 @@ public class CreateReplyPanel extends JPanel implements ActionListener, Property
      * @param user the user that create this reply
      * @param rootReview the review that the user is replying to
      */
-    public CreateReplyPanel(CreateReplyViewModel createReplyViewModel, JPanel reviewsPage,
+    public CreateReplyView(CreateReplyViewModel createReplyViewModel, JPanel reviewsPage,
                             User user, Review rootReview) {
         this.user = user;
         this.rootReview = rootReview;

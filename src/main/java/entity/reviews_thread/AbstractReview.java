@@ -3,14 +3,10 @@ package entity.reviews_thread;
 import entity.Location;
 import entity.User;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class AbstractReview {
     private final User user;
     private final String comment;
     private Location location;
-    private final List<Reply> listOfReplies;
     private int numberOfLikes;
     private int counter;
     private final int id;
@@ -23,7 +19,6 @@ public abstract class AbstractReview {
     public AbstractReview(User user, String comment) {
         this.user = user;
         this.comment = comment;
-        this.listOfReplies = new ArrayList<>();
         this.numberOfLikes = 0;
         counter += 1;
         this.id = counter;
