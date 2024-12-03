@@ -3,13 +3,15 @@ package entity.reviews_thread;
 import entity.Location;
 import entity.User;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public abstract class AbstractReview {
     private final User user;
     private final String comment;
     private Location location;
     private int numberOfLikes;
-    private int counter;
-    private final int id;
+    private final String id;
 
     /**
      * Creates a new AbstractReview object
@@ -20,8 +22,10 @@ public abstract class AbstractReview {
         this.user = user;
         this.comment = comment;
         this.numberOfLikes = 0;
-        counter += 1;
-        this.id = counter;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyyHHmmssSSS");
+        LocalDateTime now = LocalDateTime.now();
+        this.id = now.format(formatter);
     }
 
     /**
@@ -59,7 +63,7 @@ public abstract class AbstractReview {
      * Getter for the id
      * @return id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
