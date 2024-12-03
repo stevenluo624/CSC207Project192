@@ -32,8 +32,10 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     private ListReviewController listReviewController;
     private LikeReviewController likeReviewController;
+    private DBLikeAccessObject likeAccessObject; // Add this to interact with likes in DB
 
     private JScrollPane scrollPanel;
+
 
     public ListReviewView(ListReviewViewModel listReviewViewModel) {
         this.listReviewViewModel = listReviewViewModel;
@@ -44,8 +46,11 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
         final ListReviewState state = listReviewViewModel.getState();
 
+        // Initialize the DBLikeAccessObject
+        this.likeAccessObject = new DBLikeAccessObject();
+
         LikeReviewInteractor likeReviewInteractor = new LikeReviewInteractor(
-                new DBLikeAccessObject(),
+                this.likeAccessObject,
                 new LikeReviewPresenter(new ViewManagerModel(), listReviewViewModel));
         this.likeReviewController = new LikeReviewController(likeReviewInteractor);
 
@@ -65,11 +70,16 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 final JPanel bigPanel = new JPanel();
                 bigPanel.setLayout(new GridBagLayout());
 
+                // Check if the current user has liked this review using DBLikeAccessObject
+                final boolean hasUserLiked = this.likeAccessObject.hasUserLikedReview(state.getCurrentUser(), review.getKey());
+
+                // Create the LikeReviewButton, passing the `hasUserLiked` value
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
                         review.getKey(),
-                        review.getNumberOfLikes()
+                        review.getNumberOfLikes(),
+                        hasUserLiked // Pass the boolean value here
                 );
 
                 final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);
@@ -201,12 +211,16 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 final JPanel bigPanel = new JPanel();
                 bigPanel.setLayout(new GridBagLayout());
 
+                // Check if the current user has liked this review using DBLikeAccessObject
+                final boolean hasUserLiked = this.likeAccessObject.hasUserLikedReview(state.getCurrentUser(), review.getKey());
+
+                // Pass the `hasUserLiked` flag to the LikeReviewButton constructor
                 final JButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
                         review.getKey(),
-                        review.getNumberOfLikes()
-
+                        review.getNumberOfLikes(),
+                        hasUserLiked
                 );
 
                 final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);
@@ -249,19 +263,11 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
     }
 
     private void addMapAction(JButton button, UserReview review) {
-        button.addActionListener(evt -> {
-            if (evt.getSource().equals(button)) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
                 listReviewController.switchToMapView(review);
-
             }
         });
-    }
-
-    public String getViewName() {
-        return viewName;
-    }
-
-    public void setListReviewController(ListReviewController listReviewController) {
-        this.listReviewController = listReviewController;
     }
 }
