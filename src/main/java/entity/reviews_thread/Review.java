@@ -13,6 +13,7 @@ import java.util.List;
 public class Review extends AbstractReview {
     private final int rating;
     private final List<String> listOfReplyIds;
+    private final String id;
 
     /**
      * Creates a new Review
@@ -24,6 +25,7 @@ public class Review extends AbstractReview {
         super(user, comment);
         this.listOfReplyIds = new ArrayList<>();
         this.rating = rating;
+        this.id = (comment + "|" + user.getUsername()).replaceAll("\\s", "");
     }
 
     /**
@@ -51,4 +53,11 @@ public class Review extends AbstractReview {
         listOfReplyIds.add(replyId);
     }
 
+    /**
+     * Getter for the id
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
 }
