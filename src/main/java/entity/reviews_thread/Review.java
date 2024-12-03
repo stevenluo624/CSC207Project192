@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Review extends AbstractReview {
     private final int rating;
-    private final List<Reply> listOfReplies;
+    private final List<String> listOfReplyIds;
 
     /**
      * Creates a new Review
@@ -22,7 +22,7 @@ public class Review extends AbstractReview {
      */
     public Review(User user, int rating, String comment) {
         super(user, comment);
-        this.listOfReplies = new ArrayList<>();
+        this.listOfReplyIds = new ArrayList<>();
         this.rating = rating;
     }
 
@@ -36,19 +36,19 @@ public class Review extends AbstractReview {
 
 
     /**
-     * Get listOfReplies
+     * Get listOfReplyIds
      * @return the list of replies
      */
-    public List<Reply> getListOfReplies() {
-        return listOfReplies;
+    public List<String> getListOfReplies() {
+        return listOfReplyIds;
     }
 
     /**
      * Update list of replies with a new reply
-     * @param reply a Reply object representing a reply to this review or reply
+     * @param replyId a Reply object representing a reply to this review or reply
      */
-    public void updateListOfReplies(Reply reply) {
-        listOfReplies.add(reply);
+    public void updateListOfReplies(String replyId) {
+        listOfReplyIds.add(replyId);
     }
 
 }

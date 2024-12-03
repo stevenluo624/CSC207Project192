@@ -12,6 +12,7 @@ import data_access.helper.FirestoreHelper;
 import entity.reviews_thread.Reply;
 import use_case.create_reply.CreateReplyDataAccessInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,32 +38,25 @@ public class DBReplyAccessObject implements CreateReplyDataAccessInterface {
     @Override
     public void updateReviewThread(Review parentReview, Reply reply) {
         try {
-            // Retrieve the parent review document as JSON
-            String reviewId = "review" + String.valueOf(parentReview.getId());
+            final String replyId = "reply" + String.valueOf(reply.getId());
+            final String reviewId = "review" + String.valueOf(parentReview.getId());
             JsonObject parentReviewJson = helper.getDocument(reviewsCollectionName, reviewId);
 
-            // Prepare the new reply data
-            JsonObject replyData = new JsonObject();
-            replyData.addProperty("user", reply.getUser().getUsername());
-            replyData.addProperty("comment", reply.getComment());
-            replyData.addProperty("likes", reply.getNumberOfLikes());
-            replyData.addProperty("id", "reply" + reply.getId());
-
-            // Get the "replies" field from the parent review document
-            JsonArray repliesFieldJson = parentReviewJson.has("replies")
-                    ? parentReviewJson.getAsJsonArray("replies")
-                    : new JsonArray();
-
-            // Add the new reply to the "replies" array
-            repliesFieldJson.add(replyData);
+            // Get the "replies" field from the parent review document and add the new reply to the "replies" array
+            JsonArray repliesFieldJson = parentReviewJson.getAsJsonArray("replies");
+            List<String> repliesList = new ArrayList<>();
+            for (int i = 0; i < repliesFieldJson.size(); i++) {
+                JsonObject repliesJson = repliesFieldJson.get(i).getAsJsonObject();
+                repliesList.add(repliesJson.get("id").getAsString());
+            }
+            repliesList.add(replyId);
 
             // Update "reviews" collection in Firestore
             Map<String, Object> updatedReviewFields = new HashMap<>();
-            updatedReviewFields.put("replies", new Gson().fromJson(repliesFieldJson, List.class));
+            updatedReviewFields.put("replies", repliesList);
             helper.updateDocument(reviewsCollectionName, updatedReviewFields, reviewId);
 
             // Update "replies" collection in Firestore
-            final String replyId = String.valueOf(reply.getId());
             Map<String, Object> replyDocumentData = new HashMap<>();
             replyDocumentData.put("user", reply.getUser().getUsername());
             replyDocumentData.put("comment", reply.getComment());
