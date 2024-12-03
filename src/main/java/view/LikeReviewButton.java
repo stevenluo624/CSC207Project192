@@ -6,8 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class LikeReviewButton extends JButton implements ActionListener {
+    private PropertyChangeSupport support;
     private final LikeReviewController controller;
     private final String username;
     private final String reviewId;
@@ -18,6 +21,13 @@ public class LikeReviewButton extends JButton implements ActionListener {
 
     public LikeReviewButton(LikeReviewController controller, String username, String reviewId,
                             int initialLikeCount, boolean initialLikedState) {
+        // Call super() first to ensure proper JButton initialization
+        super();
+
+        // Initialize PropertyChangeSupport after super()
+        this.support = new PropertyChangeSupport(this);
+
+        // Initialize other fields
         this.controller = controller;
         this.username = username;
         this.reviewId = reviewId;
@@ -28,7 +38,6 @@ public class LikeReviewButton extends JButton implements ActionListener {
         ImageIcon originalLikeIcon = new ImageIcon("src/main/resources/images/youtube-like-button-png-11.png");
         ImageIcon originalLikedIcon = new ImageIcon("src/main/resources/images/blue-like-button-icon.png");
 
-
         // Scale them to the correct size
         Image scaledLikeImage = originalLikeIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
         Image scaledLikedImage = originalLikedIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
@@ -36,28 +45,52 @@ public class LikeReviewButton extends JButton implements ActionListener {
         this.likeIcon = new ImageIcon(scaledLikeImage);
         this.likedIcon = new ImageIcon(scaledLikedImage);
 
-        updateButtonAppearance();
+        // Setup button appearance and behavior
+        setupButton();
+    }
 
+    private void setupButton() {
+        updateButtonAppearance();
         setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(false);
 
-        addActionListener(this);
-        System.out.println("Button created with count: " + likeCount + ", liked: " + isLiked);
+        addActionListener(evt -> {
+            controller.execute(username, reviewId, success -> {
+                if (success) {
+                    isLiked = !isLiked;
+                    int oldLikeCount = likeCount;
+                    likeCount += isLiked ? 1 : -1;
+                    updateButtonAppearance();
+                    // Fire property change event
+                    if (support != null) {
+                        support.firePropertyChange("likeUpdate", oldLikeCount, likeCount);
+                    }
+                    System.out.println("Database updated successfully. New state: liked=" + isLiked + ", count=" + likeCount);
+                } else {
+                    System.out.println("Database update failed.");
+                }
+            });
+        });
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        if (support != null) {
+            support.addPropertyChangeListener(listener);
+        }
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        if (support != null) {
+            support.removePropertyChangeListener(listener);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        controller.execute(username, reviewId, success -> {
-            if (success) {
-                isLiked = !isLiked;
-                likeCount += isLiked ? 1 : -1;
-                updateButtonAppearance();
-                System.out.println("Database updated successfully. New state: liked=" + isLiked + ", count=" + likeCount);
-            } else {
-                System.out.println("Database update failed.");
-            }
-        });
+        // Implementation moved to setupButton()
     }
 
     private void updateButtonAppearance() {

@@ -67,20 +67,25 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 bigPanel.setLayout(new GridBagLayout());
 
                 // Check if the current user has liked this review using DBLikeAccessObject
-                final String reviewId = "review" + String.valueOf(review.getId());;
+                final String reviewId = String.valueOf(review.getId());
                 final boolean hasUserLiked = this.likeAccessObject.hasUserLikedReview(
                         state.getCurrentUser(),
                         reviewId
                 );
 
                 // Create the LikeReviewButton, passing the `hasUserLiked` value
-                final JButton likeButton = new LikeReviewButton(
+                final LikeReviewButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
-                        reviewId,  // Use the ID directly without modification
+                        reviewId,
                         review.getNumberOfLikes(),
                         hasUserLiked
                 );
+                likeButton.addPropertyChangeListener(evt -> {
+                    if ("likeUpdate".equals(evt.getPropertyName())) {
+                        updateReviews();
+                    }
+                });
 
                 final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);
                 mapButton.addActionListener(
@@ -249,20 +254,26 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 bigPanel.setLayout(new GridBagLayout());
 
                 // Check if the current user has liked this review using DBLikeAccessObject
-                final String reviewId = "review" + String.valueOf(review.getId());;
+                final String reviewId = String.valueOf(review.getId());
                 final boolean hasUserLiked = this.likeAccessObject.hasUserLikedReview(
                         state.getCurrentUser(),
                         reviewId
                 );
 
+                System.out.println(review.getNumberOfLikes());
                 // Pass the `hasUserLiked` flag to the LikeReviewButton constructor
-                final JButton likeButton = new LikeReviewButton(
+                final LikeReviewButton likeButton = new LikeReviewButton(
                         this.likeReviewController,
                         state.getCurrentUser(),
-                        reviewId,  // Use the ID directly without modification
+                        reviewId,
                         review.getNumberOfLikes(),
                         hasUserLiked
                 );
+                likeButton.addPropertyChangeListener(evt -> {
+                    if ("likeUpdate".equals(evt.getPropertyName())) {
+                        updateReviews();
+                    }
+                });
 
                 final JButton mapButton = new JButton(ListReviewViewModel.MAP_BUTTON_LABEL);
                 mapButton.addActionListener(

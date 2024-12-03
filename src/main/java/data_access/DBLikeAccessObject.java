@@ -52,7 +52,7 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
             if (hasUserLikedReview(username, newReviewId)) {
                 // Unlike
                 helper.deleteDocument(likes, likeDocId);
-                helper.incrementField(userReviews, newReviewId, "likes", -1);
+                helper.incrementField(userReviews, newReviewId, "likes", -1.0);
                 System.out.println("Unlike successful - removed like document and decremented count");
             } else {
                 // Like
@@ -60,7 +60,7 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
                 likeData.put("username", username);
                 likeData.put("reviewId", newReviewId);
                 helper.addDocument(likes, likeData, likeDocId);
-                helper.incrementField(userReviews, newReviewId, "likes", 1);
+                helper.incrementField(userReviews, newReviewId, "likes", 1.0);
                 System.out.println("Like successful - added like document and incremented count");
             }
         } catch (Exception e) {
