@@ -27,4 +27,11 @@ public class CreateReplyController {
         final CreateReplyInputData createReplyInputData = new CreateReplyInputData(user, comment, review);
         createReplyInteractor.execute(createReplyInputData);
     }
+
+    /**
+     * Switches to list review view
+     */
+    public void switchToListReviewView() {
+        createReplyInteractor.switchToListReviewView();
+    }
 }

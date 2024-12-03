@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Math.round;
+
 /**
  * Data access object for managing reviews.
  */
@@ -70,7 +72,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
             User userObject = dbUserAccessObject.get(user);
             Location locationObject = new Location(location, latitude, longitude);
 
-            Review review = new Review(userObject, (int) Math.round(rating), comment);
+            Review review = new Review(userObject, ((int) round(rating)), comment);
             review.setLocation(locationObject);
 
             reviewList.add(review);
@@ -92,6 +94,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
         data.put("comment", review.getComment());
         data.put("replies", review.getListOfReplies());
         data.put("likes", review.getNumberOfLikes());
+        data.put("location", review.getLocation().getName());
         final String reviewId = "review" + String.valueOf(review.getId());
 
         helper.addDocument(collectionName, data, reviewId);

@@ -65,6 +65,21 @@ public class LikeReviewUseCaseTest {
         String username = "testUser";
 
         LikeReviewInputData inputData = new LikeReviewInputData(username, reviewId);
+        LikeReviewOutputBoundary successPresenter = new LikeReviewOutputBoundary() {
+            @Override
+            public void prepareSuccessView(LikeReviewOutputData outputData) {
+                assertEquals("test123", outputData.getReviewId());
+                assertEquals("testUser", outputData.getUsername());
+                assertEquals(1, outputData.getCurrentLikeCount());
+                assertTrue(outputData.isSuccess());
+            }
+
+            @Override
+            public void prepareFailView(String errorMessage) {
+                fail("Use case is not expected to fail");
+            }
+        };
+        likeReviewInteractor = new LikeReviewInteractor(dataAccess, successPresenter);
         likeReviewInteractor.execute(inputData);
 
         assertTrue(dataAccess.hasUserLikedReview(username, reviewId));
@@ -85,5 +100,25 @@ public class LikeReviewUseCaseTest {
 
         assertFalse(dataAccess.hasUserLikedReview(username, reviewId));
         assertEquals(0, dataAccess.getLikeCount(reviewId));
+    }
+
+    @Test
+    void exceptionTest() {
+        String reviewId = "test123";
+        String username = "testUser";
+        LikeReviewInputData inputData = new LikeReviewInputData(username, reviewId);
+        LikeReviewOutputBoundary failPresenter = new LikeReviewOutputBoundary() {
+            @Override
+            public void prepareSuccessView(LikeReviewOutputData outputData) {
+               int time = 1/0;
+            }
+
+            @Override
+            public void prepareFailView(String errorMessage) {
+                assertEquals("/ by zero", errorMessage);
+            }
+        };
+        likeReviewInteractor = new LikeReviewInteractor(dataAccess, failPresenter);
+        likeReviewInteractor.execute(inputData);
     }
 }

@@ -11,25 +11,19 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-
 import interface_adapters.create_review.CreateReviewController;
 import interface_adapters.create_review.CreateReviewState;
 import interface_adapters.create_review.CreateReviewViewModel;
-import interface_adapters.map.MapState;
-
 
 /**
  * The View for when the user is ratting different place.
  */
 public class RateView extends JPanel implements ActionListener, PropertyChangeListener {
-
-
     public static final int NUMSTARS = 5;
     public static final int DIMENSION = 30;
   
     private final String viewName = "create_review";
     private final CreateReviewViewModel  createReviewViewModel;
-
 
     private final JButton submit;
     private final JButton cancel;
@@ -146,8 +140,8 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
     private void createStars() {
         for (int i = 0; i < stars.length; i++) {
-            stars[i] = new JToggleButton(new ImageIcon("images/star_empty.png"));
-            stars[i].setSelectedIcon(new ImageIcon("images/star_filled.png"));
+            stars[i] = new JToggleButton(new ImageIcon("src/main/resources/images/star_empty.png"));
+            stars[i].setSelectedIcon(new ImageIcon("src/main/resources/images/star_filled.png"));
             stars[i].setPreferredSize(new Dimension(DIMENSION, DIMENSION));
             stars[i].setBorderPainted(false);
             stars[i].setContentAreaFilled(false);

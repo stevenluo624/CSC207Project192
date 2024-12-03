@@ -79,12 +79,23 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                         }
                 );
 
+                final JButton replyButton = new JButton(ListReviewViewModel.REPLY_BUTTON_LABEL);
+                replyButton.addActionListener(
+                        evt -> {
+                            if (evt.getSource().equals(replyButton)) {
+                                listReviewController.switchToReplyView(listReviewViewModel.getState()
+                                        .getCurrentUserObject());
+                            }
+                        }
+                );
+
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
                 bigPanel.add(new UserReviewPanel(review), gbc);
 
                 buttonsPanel.add(likeButton);
                 buttonsPanel.add(mapButton);
+                buttonsPanel.add(replyButton);
 
                 gbc.gridx = 1;
                 gbc.weightx = 0.3;
@@ -112,7 +123,8 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 evt -> {
                     if (evt.getSource().equals(addReviewButton)) {
                         state.setRefreshed(false);
-                        listReviewController.switchToCreateReviewView(listReviewViewModel.getState().getCurrentUserObject());
+                        listReviewController.switchToCreateReviewView(listReviewViewModel.getState()
+                                .getCurrentUserObject());
                     }
                 }
         );
@@ -241,12 +253,23 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 );
                 // addMapAction(mapButton, review);
 
+                final JButton replyButton = new JButton(ListReviewViewModel.REPLY_BUTTON_LABEL);
+                replyButton.addActionListener(
+                        new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent evt) {
+                                listReviewController.switchToReplyView(state.getCurrentUserObject());
+                            }
+                        }
+                );
+
                 gbc.gridx = 0;
                 gbc.weightx = 0.7;
                 bigPanel.add(new UserReviewPanel(review), gbc);
 
                 buttonsPanel.add(likeButton);
                 buttonsPanel.add(mapButton);
+                buttonsPanel.add(replyButton);
 
                 gbc.gridx = 1;
                 gbc.weightx = 0.3;

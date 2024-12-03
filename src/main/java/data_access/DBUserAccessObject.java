@@ -6,9 +6,7 @@ import entity.User;
 import data_access.helper.GlobalHelper;
 import data_access.helper.ProjectConstants;
 import data_access.helper.FirestoreHelper;
-import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
-import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 import java.util.HashMap;
@@ -17,8 +15,7 @@ import java.util.Map;
 /**
  * Data access object for manading user data.
  */
-public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface,
-        ChangePasswordUserDataAccessInterface, LogoutUserDataAccessInterface {
+public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
     private final FirestoreHelper helper;
     private final String collectionName;
     private User user;
@@ -58,32 +55,5 @@ public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupU
     @Override
     public User getCurrentUser() {
         return this.user;
-    }
-
-    @Override
-    public void changePassword(User user) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("username", user.getUsername());
-        data.put("password", user.getPassword());
-        helper.updateDocument(collectionName, data, user.getUsername());
-    }
-
-    /**
-     * Returns the username of the curren user of the application.
-     *
-     * @return the username of the current user
-     */
-    @Override
-    public String getCurrentUsername() {
-        return user.getUsername();
-    }
-
-    /**
-     * Sets the username indicating who is the current user of the application.
-     *
-     * @param username the new current username
-     */
-    @Override
-    public void setCurrentUsername(String username) {
     }
 }
