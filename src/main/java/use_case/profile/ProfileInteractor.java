@@ -17,7 +17,6 @@ public class ProfileInteractor implements ProfileInputBoundary {
 
     @Override
     public void excute(ProfileInputData inputData) {
-        //final String bio = dataAccess.getBio(inputData.getBio());
         dataAccess.update(inputData.getUsername(), inputData.getBio());
 
         final ProfileOutputData outputData = new ProfileOutputData(inputData.getUsername(), inputData.getBio(), false);

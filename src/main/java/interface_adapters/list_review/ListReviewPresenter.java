@@ -76,6 +76,7 @@ public class ListReviewPresenter implements ListReviewOutputBoundary {
         ProfileState profileState = profileViewModel.getState();
         profileState.setUsername(profileOutputData.getUsername());
         profileState.setBio(profileOutputData.getBio());
+        profileViewModel.firePropertyChanged();
         viewManagerModel.setState(profileViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

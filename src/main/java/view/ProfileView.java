@@ -12,6 +12,7 @@ import javax.swing.event.DocumentListener;
 import interface_adapters.profile.ProfileController;
 import interface_adapters.profile.ProfileState;
 import interface_adapters.profile.ProfileViewModel;
+import use_case.profile.ProfileDataAccessInterface;
 
 /**
  * The View for when the user is using profile into the program.
@@ -23,13 +24,12 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     private final JTextField bioInputField = new JTextField(50);
     private final JLabel bioErrorField = new JLabel();
-
+    private final JTextArea bioTextArea = new JTextArea(3, 20);
     private final JButton save;
     private final JButton back;
     private ProfileController profileController;
 
     public ProfileView(ProfileViewModel profileViewModel) {
-
         this.profileViewModel = profileViewModel;
         this.profileViewModel.addPropertyChangeListener(this);
         viewName = profileViewModel.getViewName();
@@ -38,7 +38,6 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
         final ProfileState beforeState = profileViewModel.getState();
-        final JTextArea bioTextArea = new JTextArea(3, 20);
         bioTextArea.setText(beforeState.getBio());
         bioTextArea.setEditable(false);
         bioTextArea.setWrapStyleWord(true);
@@ -127,6 +126,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
     }
 
     private void setFields(ProfileState state) {
+        bioTextArea.setText(state.getBio());
         bioInputField.setText(state.getBio());
     }
 
