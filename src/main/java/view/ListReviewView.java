@@ -121,7 +121,8 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         addReviewButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(addReviewButton)) {
-                        listReviewController.switchToCreateReviewView(listReviewViewModel.getState().getCurrentUserObject());
+                        listReviewController.switchToCreateReviewView(listReviewViewModel.getState()
+                                .getCurrentUserObject());
                     }
                 }
         );

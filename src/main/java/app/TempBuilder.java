@@ -29,8 +29,6 @@ import interface_adapters.list_review.ListReviewViewModel;
 import interface_adapters.login.LoginController;
 import interface_adapters.login.LoginPresenter;
 import interface_adapters.login.LoginViewModel;
-import interface_adapters.logout.LogoutController;
-import interface_adapters.logout.LogoutPresenter;
 import interface_adapters.map.MapController;
 import interface_adapters.map.MapPresenter;
 import interface_adapters.map.MapViewModel;
@@ -55,9 +53,6 @@ import use_case.list_review.ListReviewOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
-import use_case.logout.LogoutInputBoundary;
-import use_case.logout.LogoutInteractor;
-import use_case.logout.LogoutOutputBoundary;
 import use_case.profile.ProfileInteractor;
 import use_case.profile.ProfileOutputBoundary;
 import use_case.profile.ProfileInputBoundary;
@@ -310,22 +305,6 @@ public class TempBuilder {
         mapView.setMapController(controller);
         return this;
     }
-
-//    /**
-//     * Adds the Logout Use Case to the application.
-//     * @return this builder
-//     */
-//    public TempBuilder addLogoutUseCase() {
-//        final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-//                profileViewModel, loginViewModel);
-//
-//        final LogoutInputBoundary logoutInteractor =
-//                new LogoutInteractor(dbUserAccessObject, logoutOutputBoundary);
-//
-//        final LogoutController logoutController = new LogoutController(logoutInteractor);
-//        profileView.setLogoutController(logoutController);
-//        return this;
-//    }
 
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.

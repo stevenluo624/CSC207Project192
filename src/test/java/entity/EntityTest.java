@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Array;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,11 +36,13 @@ public class EntityTest {
 
     @Test
     void likeTest() {
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
+        LocalDateTime now = LocalDateTime.now();
+        String time = now.format(formatter);
         Like testLike = new Like(testUser, testReview);
-        testReview.updateListOfReplies(testReply);
+        testReview.updateListOfReplies("reply1");
         testReview.incrementLikes();
-        List<Reply> replyList = List.of(testReply);
+        List<String> replyList = List.of("reply1");
         assertEquals("Steven", testLike.getUser().getUsername());
         assertEquals("1234", testLike.getUser().getPassword());
         assertEquals(testUser, testReview.getUser());
@@ -46,7 +50,7 @@ public class EntityTest {
         assertEquals("It is good", testLike.getReview().getComment());
         assertEquals(replyList, testReview.getListOfReplies());
         assertEquals(1, testReview.getNumberOfLikes());
-        assertEquals(1, testReview.getId());
+        assertEquals(time, testReview.getId().substring(0, 8));
     }
 
     @Test
@@ -74,9 +78,9 @@ public class EntityTest {
     @Test
     void userReviewTest() {
         testReview.incrementLikes();
-        testReview.updateListOfReplies(testReply);
+        testReview.updateListOfReplies("reply1");
         testReview.setLocation(testLocation);
-        List<Reply> replyList = List.of(testReply);
+        List<String> replyList = List.of("reply1");
         assertEquals(testUser, testReview.getUser());
         assertEquals(3, testReview.getRating());
         assertEquals("It is good", testReview.getComment());

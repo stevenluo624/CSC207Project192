@@ -140,8 +140,8 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
     private void createStars() {
         for (int i = 0; i < stars.length; i++) {
-            stars[i] = new JToggleButton(new ImageIcon("images/star_empty.png"));
-            stars[i].setSelectedIcon(new ImageIcon("images/star_filled.png"));
+            stars[i] = new JToggleButton(new ImageIcon("src/main/resources/images/star_empty.png"));
+            stars[i].setSelectedIcon(new ImageIcon("src/main/resources/images/star_filled.png"));
             stars[i].setPreferredSize(new Dimension(DIMENSION, DIMENSION));
             stars[i].setBorderPainted(false);
             stars[i].setContentAreaFilled(false);
