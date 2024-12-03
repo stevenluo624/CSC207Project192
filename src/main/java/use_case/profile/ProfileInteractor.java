@@ -1,5 +1,6 @@
 package use_case.profile;
 
+import entity.Profile;
 import entity.UserProfile;
 
 /**
@@ -16,11 +17,16 @@ public class ProfileInteractor implements ProfileInputBoundary {
 
     @Override
     public void excute(ProfileInputData inputData) {
-        final UserProfile profile =  new UserProfile(inputData.getUsername(), inputData.getBio());
-        dataAccess.update(profile);
+        //final String bio = dataAccess.getBio(inputData.getBio());
+        dataAccess.update(inputData.getUsername(), inputData.getBio());
 
         final ProfileOutputData outputData = new ProfileOutputData(inputData.getUsername(), inputData.getBio(), false);
         presenter.prepareSuccessView(outputData);
+    }
+
+    @Override
+    public void switchToListReviewView() {
+        presenter.switchToListReviewView();
     }
 
 

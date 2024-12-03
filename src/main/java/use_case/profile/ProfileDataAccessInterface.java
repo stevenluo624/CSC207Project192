@@ -16,9 +16,9 @@ public interface ProfileDataAccessInterface {
 
     /**
      * Updates existing user profile
-     * @param profile the profile to save
+     * @param username the profile to save
      */
-    void update(Profile profile);
+    void update(String username, String bio);
 
     /**
      * Returns the bio of tthe current user of the application
