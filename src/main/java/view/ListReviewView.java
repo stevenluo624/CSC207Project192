@@ -191,6 +191,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
 
     private void updateReviews() {
         final ListReviewState state = listReviewViewModel.getState();
+        listReviewController.execute(state.getPageNumber(), state.getPageSize());
 
         JScrollPane newScrollPanel;
         try {
@@ -253,15 +254,6 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
         this.add(newScrollPanel, BorderLayout.CENTER);
 
         scrollPanel = newScrollPanel;
-    }
-
-    private void addMapAction(JButton button, UserReview review) {
-        button.addActionListener(evt -> {
-            if (evt.getSource().equals(button)) {
-                listReviewController.switchToMapView(review);
-
-            }
-        });
     }
 
     public String getViewName() {
