@@ -1,5 +1,7 @@
 package interface_adapters.create_reply;
 
+import interface_adapters.ViewManagerModel;
+import interface_adapters.list_review.ListReviewViewModel;
 import use_case.create_reply.CreateReplyOutputBoundary;
 import use_case.create_reply.CreateReplyOutputData;
 
@@ -9,9 +11,13 @@ import use_case.create_reply.CreateReplyOutputData;
 public class CreateReplyPresenter implements CreateReplyOutputBoundary {
 
     private final CreateReplyViewModel createReplyViewModel;
+    private final ListReviewViewModel listReviewViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public CreateReplyPresenter(CreateReplyViewModel createReplyViewModel) {
+    public CreateReplyPresenter(CreateReplyViewModel createReplyViewModel, ListReviewViewModel listReviewViewModel, ViewManagerModel viewManagerModel) {
         this.createReplyViewModel = createReplyViewModel;
+        this.listReviewViewModel = listReviewViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     /**
@@ -24,6 +30,9 @@ public class CreateReplyPresenter implements CreateReplyOutputBoundary {
         createReplyViewModel.getState().setComment(outputData.getComment());
         createReplyViewModel.getState().setError(null); // No error detected
         createReplyViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(listReviewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     /**
@@ -38,5 +47,14 @@ public class CreateReplyPresenter implements CreateReplyOutputBoundary {
             createReplyViewModel.getState().setError("Error in the create reply use case presenter.");
         }
         createReplyViewModel.firePropertyChanged();
+    }
+
+    /**
+     * Switch to the list review use case view
+     */
+    @Override
+    public void switchToListReviewView() {
+        viewManagerModel.setState(listReviewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

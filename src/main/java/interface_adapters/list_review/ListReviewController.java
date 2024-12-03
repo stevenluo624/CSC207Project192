@@ -52,10 +52,13 @@ public class ListReviewController {
     }
 
     /**
-     * Switch to profile view
-     * @param username currently logged in user
+     * @param user currently logged-in user
      */
-    public void switchToProfileView(String username) {
-        listReviewInteractor.switchToProfileView(username);
+    public void switchToReplyView(User user) {
+        listReviewInteractor.switchToReplyView(user);
+    }
+
+    public void switchToProfileView(String currentUser) {
+        // TODO document why this method is empty
     }
 }

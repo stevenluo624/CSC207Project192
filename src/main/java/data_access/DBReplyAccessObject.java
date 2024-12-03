@@ -1,6 +1,5 @@
 package data_access;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import entity.reviews_thread.Review;
@@ -38,8 +37,8 @@ public class DBReplyAccessObject implements CreateReplyDataAccessInterface {
     @Override
     public void updateReviewThread(Review parentReview, Reply reply) {
         try {
-            final String replyId = "reply" + String.valueOf(reply.getId());
-            final String reviewId = "review" + String.valueOf(parentReview.getId());
+            final String replyId = "reply" + reply.getId();
+            final String reviewId = "review" + parentReview.getId();
             JsonObject parentReviewJson = helper.getDocument(reviewsCollectionName, reviewId);
 
             // Get the "replies" field from the parent review document and add the new reply to the "replies" array

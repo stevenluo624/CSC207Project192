@@ -30,9 +30,9 @@ The application addresses the lack of an integrated platform for University of T
 ## Features
 * Profile creation with unique bios.
 * Post, view and rate reviews of University of Toronto places.
-![images of create reviews](images/rate.jpg)
+![images of create reviews](src/main/resources/images/rate.jpg)
 * Interactive map integration to explore various places location.
-![images of viewing map](images/map.jpg)
+![images of viewing map](src/main/resources/images/map.jpg)
 * Ability to like and reply to reviews.
 
 ## Installation Instructions
