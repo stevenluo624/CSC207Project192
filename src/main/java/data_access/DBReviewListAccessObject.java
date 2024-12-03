@@ -58,8 +58,8 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
                     .get("stringValue").getAsString() : null;
             String user = fields.has("user") ? fields.getAsJsonObject("user")
                     .get("stringValue").getAsString() : null;
-            Double rating = fields.has("rating") ? fields.getAsJsonObject("rating")
-                    .get("doubleValue").getAsDouble() : -1;
+            int rating = fields.has("rating") ? fields.getAsJsonObject("rating")
+                    .get("integerValue").getAsInt() : -1;
             String location = fields.has("location") ? fields.getAsJsonObject("location")
                     .get("stringValue").getAsString() : null;
             String latitude = fields.has("latitude") ? fields.getAsJsonObject("latitude")
@@ -70,7 +70,7 @@ public class DBReviewListAccessObject implements ListReviewDataAccessInterface, 
             User userObject = dbUserAccessObject.get(user);
             Location locationObject = new Location(location, latitude, longitude);
 
-            Review review = new Review(userObject, (int) Math.round(rating), comment);
+            Review review = new Review(userObject, rating, comment);
             review.setLocation(locationObject);
 
             reviewList.add(review);
