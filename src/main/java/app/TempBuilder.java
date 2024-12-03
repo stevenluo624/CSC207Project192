@@ -221,9 +221,9 @@ public class TempBuilder {
      */
     public TempBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                listReviewViewModel, loginViewModel);
+                listReviewViewModel, loginViewModel, profileViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                dbUserAccessObject, loginOutputBoundary);
+                dbUserAccessObject, loginOutputBoundary, dbProfileAccessObject);
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);

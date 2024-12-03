@@ -1,10 +1,13 @@
 package use_case.login;
 
+import data_access.in_memory_dao.ProfileInMemoryDAO;
 import data_access.in_memory_dao.UserInMemoryDAO;
 import entity.StudentUser;
 import entity.User;
 import app.UserFactory;
 import org.junit.jupiter.api.Test;
+import use_case.profile.ProfileDataAccessInterface;
+import use_case.profile.ProfileOutputData;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +17,7 @@ class LoginUseCaseTest {
     void successTest() {
         LoginInputData inputData = new LoginInputData("Paul", "password");
         LoginUserDataAccessInterface userRepository = new UserInMemoryDAO();
+        ProfileDataAccessInterface profileRepository = new ProfileInMemoryDAO();
 
         // For the success test, we need to add Paul to the data access repository before we log in.
         UserFactory factory = new UserFactory() {
@@ -36,9 +40,14 @@ class LoginUseCaseTest {
             public void prepareFailView(String error) {
                 fail("Use case failure is unexpected.");
             }
+
+            @Override
+            public void changeProfile(ProfileOutputData profileOutputData) {
+
+            }
         };
 
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter);
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter,profileRepository);
         interactor.execute(inputData);
     }
 
@@ -46,7 +55,7 @@ class LoginUseCaseTest {
     void successUserLoggedInTest() {
         LoginInputData inputData = new LoginInputData("Paul", "password");
         LoginUserDataAccessInterface userRepository = new UserInMemoryDAO();
-
+        ProfileDataAccessInterface profileRepository = new ProfileInMemoryDAO();
         // For the success test, we need to add Paul to the data access repository before we log in.
         UserFactory factory = new UserFactory() {
             @Override
@@ -68,9 +77,14 @@ class LoginUseCaseTest {
             public void prepareFailView(String error) {
                 fail("Use case failure is unexpected.");
             }
+
+            @Override
+            public void changeProfile(ProfileOutputData profileOutputData) {
+
+            }
         };
 
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter);
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter, profileRepository);
         assertNull(userRepository.getCurrentUser());
 
         interactor.execute(inputData);
@@ -80,7 +94,7 @@ class LoginUseCaseTest {
     void failurePasswordMismatchTest() {
         LoginInputData inputData = new LoginInputData("Paul", "wrong");
         LoginUserDataAccessInterface userRepository = new UserInMemoryDAO();
-
+        ProfileDataAccessInterface profileRepository = new ProfileInMemoryDAO();
         // For this failure test, we need to add Paul to the data access repository before we log in, and
         // the passwords should not match.
         UserFactory factory = new UserFactory() {
@@ -104,9 +118,14 @@ class LoginUseCaseTest {
             public void prepareFailView(String error) {
                 assertEquals("Incorrect password for \"Paul\".", error);
             }
+
+            @Override
+            public void changeProfile(ProfileOutputData profileOutputData) {
+
+            }
         };
 
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter);
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, profileRepository);
         interactor.execute(inputData);
     }
 
@@ -114,7 +133,7 @@ class LoginUseCaseTest {
     void failureUserDoesNotExistTest() {
         LoginInputData inputData = new LoginInputData("Paul", "password");
         LoginUserDataAccessInterface userRepository = new UserInMemoryDAO();
-
+        ProfileDataAccessInterface profileRepository = new ProfileInMemoryDAO();
         // Add Paul to the repo so that when we check later they already exist
 
         // This creates a presenter that tests whether the test case is as we expect.
@@ -129,9 +148,14 @@ class LoginUseCaseTest {
             public void prepareFailView(String error) {
                 assertEquals("Paul: Account does not exist.", error);
             }
+
+            @Override
+            public void changeProfile(ProfileOutputData profileOutputData) {
+
+            }
         };
 
-        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter);
+        LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter, profileRepository);
         interactor.execute(inputData);
     }
 }
