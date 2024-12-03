@@ -67,7 +67,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 bigPanel.setLayout(new GridBagLayout());
 
                 // Check if the current user has liked this review using DBLikeAccessObject
-                final boolean hasUserLiked = this.likeAccessObject.hasUserLikedReview(state.getCurrentUser(), review.getKey());
+                final boolean hasUserLiked = this.likeAccessObject.hasUserLikedReview(state.getCurrentUser(), review.getId());
 
                 // Create the LikeReviewButton, passing the `hasUserLiked` value
                 final JButton likeButton = new LikeReviewButton(
@@ -245,7 +245,7 @@ public class ListReviewView extends JPanel implements ActionListener, PropertyCh
                 bigPanel.setLayout(new GridBagLayout());
 
                 // Check if the current user has liked this review using DBLikeAccessObject
-                final boolean hasUserLiked = this.likeAccessObject.hasUserLikedReview(state.getCurrentUser(), review.getKey());
+                final boolean hasUserLiked = this.likeAccessObject.hasUserLikedReview(state.getCurrentUser(), review.getId());
 
                 // Pass the `hasUserLiked` flag to the LikeReviewButton constructor
                 final JButton likeButton = new LikeReviewButton(
