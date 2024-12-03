@@ -7,10 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 //import data_access.DBReviewAccessObject;
-import data_access.DBProfileAccessObject;
-import data_access.DBReplyAccessObject;
-import data_access.DBReviewListAccessObject;
-import data_access.DBUserAccessObject;
+import data_access.*;
 import entity.StudentUser;
 import entity.User;
 import entity.reviews_thread.Review;
@@ -77,6 +74,7 @@ public class TempBuilder {
     private final DBReplyAccessObject dbReplyAccessObject = new DBReplyAccessObject();
     private final DBUserAccessObject dbUserAccessObject = new DBUserAccessObject();
     private final DBProfileAccessObject dbProfileAccessObject = new DBProfileAccessObject();
+    private final DBLikeAccessObject dbLikeAccessObject = new DBLikeAccessObject();
 
     String defaultView = "";
     private SignupView signupView;

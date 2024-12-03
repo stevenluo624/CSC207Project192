@@ -18,7 +18,6 @@ import java.util.Map;
  * Data access object for managing review likes
  */
 public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
-    private static final Logger log = LoggerFactory.getLogger(DBLikeAccessObject.class);
     private final FirestoreHelper helper;
     private final String userReviews = "userReviews";
     private final String likes = "likes";
@@ -26,49 +25,68 @@ public class DBLikeAccessObject implements LikeReviewDataAccessInterface {
     public DBLikeAccessObject() {
         helper = GlobalHelper.getHelper();
     }
-
     @Override
     public boolean hasUserLikedReview(String username, String reviewId) {
-        String doc = reviewId + "_" + username;
-        log.info("Checking exist");
-        boolean f = helper.checkExists(likes, doc);
-        log.info(String.valueOf(f));
-        return f;
+        final String newReviewId = "review" + reviewId;
+        System.out.println("Checking like status for review ID: " + newReviewId);
+        String likeDocId = reviewId + "_" + username;
+        return helper.checkExists(likes, likeDocId);
     }
 
     @Override
     public void saveLike(String username, String reviewId) {
-        String doc = reviewId + "_" + username;
-        if (hasUserLikedReview(username, reviewId)) {
-            try {
-                helper.deleteDocument(likes, doc);
-                helper.incrementField(userReviews, reviewId, likes, -1);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            try {
+        final String newReviewId = "review" + reviewId;
+        System.out.println("Processing like operation for review: " + newReviewId);
+
+        // Debug the exact ID we're checking
+        System.out.println("Looking for review with exact ID: " + newReviewId);
+
+        if (!helper.checkExists(userReviews, newReviewId)) {
+            System.out.println("ERROR: Review not found in database: " + newReviewId);
+            return;
+        }
+
+        String likeDocId = newReviewId + "_" + username;
+
+        try {
+            if (hasUserLikedReview(username, newReviewId)) {
+                // Unlike
+                helper.deleteDocument(likes, likeDocId);
+                helper.incrementField(userReviews, newReviewId, "likes", -1);
+                System.out.println("Unlike successful - removed like document and decremented count");
+            } else {
+                // Like
                 Map<String, Object> likeData = new HashMap<>();
                 likeData.put("username", username);
-                likeData.put("reviewId", reviewId);
-                helper.addDocument(likes, likeData, doc);
-                log.info("added data");
-                helper.incrementField(userReviews, reviewId, likes, 1);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                likeData.put("reviewId", newReviewId);
+                helper.addDocument(likes, likeData, likeDocId);
+                helper.incrementField(userReviews, newReviewId, "likes", 1);
+                System.out.println("Like successful - added like document and incremented count");
             }
+        } catch (Exception e) {
+            System.err.println("Error in like operation: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public int getLikeCount(String reviewId) {
+        final String newReviewId = "review" + reviewId;
         try {
-            log.info("Get like");
-            JsonObject doc = helper.getDocument(userReviews, reviewId);
+            System.out.println("Getting like count for review: " + newReviewId);
+            JsonObject doc = helper.getDocument(userReviews, newReviewId);
 
-            return doc.getAsJsonObject("likes").get("integerValue").getAsInt();
+            if (doc != null && doc.has("likes")) {
+                int count = doc.get("likes").getAsInt();
+                System.out.println("Found like count: " + count);
+                return count;
+            }
+            System.out.println("No likes field found, returning 0");
+            return 0;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println("Error getting like count: " + e.getMessage());
+            return 0;
         }
     }
 }

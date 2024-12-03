@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -416,55 +417,24 @@ public class FirestoreHelper implements IdTokenInterface, DBAccessInterface {
 
     @Override
     public void incrementField(String collection, String documentValue, String fieldName, int value) {
-        String url = "https://firestore.googleapis.com/v1/projects/" + this.projectId +
-                "/databases/(default)/documents:commit";
-        String doc = "projects/" + this.projectId +
-                "/databases/(default)/documents/" + collection + "/" + documentValue;
-        log.info(url);
+        // First, get the current document
+        JsonObject currentDoc = getDocument(collection, documentValue);
 
-        try {
-            URL obj = new URL(url);
-            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-            con.setRequestMethod("POST");
-            con.setDoOutput(true);
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Authorization", "Bearer " + this.getIdToken());
-
-            JsonObject data = new JsonObject();
-            JsonObject writes = new JsonObject();
-            JsonObject requestBody = new JsonObject();
-            JsonObject transform = new JsonObject();
-            JsonObject increment = new JsonObject();
-            increment.addProperty("integerValue", value);
-            transform.addProperty("fieldPath", fieldName);
-            transform.add("increment", increment);
-
-            requestBody.add("fieldTransforms", new Gson().toJsonTree(new JsonObject[]{transform}));
-            requestBody.addProperty("document", doc);
-
-            writes.add("transform", requestBody);
-
-            data.add("writes", writes);
-
-            String jsonData = data.toString();
-            try (OutputStream os = con.getOutputStream()) {
-                byte[] input = jsonData.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-
-            int responseCode = con.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                log.info("Data updated successfully!");
-            } else {
-                log.info("Failed to increment data: {}", responseCode);
-            }
-
-            con.disconnect();
-
-//            deleteToken();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        // Get current value or default to 0
+        int currentValue = 0;
+        if (currentDoc != null && currentDoc.has(fieldName)) {
+            currentValue = currentDoc.get(fieldName).getAsInt();
         }
+
+        // Calculate new value
+        int newValue = currentValue + value;
+
+        // Update document with new value
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put(fieldName, newValue);
+
+        // Update the document
+        updateDocument(collection, updateData, documentValue);
     }
 
     private String getFirestoreValueType(Object value) {

@@ -2,7 +2,7 @@ package interface_adapters.like_review;
 
 import use_case.like_review.LikeReviewInputBoundary;
 import use_case.like_review.LikeReviewInputData;
-import helper.Callback;
+import data_access.helper.Callback;
 
 /**
  * The controller for the Like Review Use Case.
