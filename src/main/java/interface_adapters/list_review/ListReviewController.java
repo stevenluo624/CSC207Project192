@@ -59,6 +59,6 @@ public class ListReviewController {
     }
 
     public void switchToProfileView(String currentUser) {
-        // TODO document why this method is empty
+        listReviewInteractor.switchToProfileView(currentUser);
     }
 }

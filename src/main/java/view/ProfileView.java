@@ -23,7 +23,7 @@ import interface_adapters.profile.ProfileViewModel;
  */
 public class ProfileView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    private final String viewName = "Profile";
+    private final String viewName;
     private final ProfileViewModel profileViewModel;
 
     private final JTextField bioInputField = new JTextField(50);
@@ -37,6 +37,7 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
         this.profileViewModel = profileViewModel;
         this.profileViewModel.addPropertyChangeListener(this);
+        viewName = profileViewModel.getViewName();
 
         final JLabel title = new JLabel("Profile Screen");
         title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -91,7 +92,6 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
             }
         });
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(bioInput);
         this.add(bioErrorField);
@@ -109,9 +109,10 @@ public class ProfileView extends JPanel implements ActionListener, PropertyChang
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final ProfileState state = (ProfileState) evt.getSource();
+        final ProfileState state = (ProfileState) evt.getNewValue();
         setFields(state);
         bioErrorField.setText(state.getProfileError());
+        System.out.println("The property have changed");
     }
 
     private void setFields(ProfileState state) {
