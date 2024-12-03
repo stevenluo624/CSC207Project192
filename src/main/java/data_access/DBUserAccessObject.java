@@ -19,9 +19,9 @@ import java.util.Map;
  */
 public class DBUserAccessObject implements LoginUserDataAccessInterface, SignupUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface, LogoutUserDataAccessInterface {
-    private FirestoreHelper helper;
-    String collectionName;
-    User user;
+    private final FirestoreHelper helper;
+    private final String collectionName;
+    private User user;
 
     public DBUserAccessObject() {
         helper = GlobalHelper.getHelper();

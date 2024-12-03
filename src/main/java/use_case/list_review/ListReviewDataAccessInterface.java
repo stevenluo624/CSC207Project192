@@ -1,6 +1,6 @@
 package use_case.list_review;
 
-import entity.UserReview;
+import entity.reviews_thread.Review;
 
 import java.util.List;
 
@@ -21,5 +21,5 @@ public interface ListReviewDataAccessInterface {
      * @param pageSize how many data displayed per page.
      * @return list of reviews on the given page.
      */
-    List<UserReview> getReviews(int pageNumber, int pageSize);
+    List<Review> getReviews(int pageNumber, int pageSize);
 }

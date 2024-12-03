@@ -1,6 +1,6 @@
 package view;
 
-import entity.UserReview;
+import entity.reviews_thread.Review;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -10,7 +10,7 @@ import java.awt.*;
  * A panel for displaying one review in the review list.
  */
 public class UserReviewPanel extends JPanel {
-    public UserReviewPanel(UserReview review) {
+    public UserReviewPanel(Review review) {
         setLayout(new FlowLayout());
 
         Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);

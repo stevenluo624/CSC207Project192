@@ -12,6 +12,7 @@ class CreateReviewUseCaseTest {
     User testUser;
     int testRating;
     String testComment;
+    String testLocationName;
 
     ReviewListInMemoryDAO dataAccess;
     CreateReviewInputData inputData;
@@ -22,9 +23,10 @@ class CreateReviewUseCaseTest {
         testUser = new StudentUser("Username", "Password");
         testRating = 0;
         testComment = "Comment";
+        testLocationName = "Building 1";
 
         dataAccess = new ReviewListInMemoryDAO();
-        inputData = new CreateReviewInputData(testUser, testRating, testComment);
+        inputData = new CreateReviewInputData(testUser, testRating, testComment, testLocationName);
     }
 
     @Test
@@ -34,7 +36,7 @@ class CreateReviewUseCaseTest {
         testComment = "Test comment.";
 
         dataAccess = new ReviewListInMemoryDAO();
-        inputData = new CreateReviewInputData(testUser, testRating, testComment);
+        inputData = new CreateReviewInputData(testUser, testRating, testComment, testLocationName);
 
         CreateReviewOutputBoundary mockPresenter = new CreateReviewOutputBoundary() {
             @Override
@@ -45,11 +47,16 @@ class CreateReviewUseCaseTest {
                 assertEquals("Test comment.", outputData.getComment());
                 assertFalse(outputData.isUseCaseFailed());
 
+                // Check if the review was successfully saved to the DAO
                 assertTrue(dataAccess.getReviews().stream().anyMatch(
                         review -> review.getUser().equals(testUser)
                                 && review.getRating() == testRating
-                                && review.getComment().equals(testComment))
+                                && review.getComment().equals(testComment)
+                        )
                 );
+
+                // Check if id is correct
+                assertEquals(1, dataAccess.getReviews().get(0).getId());
             }
 
             @Override

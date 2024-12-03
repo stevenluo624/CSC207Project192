@@ -11,6 +11,7 @@ public class CreateReviewState {
     private String comment;
     private User user;
     private String error;
+    private String locationName;
 
     public int getRating() {
         return rating;
@@ -28,6 +29,10 @@ public class CreateReviewState {
         return error;
     }
 
+    public String getLocationName() {
+        return locationName;
+    }
+
     public void setRating(int rating) {
         this.rating = rating;
     }
@@ -43,4 +48,9 @@ public class CreateReviewState {
     public void setError(String errorMessage) {
         this.error = error;
     }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
 }

@@ -17,11 +17,10 @@ public class CreateReviewInteractor implements CreateReviewInputBoundary {
     @Override
     public void execute(CreateReviewInputData inputData) {
         final Review review = new Review(inputData.getUser(), inputData.getRating(), inputData.getComment());
-        review.setId();
         dataAccess.saveReview(review);
 
         final CreateReviewOutputData outputData = new CreateReviewOutputData(inputData.getUser(),
-                inputData.getRating(), inputData.getComment(), false);
+                inputData.getRating(), inputData.getComment(), inputData.getLocationName(), false);
         presenter.prepareSuccessView(outputData);
     }
 

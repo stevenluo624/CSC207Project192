@@ -7,7 +7,6 @@ import entity.User;
  * You can think of it as a child of another reply or a review (the root of the thread).
  */
 public class Reply extends AbstractReview {
-    Integer replycount = null;
     /**
      * Creates a new Reply object
      * @param user The user who created the reply

@@ -7,12 +7,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -20,6 +15,7 @@ import javax.swing.event.DocumentListener;
 import interface_adapters.create_review.CreateReviewController;
 import interface_adapters.create_review.CreateReviewState;
 import interface_adapters.create_review.CreateReviewViewModel;
+import interface_adapters.map.MapState;
 
 
 /**
@@ -43,10 +39,18 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
     private final JTextField commentInputField = new JTextField(25);
     private final JLabel commentErrorField = new JLabel();
+    private final JTextField nameInputField = new JTextField(25);
+    private final JLabel nameErrorField = new JLabel();
 
     public RateView(CreateReviewViewModel createReviewViewModel) {
         this.createReviewViewModel = createReviewViewModel;
         this.createReviewViewModel.addPropertyChangeListener(this);
+
+        final LabelTextPanel locationName = new LabelTextPanel(
+                new JLabel("Location name"), nameInputField);
+
+        final LabelTextPanel locationReview = new LabelTextPanel(
+                new JLabel("Leave a comment"), commentInputField);
 
         final JLabel title = new JLabel("Rate Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -66,7 +70,8 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
                             createReviewController.execute(
                                     currentState.getUser(),
                                     currentState.getRating(),
-                                    currentState.getComment()
+                                    currentState.getComment(),
+                                    currentState.getLocationName()
                             );
                         }
                     }
@@ -81,6 +86,30 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
                     }
                 }
         );
+
+        nameInputField.getDocument().addDocumentListener(new DocumentListener() {
+
+            private void documentListenerHelper() {
+                final CreateReviewState currentState = createReviewViewModel.getState();
+                currentState.setLocationName(nameInputField.getText());
+                createReviewViewModel.setState(currentState);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
 
         commentInputField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -108,7 +137,9 @@ public class RateView extends JPanel implements ActionListener, PropertyChangeLi
 
         this.add(title);
         createStars();
-        this.add(commentInputField);
+        this.add(locationName);
+        this.add(nameErrorField);
+        this.add(locationReview);
         this.add(commentErrorField);
         this.add(buttons);
     }
