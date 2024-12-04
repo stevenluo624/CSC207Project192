@@ -8,13 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import entity.StudentUser;
 import entity.User;
 import data_access.in_memory_dao.ReviewListInMemoryDAO;
-import use_case.check_map.CheckMapInputBoundary;
-import use_case.check_map.CheckMapInteractor;
-import use_case.check_map.CheckMapOutputBoundary;
-import use_case.check_map.CheckMapOutputData;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 class CreateReviewUseCaseTest {
     User testUser;
