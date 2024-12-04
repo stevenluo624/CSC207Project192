@@ -87,6 +87,7 @@ The Project is compatible through all Operating System, and has been tested on W
 2. Login with your account
 ![impage of login](src/main/resources/images/login.jpg)
 3. Check the reviews posted
+   <img width="1316" alt="Screenshot 2024-12-03 at 9 12 32 PM" src="https://github.com/user-attachments/assets/0f0bfaf0-8277-4110-9ef0-0a69cbb006ca">
 4. Make your own review by clicking add your review button
 ![images of create reviews](src/main/resources/images/rate.jpg)
 5. Click on the stars to add your review (from a scale of 1-5) and add your comment. Once you finish your review click submit
