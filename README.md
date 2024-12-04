@@ -21,12 +21,12 @@ The application addresses the lack of an integrated platform for University of T
 
 ## 📑 Table of Contents
 - [Project Overview](#ratemycampus)
-- [Project Summary](#project-summary)
-- [Features](#features)
-- [Installation Instructions](#installation-instructions)
-- [Usage](#usage)
-- [License](#license)
-- [Feedback and Contributions](#feedback-and-contributions)
+- [Project Summary](#-project-summary)
+- [Features](#-features)
+- [Installation Instructions](#%EF%B8%8F-installation-instructions)
+- [Usage](#-usage)
+- [License](#-license)
+- [Feedback and Contributions](#-feedback-and-contributions)
 
 
 ## ✨ Features
@@ -36,7 +36,7 @@ The application addresses the lack of an integrated platform for University of T
 ![images of create reviews](src/main/resources/images/rate.jpg)
 * Interactive map integration to explore various places location.
 ![images of viewing map](src/main/resources/images/map.jpg)
-* Ability to like and reply to reviews.
+* Ability to like reviews.
 
 ## 🛠️ Installation Instructions
 Before you install the package, make sure the following are installed on your system as an environment.
