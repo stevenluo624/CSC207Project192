@@ -21,7 +21,4 @@ public class ProfileOutputData {
     public String getBio() {
         return bio;
     }
-    public boolean isUseCaseFailed() {
-        return useCaseFailed;
-    }
 }
